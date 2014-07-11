@@ -7,17 +7,17 @@
         <version>2.3.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    
+
     <groupId>org.jboss.seam.examples.restbay</groupId>
     <artifactId>restbay-web</artifactId>
     <packaging>war</packaging>
     <name>Restbay Web Module (EE6)</name>
-    
+
     <properties>
         <!-- filtering property for components.xml -->
         <jndiPattern>java:app/restbay-ejb/#{ejbName}</jndiPattern>
     </properties>
-    
+
     <dependencies>
         <dependency>
             <groupId>org.jboss.seam.examples.restbay</groupId>
@@ -47,7 +47,7 @@
         </dependency>
         <dependency>
             <groupId>org.jboss.spec.javax.faces</groupId>
-            <artifactId>jboss-jsf-api_2.1_spec</artifactId>
+            <artifactId>jboss-jsf-api_2.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -56,7 +56,7 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-  
+
     <build>
         <plugins>
             <plugin>
@@ -74,5 +74,5 @@
             </plugin>
         </plugins>
     </build>
-    
+
 </project>

@@ -7,7 +7,7 @@
         <version>2.3.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    
+
     <groupId>org.jboss.seam.examples.booking</groupId>
     <artifactId>booking-ejb</artifactId>
     <packaging>ejb</packaging>
@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.0-api</artifactId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -36,7 +36,7 @@
         </dependency>
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -47,10 +47,10 @@
         </dependency>
         <dependency>
             <groupId>org.jboss.spec.javax.faces</groupId>
-            <artifactId>jboss-jsf-api_2.1_spec</artifactId>
+            <artifactId>jboss-jsf-api_2.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
-        
+
         <!-- Test dependencies -->
         <dependency>
             <groupId>org.jboss.shrinkwrap.resolver</groupId>
@@ -58,13 +58,13 @@
             <type>pom</type>
             <scope>test</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-         
+
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
@@ -110,7 +110,7 @@
                 </plugins>
             </build>
         </profile>
-        
+
         <profile>
             <id>integration-tests</id>
             <activation>
@@ -154,7 +154,7 @@
                     <groupId>org.jboss.as</groupId>
                     <artifactId>jboss-as-arquillian-container-managed</artifactId>
                     <scope>test</scope>
-                </dependency>                
+                </dependency>
             </dependencies>
         </profile>
 
@@ -171,15 +171,15 @@
                     <groupId>org.jboss.as</groupId>
                     <artifactId>jboss-as-arquillian-container-remote</artifactId>
                     <scope>test</scope>
-                </dependency>                
+                </dependency>
             </dependencies>
         </profile>
     </profiles>
-    
+
     <build>
         <plugins>
             <!-- Skip tests by default -->
-            <plugin> 
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
@@ -188,5 +188,5 @@
             </plugin>
         </plugins>
     </build>
-    
+
 </project>

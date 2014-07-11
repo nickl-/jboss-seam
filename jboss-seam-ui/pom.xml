@@ -14,8 +14,8 @@
         <plugins>
             <plugin>
                 <groupId>org.richfaces.cdk</groupId>
-                <artifactId>maven-cdk-plugin</artifactId>
-                <version>${version.richfaces.cdk}</version>
+                <artifactId>richfaces-cdk-maven-plugin</artifactId>
+                <version>4.5.0.Alpha2</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
@@ -52,7 +52,7 @@
                      </goals>
                   </execution>
                </executions>
-            </plugin> 
+            </plugin>
             <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
@@ -124,7 +124,7 @@
 
         <dependency>
             <groupId>org.jboss.spec.javax.servlet.jsp</groupId>
-            <artifactId>jboss-jsp-api_2.2_spec</artifactId>
+            <artifactId>jboss-jsp-api_2.3_spec</artifactId>
             <optional>true</optional>
             <scope>provided</scope>
         </dependency>
@@ -134,7 +134,11 @@
             <artifactId>jboss-seam</artifactId>
             <type>ejb</type>
         </dependency>
-
+<dependency>
+  <groupId>org.richfaces.cdk</groupId>
+  <artifactId>generator</artifactId>
+  <version>4.5.0.Alpha2</version>
+</dependency>
         <dependency>
             <groupId>antlr</groupId>
             <artifactId>antlr</artifactId>
@@ -150,7 +154,7 @@
 
         <dependency>
             <groupId>org.jboss.spec.javax.faces</groupId>
-            <artifactId>jboss-jsf-api_2.1_spec</artifactId>
+            <artifactId>jboss-jsf-api_2.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -275,7 +279,7 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile>        
+        </profile>
     </profiles>
 
 </project>

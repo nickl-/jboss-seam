@@ -181,5 +181,6 @@ public abstract class AbstractResource
       {
          // noop
       }
+
    }
 }
