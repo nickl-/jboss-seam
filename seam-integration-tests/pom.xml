@@ -181,6 +181,9 @@
                                 <phase>none</phase>
                             </execution>
                         </executions>
+                        <configuration>
+                                  <argLine>-Xms800m -Xmx800m -XX:MaxPermSize=500m</argLine>
+                        </configuration>
                     </plugin>
                     <plugin>
                         <groupId>org.sonatype.maven.plugin</groupId>
@@ -257,7 +260,8 @@
                                     <skip>false</skip>
                                     <systemProperties>
                                         <!-- used by the jbossas-managed-7 profile in arquillian.xml for the jbossHome property-->
-                                        <version.jbossas7>${version.jbossas7}</version.jbossas7>
+<!--                                         <version.jbossas7>${version.jbossas7}</version.jbossas7> -->
+                                        <version.wildfly>${version.wildfly}</version.wildfly>
                                         <jacoco.agent>${jacoco.agent}</jacoco.agent>
                                     </systemProperties>
                                 </configuration>
@@ -283,6 +287,17 @@
                     <scope>test</scope>
                 </dependency>
             </dependencies>
+            <build>
+                <testResources>
+                    <testResource>
+                    <directory>src/test/resources</directory>
+                </testResource>
+                <testResource>
+                    <directory>src/test/resources-wildfly-8</directory>
+                </testResource>
+                </testResources>
+            </build>
+
         </profile>
         <profile>
             <id>arq-jbossas-7-managed</id>

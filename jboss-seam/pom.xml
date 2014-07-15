@@ -170,8 +170,6 @@
             <scope>provided</scope>
         </dependency>
 
-
-
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
@@ -185,7 +183,6 @@
             <optional>true</optional>
             <scope>provided</scope>
         </dependency>
-
 
         <dependency>
             <groupId>org.jboss.spec.javax.servlet.jsp</groupId>
@@ -404,6 +401,11 @@
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.el</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
