@@ -27,6 +27,7 @@ import org.hibernate.SQLQuery;
 import org.hibernate.ScrollMode;
 import org.hibernate.ScrollableResults;
 import org.hibernate.Session;
+import org.hibernate.SessionEventListener;
 import org.hibernate.SessionFactory;
 import org.hibernate.SharedSessionBuilder;
 import org.hibernate.SimpleNaturalIdLoadAccess;
@@ -40,9 +41,11 @@ import org.hibernate.engine.spi.ActionQueue;
 import org.hibernate.engine.spi.EntityEntry;
 import org.hibernate.engine.spi.EntityKey;
 import org.hibernate.engine.spi.LoadQueryInfluencers;
-import org.hibernate.engine.spi.NonFlushedChanges;
+import org.hibernate.engine.spi.NamedQueryDefinition;
+import org.hibernate.engine.spi.NamedSQLQueryDefinition;
 import org.hibernate.engine.spi.PersistenceContext;
 import org.hibernate.engine.spi.QueryParameters;
+import org.hibernate.engine.spi.SessionEventListenerManager;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.engine.transaction.spi.TransactionCoordinator;
@@ -52,6 +55,7 @@ import org.hibernate.jdbc.ReturningWork;
 import org.hibernate.jdbc.Work;
 import org.hibernate.loader.custom.CustomQuery;
 import org.hibernate.persister.entity.EntityPersister;
+import org.hibernate.procedure.ProcedureCall;
 import org.hibernate.stat.SessionStatistics;
 import org.hibernate.type.Type;
 
@@ -59,25 +63,25 @@ import org.hibernate.type.Type;
  * InvocationHandler that proxies the Session, and implements EL interpolation
  * in HQL. Needs to implement SessionImplementor because DetachedCriteria casts
  * the Session to SessionImplementor.
- * 
+ *
  * @author Gavin King
  * @author Emmanuel Bernard
  * @author Mike Youngstrom
  * @author Marek Novotny
- * 
+ *
  */
 public class HibernateSessionInvocationHandler implements InvocationHandler, Serializable, EventSource
 {
-     
+
    private static final long serialVersionUID = 4954720887288965536L;
-   
+
    private Session delegate;
-   
+
    public HibernateSessionInvocationHandler(Session paramDelegate)
    {
       this.delegate = paramDelegate;
    }
-     
+
    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
    {
       try
@@ -97,7 +101,7 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
          throw e.getTargetException();
       }
    }
-   
+
    protected Object handleCreateQueryWithString(Method method, Object[] args) throws Throwable
    {
       if (args[0] == null)
@@ -124,7 +128,7 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
          return method.invoke(delegate, args);
       }
    }
-   
+
    protected Object handleReconnectNoArg(Method method) throws Throwable
    {
       throw new UnsupportedOperationException("deprecated");
@@ -297,7 +301,7 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
 
    public void setCacheMode(CacheMode paramCacheMode)
    {
-      ((SessionImplementor) delegate).setCacheMode(paramCacheMode);      
+      ((SessionImplementor) delegate).setCacheMode(paramCacheMode);
    }
 
    public boolean isOpen()
@@ -317,7 +321,7 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
 
    public void setFlushMode(FlushMode paramFlushMode)
    {
-      ((SessionImplementor) delegate).setFlushMode(paramFlushMode);      
+      ((SessionImplementor) delegate).setFlushMode(paramFlushMode);
    }
 
    public Connection connection()
@@ -327,7 +331,7 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
 
    public void flush()
    {
-      ((SessionImplementor) delegate).flush();   
+      ((SessionImplementor) delegate).flush();
    }
 
    public Query getNamedQuery(String paramString)
@@ -347,7 +351,7 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
 
    public void afterScrollOperation()
    {
-      ((SessionImplementor) delegate).afterScrollOperation();      
+      ((SessionImplementor) delegate).afterScrollOperation();
    }
 
    public String getFetchProfile()
@@ -357,7 +361,7 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
 
    public void setFetchProfile(String paramString)
    {
-      ((SessionImplementor) delegate).setFetchProfile(paramString);      
+      ((SessionImplementor) delegate).setFetchProfile(paramString);
    }
 
    public boolean isClosed()
@@ -392,7 +396,7 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
 
    public void setDefaultReadOnly(boolean paramBoolean)
    {
-      ((HibernateSessionInvocationHandler) delegate).setDefaultReadOnly(paramBoolean);      
+      ((HibernateSessionInvocationHandler) delegate).setDefaultReadOnly(paramBoolean);
    }
 
    public Serializable getIdentifier(Object paramObject) throws HibernateException
@@ -432,17 +436,17 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
 
    public void load(Object paramObject, Serializable paramSerializable) throws HibernateException
    {
-      delegate.load(paramObject, paramSerializable);      
+      delegate.load(paramObject, paramSerializable);
    }
 
    public void replicate(Object paramObject, ReplicationMode paramReplicationMode) throws HibernateException
    {
-      delegate.replicate(paramObject, paramReplicationMode);      
+      delegate.replicate(paramObject, paramReplicationMode);
    }
 
    public void replicate(String paramString, Object paramObject, ReplicationMode paramReplicationMode) throws HibernateException
    {
-      delegate.replicate(paramString, paramObject, paramReplicationMode);      
+      delegate.replicate(paramString, paramObject, paramReplicationMode);
    }
 
    public Serializable save(Object paramObject) throws HibernateException
@@ -457,22 +461,22 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
 
    public void saveOrUpdate(Object paramObject) throws HibernateException
    {
-      delegate.saveOrUpdate(paramObject);      
+      delegate.saveOrUpdate(paramObject);
    }
 
    public void saveOrUpdate(String paramString, Object paramObject) throws HibernateException
    {
-      delegate.saveOrUpdate(paramString, paramObject);      
+      delegate.saveOrUpdate(paramString, paramObject);
    }
 
    public void update(Object paramObject) throws HibernateException
    {
-      delegate.update(paramObject);      
+      delegate.update(paramObject);
    }
 
    public void update(String paramString, Object paramObject) throws HibernateException
    {
-      delegate.update(paramString, paramObject);      
+      delegate.update(paramString, paramObject);
    }
 
    public Object merge(Object paramObject) throws HibernateException
@@ -507,12 +511,12 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
 
    public void lock(Object paramObject, LockMode paramLockMode) throws HibernateException
    {
-      delegate.lock(paramObject, paramLockMode);      
+      delegate.lock(paramObject, paramLockMode);
    }
 
    public void lock(String paramString, Object paramObject, LockMode paramLockMode) throws HibernateException
    {
-      delegate.lock(paramString, paramObject, paramLockMode);      
+      delegate.lock(paramString, paramObject, paramLockMode);
    }
 
    public void refresh(Object paramObject) throws HibernateException
@@ -565,9 +569,21 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
       return delegate.createQuery(paramString);
    }
 
+   @Override
+   public Query createQuery( NamedQueryDefinition namedQueryDefinition )
+   {
+       return ((SessionImplementor) delegate).createQuery( namedQueryDefinition );
+   }
+
    public SQLQuery createSQLQuery(String paramString) throws HibernateException
    {
       return delegate.createSQLQuery(paramString);
+   }
+
+   @Override
+   public SQLQuery createSQLQuery( NamedSQLQueryDefinition namedQueryDefinition )
+   {
+       return ((SessionImplementor) delegate).createSQLQuery( namedQueryDefinition );
    }
 
    public Query createFilter(Object paramObject, String paramString) throws HibernateException
@@ -577,7 +593,7 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
 
    public void clear()
    {
-      delegate.clear();      
+      delegate.clear();
    }
 
    public Object get(Class paramClass, Serializable paramSerializable) throws HibernateException
@@ -617,7 +633,7 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
 
    public void disableFilter(String paramString)
    {
-      delegate.disableFilter(paramString);      
+      delegate.disableFilter(paramString);
    }
 
    public SessionStatistics getStatistics()
@@ -695,10 +711,10 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
       ((EventSource) delegate).persistOnFlush(paramString, paramObject, paramMap);
    }
 
-   public void refresh(Object paramObject, Map paramMap) throws HibernateException
-   {
-      ((EventSource) delegate).refresh(paramObject, paramMap);
-   }
+//   public void refresh(Object paramObject, Map paramMap) throws HibernateException
+//   {
+//      ((EventSource) delegate).refresh(paramObject, paramMap);
+//   }
 
    public void delete(String paramString, Object paramObject, boolean paramBoolean, Set paramSet)
    {
@@ -730,15 +746,15 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
       ((SessionImplementor) delegate).disableTransactionAutoJoin();
    }
 
-   public NonFlushedChanges getNonFlushedChanges() throws HibernateException
-   {
-      return ((SessionImplementor) delegate).getNonFlushedChanges();
-   }
-
-   public void applyNonFlushedChanges(NonFlushedChanges nonFlushedChanges) throws HibernateException
-   {
-      ((SessionImplementor) delegate).applyNonFlushedChanges(nonFlushedChanges);
-   }
+//   public NonFlushedChanges getNonFlushedChanges() throws HibernateException
+//   {
+//      return ((SessionImplementor) delegate).getNonFlushedChanges();
+//   }
+//
+//   public void applyNonFlushedChanges(NonFlushedChanges nonFlushedChanges) throws HibernateException
+//   {
+//      ((SessionImplementor) delegate).applyNonFlushedChanges(nonFlushedChanges);
+//   }
 
    public TransactionCoordinator getTransactionCoordinator()
    {
@@ -777,17 +793,17 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
 
    public void refresh(String entityName, Object object) throws HibernateException
    {
-      ((EventSource) delegate).refresh(entityName, object);      
+      ((EventSource) delegate).refresh(entityName, object);
    }
 
    public void refresh(Object object, LockOptions lockOptions) throws HibernateException
    {
-      ((EventSource) delegate).refresh(object, lockOptions);      
+      ((EventSource) delegate).refresh(object, lockOptions);
    }
 
    public void refresh(String entityName, Object object, LockOptions lockOptions) throws HibernateException
    {
-      ((EventSource) delegate).refresh(entityName, object, lockOptions);      
+      ((EventSource) delegate).refresh(entityName, object, lockOptions);
    }
 
    public Object get(Class clazz, Serializable id, LockOptions lockOptions) throws HibernateException
@@ -854,5 +870,53 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
    {
       return ((SessionImplementor) delegate).list(criteria);
    }
+
+    @Override
+    public SessionEventListenerManager getEventListenerManager()
+    {
+        return ((SessionImplementor)delegate).getEventListenerManager();
+    }
+
+    @Override
+    public void addEventListeners( SessionEventListener ... listeners )
+    {
+        delegate.addEventListeners( listeners );
+    }
+
+    @Override
+    public ProcedureCall getNamedProcedureCall( String name )
+    {
+        return delegate.getNamedProcedureCall( name );
+    }
+
+    @Override
+    public ProcedureCall createStoredProcedureCall( String procedureName )
+    {
+        return delegate.createStoredProcedureCall( procedureName );
+    }
+
+    @Override
+    public ProcedureCall createStoredProcedureCall( String procedureName, Class ... resultClasses )
+    {
+        return delegate.createStoredProcedureCall( procedureName, resultClasses );
+    }
+
+    @Override
+    public ProcedureCall createStoredProcedureCall( String procedureName, String ... resultSetMappings )
+    {
+        return delegate.createStoredProcedureCall( procedureName, resultSetMappings );
+    }
+
+    @Override
+    public void refresh( String entityName, Object object, Map refreshedAlready ) throws HibernateException
+    {
+        ((EventSource)delegate).refresh( entityName, object, refreshedAlready );
+    }
+
+    @Override
+    public void removeOrphanBeforeUpdates( String entityName, Object child )
+    {
+        ((EventSource)delegate).removeOrphanBeforeUpdates( entityName, child );
+    }
 
 }
