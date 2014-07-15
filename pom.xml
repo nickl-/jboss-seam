@@ -49,7 +49,6 @@
         <version.jbossas7>7.2.0.Final</version.jbossas7>
         <Version.wildfly>8.1.0.Final</Version.wildfly>
         <version.emma>2.0.5312</version.emma>
-<!--         <version.richfaces.cdk>4.3.1.Final</version.richfaces.cdk> -->
         <version.richfaces.cdk>4.5.0.Alpha2</version.richfaces.cdk>
         <version.richfaces>4.5.0.Alpha2</version.richfaces>
 

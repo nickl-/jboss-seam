@@ -134,11 +134,11 @@
             <artifactId>jboss-seam</artifactId>
             <type>ejb</type>
         </dependency>
-<dependency>
-  <groupId>org.richfaces.cdk</groupId>
-  <artifactId>generator</artifactId>
-  <version>4.5.0.Alpha2</version>
-</dependency>
+        <dependency>
+          <groupId>org.richfaces.cdk</groupId>
+          <artifactId>generator</artifactId>
+          <version>${version.richfaces.cdk}</version>
+        </dependency>
         <dependency>
             <groupId>antlr</groupId>
             <artifactId>antlr</artifactId>
