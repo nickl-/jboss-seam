@@ -135,11 +135,6 @@
             <type>ejb</type>
         </dependency>
         <dependency>
-          <groupId>org.richfaces.cdk</groupId>
-          <artifactId>generator</artifactId>
-          <version>${version.richfaces.cdk}</version>
-        </dependency>
-        <dependency>
             <groupId>antlr</groupId>
             <artifactId>antlr</artifactId>
             <optional>true</optional>
