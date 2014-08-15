@@ -37,7 +37,7 @@
 		<version.resteasy>3.0.8.Final</version.resteasy>
 		<version.spring>3.1.4.RELEASE</version.spring>
         <version.richfaces>4.5.0.Alpha3</version.richfaces>
-    <version.org.jboss.spec.javax.faces>2.2.7</version.org.jboss.spec.javax.faces>
+        <version.org.jboss.spec.javax.faces>2.2.7</version.org.jboss.spec.javax.faces>
 
         <!-- Version of Hibernate projects -->
         <version.org.hibernate>4.3.5.Final</version.org.hibernate>
