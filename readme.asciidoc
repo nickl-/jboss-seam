@@ -32,6 +32,7 @@ Get Up And Running Quick
 6. Register an account, search for hotels, book a room...
 
 Learn more
+
 ~~~~~~~~~~
 * Read the documentation in the link:seam-reference-guide/src/docbook/en-US[reference documentation] directory
 * Read the online FAQ http://www.seamframework.org/Documentation/FAQs
@@ -39,3 +40,8 @@ Learn more
 Notes for this release
 ~~~~~~~~~~~~~~~~~~~~~~
 Be warned that JBoss Embedded is *LEGACY runtime* and is not in Seam 2.3 distribution *anymore*
+
+Wildfly
+~~~~~~~~~~~~~~
+This branch attempts to update seam 2.3 to support jee7, jsf 2.2,  servlet 3.1, resteasy (latest) and run properly
+on Wildfly 8.1.  (8.0 will not work with seam)
