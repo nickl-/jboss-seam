@@ -74,9 +74,9 @@ public class MultipartFilter extends AbstractFilter
       }
 
       HttpServletRequest httpRequest = (HttpServletRequest) request;
-      // if the servlet is 2.x, let seam manage stuff normally
-      if (httpRequest.getParts().size() == 0 && isMultipartRequest(httpRequest))
-      {
+
+
+      if ( isMultipartRequest(httpRequest) && httpRequest.getParts().size() == 0 ) {
          MultipartRequest multipartRequest = new MultipartRequestImpl(httpRequest, createTempFiles,
                maxRequestSize);
 
@@ -84,9 +84,7 @@ public class MultipartFilter extends AbstractFilter
          multipartRequest.getParameterNames();
 
          chain.doFilter(multipartRequest, response);
-      }
-      else
-      { // servlet 3.x or non multipart
+      } else { // servlet 3.x or non multipart
          chain.doFilter(request, response);
       }
    }

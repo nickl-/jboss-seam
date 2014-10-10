@@ -59,7 +59,7 @@
         <version.org.testng>5.14.10</version.org.testng>
         
         <!-- Versions of Arquillian and Shrinkwrap -->
-        <version.org.jboss.arquillian>1.1.0.Final</version.org.jboss.arquillian>
+        <version.org.jboss.arquillian>1.1.5.Final</version.org.jboss.arquillian>
         <version.org.jboss.arquillian.extension.drone>1.2.3.Final</version.org.jboss.arquillian.extension.drone>
         <version.org.jboss.arquillian.graphene>2.0.0.Final</version.org.jboss.arquillian.graphene>
         <version.org.jboss.as.arquillian.container>7.2.0.Final</version.org.jboss.as.arquillian.container>

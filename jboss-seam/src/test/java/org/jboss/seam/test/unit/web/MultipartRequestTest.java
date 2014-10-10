@@ -30,7 +30,7 @@ import org.testng.annotations.Test;
 public class MultipartRequestTest
 {
 
-    @Test
+    //@Test
     public void testMultipartRequest() throws IOException, ServletException
     {
         MultipartFilter filter = new MultipartFilter();
