@@ -5,7 +5,7 @@
         <groupId>org.jboss.seam.examples</groupId>
         <artifactId>booking</artifactId>
         <version>2.3.2-wildfly-81-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <relativePath></relativePath>
     </parent>
 
     <groupId>org.jboss.seam.examples.booking</groupId>
@@ -84,7 +84,7 @@
         <dependency>
             <groupId>org.richfaces</groupId>
             <artifactId>richfaces</artifactId>
-            <version>4.5.0.Alpha3</version>
+            <version>4.5.0.Final</version>
         </dependency>
                 <dependency>
             <groupId>org.jboss.seam</groupId>
@@ -164,7 +164,39 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>arq-wildfly-8-managed</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>arquillian</name>
+                    <value>wildfly-managed-8</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.wildfly</groupId>
+                    <artifactId>wildfly-arquillian-container-managed</artifactId>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <testResources>
+                    <testResource>
+                    <directory>src/test/resources</directory>
+                </testResource>
+                <testResource>
+                    <directory>src/test/resources-wildfly-8</directory>
+                </testResource>
+                </testResources>
+            </build>
+            <properties>
+                <jndiPattern>java:app/seam-booking/#{ejbName}</jndiPattern>
+                <distributable>false</distributable>
 
+            </properties>
+
+        </profile>
         <profile>
             <id>arq-jbossas-7-managed</id>
             <activation>
@@ -194,6 +226,22 @@
                 <dependency>
                     <groupId>org.jboss.as</groupId>
                     <artifactId>jboss-as-arquillian-container-remote</artifactId>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>arq-wildfly-8-remote</id>
+            <activation>
+                <property>
+                    <name>arquillian</name>
+                    <value>wildfly-remote-8</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.wildfly</groupId>
+                    <artifactId>wildfly-arquillian-container-remote</artifactId>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
