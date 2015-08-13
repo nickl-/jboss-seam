@@ -36,7 +36,7 @@
 		<version.drools>5.3.3.Final</version.drools>
 		<version.resteasy>2.3.4.Final</version.resteasy>
 		<version.spring>3.1.4.RELEASE</version.spring>
-        <version.richfaces>4.3.4.Final</version.richfaces>
+        <version.richfaces>4.3.7.Final</version.richfaces>
 
         <!-- Version of Hibernate projects -->
         <version.org.hibernate>4.2.0.Final</version.org.hibernate>
@@ -52,15 +52,15 @@
         <version.infinispan>5.2.7.Final</version.infinispan>
 
         <!-- Test frameworks -->
-        <version.junit>4.10</version.junit>
+        <version.junit>4.11</version.junit>
         <version.org.testng>5.14.10</version.org.testng>
         
         <!-- Versions of Arquillian and Shrinkwrap -->
-        <version.org.jboss.arquillian>1.1.0.Final</version.org.jboss.arquillian>
-        <version.org.jboss.arquillian.extension.drone>1.2.3.Final</version.org.jboss.arquillian.extension.drone>
-        <version.org.jboss.arquillian.graphene>2.0.0.Final</version.org.jboss.arquillian.graphene>
+        <version.org.jboss.arquillian>1.1.4.Final</version.org.jboss.arquillian>
+        <version.org.jboss.arquillian.extension.drone>1.3.1.Final</version.org.jboss.arquillian.extension.drone>
+        <version.org.jboss.arquillian.graphene>2.0.3.Final</version.org.jboss.arquillian.graphene>
         <version.org.jboss.as.arquillian.container>7.2.0.Final</version.org.jboss.as.arquillian.container>
-        <version.org.jboss.shrinkwrap.resolver>2.0.2</version.org.jboss.shrinkwrap.resolver>
+        <version.org.jboss.shrinkwrap.resolver>2.1.1</version.org.jboss.shrinkwrap.resolver>
             
 		<!-- ***************** -->
 		<!-- Repository Deployment URLs -->
