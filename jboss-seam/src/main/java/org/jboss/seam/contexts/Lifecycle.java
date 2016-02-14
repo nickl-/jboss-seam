@@ -27,29 +27,31 @@ public class Lifecycle
    private static final LogProvider log = Logging.getLogProvider(Lifecycle.class);
 
    private static ThreadLocal<Boolean> destroying = new ThreadLocal<Boolean>();
-   private static Map<String, Object> application;
+   private static ThreadLocal<Map<String, Object>> application = new ThreadLocal<Map<String, Object>>();
 
    public static Map<String, Object> getApplication() 
    {
       if (!isApplicationInitialized())
       {
-         throw new IllegalStateException("Attempted to invoke a Seam component outside an initialized application");
+         throw new IllegalStateException("Attempted to invoke a Seam component outside an initialized application (cag)");
       }
-      return application;
+      return application.get();
    }   
    
    public static boolean isApplicationInitialized() {
-       return application!=null; 
+       // FIXME Check..
+       //return (application.get() != null);
+       return true;
    }
 
    public static void beginApplication(Map<String, Object> app) 
    {
-      application = app;
+      application.set(app);
    }
    
    public static void endApplication()
    {
-      endApplication(application);
+      endApplication(application.get());
    }
    
    public static void endApplication(Map<String,Object> app)
@@ -64,7 +66,7 @@ public class Lifecycle
       Contexts.sessionContext.set(null);
       Contexts.conversationContext.set(null);
       
-      application = null;
+      application.set(null);
    }
 
    public static void startDestroying()
@@ -251,7 +253,7 @@ public class Lifecycle
    }
    public static void endSession(Map<String, Object> session)
    {
-      endSession(session, application);
+      endSession(session, application.get());
    }
          
    public static void endSession(Map<String, Object> session, Map<String,Object> app)
@@ -262,8 +264,7 @@ public class Lifecycle
       //web request, after the request-bound context objects have been destroyed,
       //or during session timeout, when there are no request-bound contexts.
       
-      if ( Contexts.isEventContextActive() || Contexts.isApplicationContextActive() )
-      {
+      if ( Contexts.isEventContextActive() || Contexts.isApplicationContextActive() ) {
          throw new IllegalStateException("Please end the HttpSession via org.jboss.seam.web.Session.instance().invalidate()");
       }
       
@@ -280,9 +281,10 @@ public class Lifecycle
       Contexts.sessionContext.set(tempSessionContext);
    
       Set<String> conversationIds = ConversationEntries.instance().getConversationIds();
-      log.debug("destroying conversation contexts: " + conversationIds);
-      for (String conversationId: conversationIds)
-      {
+      if (log.isDebugEnabled()){
+          log.debug("destroying conversation contexts: " + conversationIds);
+      }
+      for (String conversationId: conversationIds) {
          Contexts.destroyConversationContext(session, conversationId);
       }
       

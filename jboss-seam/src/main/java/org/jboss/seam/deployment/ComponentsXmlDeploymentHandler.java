@@ -10,20 +10,11 @@ import java.util.regex.Pattern;
  * @author Pete Muir
  *
  */
-public class ComponentsXmlDeploymentHandler extends AbstractDeploymentHandler
-{
+public class ComponentsXmlDeploymentHandler extends AbstractDeploymentHandler implements DeploymentMetadata {
    
-   private Pattern INF_PATTERN = Pattern.compile("(WEB-INF/components.xml$)|(META-INF/components.xml$)");
+   private final Pattern INF_PATTERN = Pattern.compile("(WEB-INF/components.xml$)|(META-INF/components.xml$)");
    
-   private static DeploymentMetadata COMPONENTSXML_SUFFIX_FILE_METADATA = new DeploymentMetadata()
-   {
 
-      public String getFileNameSuffix()
-      {
-         return "components.xml";
-      }
-      
-   };
    
    /**
     * Name under which this {@link DeploymentHandler} is registered
@@ -34,10 +25,14 @@ public class ComponentsXmlDeploymentHandler extends AbstractDeploymentHandler
    {
       return NAME;
    }
+   @Override
+	public String getFileNameSuffix() {
+		return "components.xml";
+	}
    
    public DeploymentMetadata getMetadata()
    {
-      return COMPONENTSXML_SUFFIX_FILE_METADATA;
+      return this;
    }
    
    @Override
@@ -48,7 +43,7 @@ public class ComponentsXmlDeploymentHandler extends AbstractDeploymentHandler
       {
          // we want to skip over known meta-directories since Seam will auto-load these without a scan
          String path = fileDescriptor.getName();
-         if (!INF_PATTERN.matcher(path).matches()) 
+         if (!this.INF_PATTERN.matcher(path).matches() && !path.contains("/seam-gen/")) 
          {
             resources.add(fileDescriptor);
          }
