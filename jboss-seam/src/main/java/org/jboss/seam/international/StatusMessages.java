@@ -403,5 +403,16 @@ public abstract class StatusMessages implements Serializable
       //Attempting to get the instance anyway for backwards compatibility with some potential hack situations.
       return (StatusMessages) Component.getInstance(COMPONENT_NAME);
    }
+   
+   /**
+    * checks if there are pending messages.
+    * @return true if there are messages
+    */
+   
+   public boolean isEmpty () {
+	   return 
+			   (this.messages == null || this.messages.isEmpty()) &&
+			   (this.keyedMessages == null || this.keyedMessages.isEmpty());
+   }
 
 }
