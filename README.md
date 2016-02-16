@@ -2,7 +2,7 @@
 
 
 This software is distributed under the terms of the FSF Lesser Gnu
-Public License (see link:distribution/src/main/assembly/lgpl.txt). 
+Public License (see http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt). 
 
 ##Seam 2: Next generation enterprise Java development
 
