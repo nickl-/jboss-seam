@@ -59,6 +59,7 @@
 								<descriptor>src/main/assembly/src.xml</descriptor>
 							</descriptors>	
 							<appendAssemblyId>true</appendAssemblyId>
+							<tarLongFileMode>gnu</tarLongFileMode>
 						</configuration>						
 					</execution>
 				</executions>
