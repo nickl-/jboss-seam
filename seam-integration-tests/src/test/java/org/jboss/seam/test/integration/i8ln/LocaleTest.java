@@ -8,7 +8,7 @@ import java.util.Locale;
 import javax.faces.component.UIOutput;
 import javax.faces.event.ValueChangeEvent;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OverProtocol;
