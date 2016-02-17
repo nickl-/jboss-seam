@@ -127,7 +127,7 @@ public class SeamNamespaceHandler extends NamespaceHandlerSupport
             Class cls;
             try
             {
-               cls = ClassUtils.forName(SEAM_COMPONENT_POST_PROCESSOR);
+               cls = ClassUtils.forName(SEAM_COMPONENT_POST_PROCESSOR, ClassUtils.getDefaultClassLoader());
             }
             catch (ClassNotFoundException e)
             {
