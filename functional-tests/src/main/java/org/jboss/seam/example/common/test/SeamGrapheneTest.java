@@ -21,6 +21,9 @@
  */
 package org.jboss.seam.example.common.test;
 
+import static org.jboss.arquillian.graphene.Graphene.guardAjax;
+import static org.jboss.arquillian.graphene.Graphene.guardHttp;
+
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -32,14 +35,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.Properties;
+
 import org.jboss.arquillian.drone.api.annotation.Drone;
-import static org.jboss.arquillian.graphene.Graphene.*;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.junit.Before;
 import org.junit.Rule;
-import org.junit.rules.MethodRule;
-import org.junit.rules.TestWatchman;
-import org.junit.runners.model.FrameworkMethod;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NotFoundException;
@@ -59,9 +61,10 @@ import org.openqa.selenium.support.ui.Select;
 public abstract class SeamGrapheneTest {
 
     @Rule
-    public MethodRule watchman = new TestWatchman() {
+    public TestWatcher watchman = new TestWatcher() {
+
         @Override
-        public void failed(Throwable e, FrameworkMethod method) {
+		public void failed(Throwable e, Description description) {
             BufferedOutputStream bos = null;
             BufferedWriter bw = null;
             File testOutput = new File("target/test-output");
@@ -73,11 +76,11 @@ public abstract class SeamGrapheneTest {
                 //WebDriver augmentedDriver = new Augmenter().augment(browser);
                 byte[] screenshot = ((TakesScreenshot) browser).getScreenshotAs(OutputType.BYTES);
                 //byte[] screenshot = ((TakesScreenshot) browser).getScreenshotAs(OutputType.BYTES);
-                bos = new BufferedOutputStream(new FileOutputStream(testOutput.getAbsolutePath() + "/" + method.getName() + ".png"));
+                bos = new BufferedOutputStream(new FileOutputStream(testOutput.getAbsolutePath() + "/" + description.getMethodName() + ".png"));
                 bos.write(screenshot);
                 bos.close();
 
-                bw = new BufferedWriter(new FileWriter(testOutput.getAbsolutePath() + "/" + method.getName() + ".html"));
+                bw = new BufferedWriter(new FileWriter(testOutput.getAbsolutePath() + "/" + description.getMethodName() + ".html"));
                 bw.write(browser.getPageSource());
                 bw.close();
             } catch (Exception ex) {

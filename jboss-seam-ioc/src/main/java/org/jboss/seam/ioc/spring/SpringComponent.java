@@ -78,7 +78,7 @@ public class SpringComponent extends IoCComponent
             Map<String, String> springComponentNameMap = getSpringComponentNameMap();
             // Add an entry to the spring+seam name association map
             springComponentNameMap.put(springBeanName, componentName);
-            Class beanClass = ClassUtils.forName(beanClassName);
+            Class beanClass = ClassUtils.forName(beanClassName, ClassUtils.getDefaultClassLoader());
             // Add the component to seam
             Contexts.getApplicationContext().set(
                     componentName + Initialization.COMPONENT_SUFFIX,
