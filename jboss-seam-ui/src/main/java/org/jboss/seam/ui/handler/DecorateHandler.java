@@ -44,12 +44,15 @@ public class DecorateHandler extends ComponentHandler {
 
 	private String getValue(TagAttribute template, FaceletContext context) {
 		assert template != null;
+		StringBuilder response = new StringBuilder();
+		response.append(template.getValue()).append(":");
 		try {
-			return template.getValue(context);
+			response.append(template.getValue(context));
 		}
 		catch (Exception e) {
-			return template.getValue();
+			response.append("unresolved");
 		}
+		return response.toString();
 	}
 
 }
