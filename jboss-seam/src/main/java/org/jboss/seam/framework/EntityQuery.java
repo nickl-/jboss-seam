@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NonUniqueResultException;
+import javax.persistence.PersistenceContext;
 import javax.transaction.SystemException;
 
 import org.jboss.seam.annotations.Transactional;
@@ -164,11 +165,14 @@ public class EntityQuery<E> extends Query<EntityManager, E>
       setPersistenceContext(entityManager);
    }
 
-   @Override
-   protected String getPersistenceContextName()
-   {
-      return "entityManager";
-   }
+	@Override
+	protected String getPersistenceContextName() {
+		final PersistenceContext ctx = getClass().getAnnotation(PersistenceContext.class);
+		if (ctx != null) {
+			return ctx.name();
+		}
+		return "entityManager";
+	}
    
    protected javax.persistence.Query createQuery()
    {

@@ -1,6 +1,7 @@
 package org.jboss.seam.framework;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.SystemException;
 
 import org.jboss.seam.annotations.Transactional;
@@ -192,10 +193,13 @@ public class EntityHome<E> extends Home<EntityManager, E>
     * is not named <code>entityManager</code>.
     */
    @Override
-   protected String getPersistenceContextName()
-   {
-      return "entityManager";
-   }
+	protected String getPersistenceContextName() {
+		final PersistenceContext ctx = getClass().getAnnotation(PersistenceContext.class);
+		if (ctx != null) {
+			return ctx.name();
+		}
+		return "entityManager";
+	}
    
    /**
     * Implementation of {@link Home#getEntityName() getEntityName()} for JPA
