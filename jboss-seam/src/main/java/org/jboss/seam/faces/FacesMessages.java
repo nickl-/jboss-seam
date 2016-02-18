@@ -35,21 +35,26 @@ import org.jboss.seam.util.Strings;
 public class FacesMessages extends StatusMessages
 {
    
-   /**
+	private static final long serialVersionUID = 8278797423661699405L;
+
+/**
     * Called by Seam to transfer messages from FacesMessages to JSF
     */
    public void beforeRenderResponse() 
    {
-      for (StatusMessage statusMessage: getMessages())
-      {
-         FacesContext.getCurrentInstance().addMessage( null, toFacesMessage(statusMessage) );
+      for (StatusMessage statusMessage: getMessages()) { 
+    	 FacesMessage facesMessage = toFacesMessage(statusMessage);
+    	 if (facesMessage != null) {
+    		 FacesContext.getCurrentInstance().addMessage( null, facesMessage);
+    	 }
       }
-      for ( Map.Entry<String, List<StatusMessage>> entry: getKeyedMessages().entrySet() )
-      {
-         for ( StatusMessage statusMessage: entry.getValue() )
-         {
+      for ( Map.Entry<String, List<StatusMessage>> entry: getKeyedMessages().entrySet() ) {
+         for ( StatusMessage statusMessage: entry.getValue() ) {
             String clientId = getClientId(entry.getKey());
-            FacesContext.getCurrentInstance().addMessage( clientId, toFacesMessage(statusMessage) );
+            FacesMessage facesMessage = toFacesMessage(statusMessage);
+            if (facesMessage != null) {
+            	FacesContext.getCurrentInstance().addMessage( clientId, facesMessage);
+            }
          }
       }
       clear();
@@ -75,10 +80,7 @@ public class FacesMessages extends StatusMessages
       {
          return new FacesMessage(toSeverity(statusMessage.getSeverity()), statusMessage.getSummary(), statusMessage.getDetail() );
       }
-      else
-      {
-         return null;
-      }
+      return null;
    }
    
    /**
@@ -139,22 +141,18 @@ public class FacesMessages extends StatusMessages
 
    private static String getClientId(UIComponent component, String id, FacesContext facesContext)
    {
-      String componentId = component.getId();
-      if (componentId!=null && componentId.equals(id))
-      {
-         return component.getClientId(facesContext);
-      }
-      else
-      {
-         Iterator iter = component.getFacetsAndChildren();
-         while ( iter.hasNext() )
-         {
-            UIComponent child = (UIComponent) iter.next();
-            String clientId = getClientId(child, id, facesContext);
-            if (clientId!=null) return clientId;
-         }
-         return null;
-      }
+		String componentId = component.getId();
+		if (componentId != null && componentId.equals(id)) {
+			return component.getClientId(facesContext);
+		}
+		Iterator<UIComponent> iter = component.getFacetsAndChildren();
+		while (iter.hasNext()) {
+			UIComponent child = iter.next();
+			String clientId = getClientId(child, id, facesContext);
+			if (clientId != null)
+				return clientId;
+		}
+	 return null;
    }
    
    /**
