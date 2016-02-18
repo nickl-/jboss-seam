@@ -71,7 +71,7 @@ public class DownloadRendererBase extends RendererBase
       if (download.getStyle() != null)
          writer.writeAttribute(HTML.STYLE_ATTR, download.getStyle(), null);
       if (download.getStyleClass() != null)
-         writer.writeAttribute(HTML.STYLE_CLASS_ATTR, download.getStyleClass(), null);
+         writer.writeAttribute(HTML.CLASS_ATTR, download.getStyleClass(), null);
    }
 
    @Override
