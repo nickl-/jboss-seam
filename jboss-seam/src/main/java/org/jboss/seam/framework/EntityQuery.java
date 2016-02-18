@@ -25,7 +25,7 @@ public class EntityQuery<E> extends Query<EntityManager, E>
    private List<E> resultList;
    private E singleResult;
    private Long resultCount;
-   private Map<String, String> hints;
+   private Map<String, Object> hints;
 
    /**
     * Validate the query
@@ -185,7 +185,7 @@ public class EntityQuery<E> extends Query<EntityManager, E>
       if ( getMaxResults()!=null) query.setMaxResults( getMaxResults()+1 ); //add one, so we can tell if there is another page
       if ( getHints()!=null )
       {
-         for ( Map.Entry<String, String> me: getHints().entrySet() )
+         for ( Map.Entry<String, Object> me: getHints().entrySet() )
          {
             query.setHint(me.getKey(), me.getValue());
          }
@@ -219,12 +219,12 @@ public class EntityQuery<E> extends Query<EntityManager, E>
       }
    }
 
-   public Map<String, String> getHints()
+   public Map<String, Object> getHints()
    {
       return hints;
    }
 
-   public void setHints(Map<String, String> hints)
+   public void setHints(Map<String, Object> hints)
    {
       this.hints = hints;
    }
