@@ -88,7 +88,7 @@ public class SeamViewHandler extends ViewHandlerWrapper
     * This covers form actions Ajax calls, and redirect URLs (which we want) and
     * link hrefs (which we don't)
     *
-    * @see {@link ViewHandler#getActionURL(FacesContext, String)}
+    * {@link ViewHandler#getActionURL(FacesContext, String)}
     */
    @Override
    public String getActionURL(FacesContext facesContext, String viewId) {

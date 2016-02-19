@@ -927,8 +927,7 @@ public class AbstractSeamTest
    }
    
    /**
-    * Boot Seam. Can be used at class, test group or suite level (e.g.
-    * @BeforeClass, @BeforeTest, @BeforeSuite)
+    * Boot Seam. Can be used at class, test group or suite level (e.g. @BeforeClass, @BeforeTest, @BeforeSuite)
     * Use in conjunction with {@link #stopSeam()}.
     * @throws Exception
     */
@@ -969,8 +968,7 @@ public class AbstractSeamTest
    }
    
    /**
-    * Shutdown Seam. Can be used at class, test group or suite level (e.g
-    * @AfterClass, @AfterTest, @AfterSuite)
+    * Shutdown Seam. Can be used at class, test group or suite level (e.g @AfterClass, @AfterTest, @AfterSuite)
     * Use in conjunction with {@link #startSeam()}.
     * @throws Exception
     */

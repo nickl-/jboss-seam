@@ -68,8 +68,8 @@ public class XML
    
    /**
     * Get safe SaxReader with doctype feature disabled 
-    * @see http://xerces.apache.org/xerces2-j/features.html#disallow-doctype-decl 
-    * @return
+    * <a href="http://xerces.apache.org/xerces2-j/features.html#disallow-doctype-decl">http://xerces.apache.org/xerces2-j/features.html#disallow-doctype-decl</a> 
+    * @return safe SaxReader with doctype feature disabled 
     * @throws Exception
     */
    public static SAXReader getSafeSaxReader() throws Exception

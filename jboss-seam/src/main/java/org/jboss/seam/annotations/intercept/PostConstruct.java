@@ -8,7 +8,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Synonym for {@link javax.ejb.PostConstruct}, for
+ * Synonym for javax.ejb.PostConstruct, for
  * use in a pre Java EE 5 environment.
  * 
  * @author Denis Forveille

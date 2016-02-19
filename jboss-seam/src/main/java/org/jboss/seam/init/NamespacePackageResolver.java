@@ -28,7 +28,7 @@ public class NamespacePackageResolver {
      *
      * @param ns the xml namespace to convert
      * 
-     * @returns a namespace descriptor
+     * @return a namespace descriptor
      */
     public String resolve(final String ns) {
         try {

@@ -27,7 +27,7 @@ import org.jboss.seam.annotations.web.Filter;
  * be configured in the web: namespace. The subclass
  * does the actual work.
  * 
- * @see org.jboss.seam.ui.filter.Ajax4jsfFilterInstantiator
+ * See org.jboss.seam.ui.filter.Ajax4jsfFilterInstantiator
  * @author Pete Muir
  * 
  */

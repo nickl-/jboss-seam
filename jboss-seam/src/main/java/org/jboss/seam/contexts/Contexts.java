@@ -97,7 +97,6 @@ public class Contexts
     * 
     * If not, it is lazily created in case of RESTORE_VIEW is processing
     * This is a requirement for starting CONVERSATION - JSF2 change
-    * @return
     */
    public static boolean isPageContextActive()
    {
