@@ -1,5 +1,6 @@
 package org.jboss.seam.ui.handler;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.el.ELException;
@@ -34,8 +35,13 @@ public class DecorateHandler extends ComponentHandler {
 		if (template != null) {
 			try {
 				this.delegate.apply(context, component);
-			} catch (Exception e) {				
-				throw new IOException("Could not load template:" + getValue(template, context), e);
+			} catch (FacesException e) {
+				if (e.getCause() instanceof FileNotFoundException) {
+					FileNotFoundException fnf = new FileNotFoundException("Could not load template:" + getValue(template, context));
+					fnf.initCause(e);
+					throw new FacesException(fnf.getMessage(), fnf);					
+				}
+				throw e;
 			}
 		} else {
 			this.nextHandler.apply(context, component);
