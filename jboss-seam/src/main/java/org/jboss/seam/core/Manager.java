@@ -659,7 +659,7 @@ public class Manager
 
    protected String generateInitialConversationId()
    {
-      return Id.nextId();
+      return ConversationIdGenerator.instance().getNextId();
    }
 
    private ConversationEntry createConversationEntry()
@@ -704,7 +704,7 @@ public class Manager
          throw new IllegalStateException("No long-running conversation active");
       }
 
-      String id = Id.nextId();
+      String id = ConversationIdGenerator.instance().getNextId();
       setCurrentConversationId(id);      
       createCurrentConversationIdStack(id).addAll(oldStack);
       createConversationEntry();

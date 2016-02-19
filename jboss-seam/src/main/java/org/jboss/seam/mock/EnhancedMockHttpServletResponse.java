@@ -331,11 +331,11 @@ public class EnhancedMockHttpServletResponse implements HttpServletResponse {
 	public String encodeRedirectURL(String url) {
 		return encodeURL(url);
 	}
-
+	@Deprecated
 	public String encodeUrl(String url) {
 		return encodeURL(url);
 	}
-
+	@Deprecated
 	public String encodeRedirectUrl(String url) {
 		return encodeRedirectURL(url);
 	}
@@ -418,7 +418,7 @@ public class EnhancedMockHttpServletResponse implements HttpServletResponse {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-
+	@Deprecated
 	public void setStatus(int status, String statusMessage) {
 		this.status = status;
 		this.statusMessage = statusMessage;

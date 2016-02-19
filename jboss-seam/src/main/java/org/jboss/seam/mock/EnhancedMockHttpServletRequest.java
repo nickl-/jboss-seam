@@ -698,7 +698,7 @@ public class EnhancedMockHttpServletRequest implements HttpServletRequest
    {
       return new MockRequestDispatcher(path);
    }
-
+   @Deprecated
    public String getRealPath(String path)
    {
       return this.servletContext.getRealPath(path);
@@ -1088,7 +1088,7 @@ public class EnhancedMockHttpServletRequest implements HttpServletRequest
    {
       return this.requestedSessionIdFromURL;
    }
-
+   @Deprecated
    public boolean isRequestedSessionIdFromUrl()
    {
       return isRequestedSessionIdFromURL();

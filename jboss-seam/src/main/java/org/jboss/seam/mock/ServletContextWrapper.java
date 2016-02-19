@@ -109,7 +109,7 @@ public class ServletContextWrapper implements ServletContext {
    public String getServerInfo() {
       return delegate.getServerInfo();
    }
-
+   @Deprecated
    public Servlet getServlet(String arg0) throws ServletException {
       return delegate.getServlet(arg0);
    }
@@ -117,11 +117,11 @@ public class ServletContextWrapper implements ServletContext {
    public String getServletContextName() {
       return "Wrap";
    }
-
+   @Deprecated
    public Enumeration getServletNames() {
       return delegate.getServletNames();
    }
-
+   @Deprecated
    public Enumeration getServlets() {
       return delegate.getServlets();
    }
@@ -129,7 +129,7 @@ public class ServletContextWrapper implements ServletContext {
    public void log(String arg0) {
       delegate.log(arg0);
    }
-
+   @Deprecated
    public void log(Exception arg0, String arg1) {
       delegate.log(arg0, arg1);
    }

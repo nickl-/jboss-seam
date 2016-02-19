@@ -292,7 +292,7 @@ public class MockHttpServletRequest implements HttpServletRequest
    {
       return false;
    }
-
+   @Deprecated
    public boolean isRequestedSessionIdFromUrl()
    {
       return false;
@@ -432,6 +432,7 @@ public class MockHttpServletRequest implements HttpServletRequest
       return null;
    }
 
+   @Deprecated
    public String getRealPath(String path)
    {
       if(httpServletRequest != null) 

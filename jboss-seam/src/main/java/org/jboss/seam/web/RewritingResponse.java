@@ -31,11 +31,13 @@ public class RewritingResponse
     }   
 
     @Override
+    @Deprecated
     public String encodeRedirectUrl(String url) {
         return encodeRedirectURL(url);
     }
 
     @Override
+    @Deprecated
     public String encodeUrl(String url) {
         return encodeURL(url);
     }
@@ -58,7 +60,7 @@ public class RewritingResponse
 
     @Override
     public String encodeURL(String url) {        
-        String result = super.encodeUrl(rewriteURL(url));
+        String result = super.encodeURL(rewriteURL(url));
         log.debug("encodeURL " + url + " -> " + result);
         return wrappedEncodeURL(result);
     }

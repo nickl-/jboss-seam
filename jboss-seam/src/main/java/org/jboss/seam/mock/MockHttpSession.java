@@ -67,7 +67,8 @@ public class MockHttpSession implements HttpSession
    {
       return maxInactiveInterval;
    }
-   
+   @Override
+   @Deprecated
    public HttpSessionContext getSessionContext()
    {
       throw new UnsupportedOperationException();
@@ -141,9 +142,5 @@ public class MockHttpSession implements HttpSession
       return servletContext;
    }
 
-   /*public void clear() {
-      attributes.clear();
-      isInvalid = false;
-   }*/
 
 }

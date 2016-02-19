@@ -47,7 +47,7 @@ public class MockHttpServletResponse implements HttpServletResponse
       // TODO Auto-generated method stub
       return null;
    }
-
+   @Deprecated
    public String encodeRedirectUrl(String arg0)
    {
       // TODO Auto-generated method stub
@@ -106,7 +106,7 @@ public class MockHttpServletResponse implements HttpServletResponse
       // TODO Auto-generated method stub
 
    }
-
+   @Deprecated
    public void setStatus(int arg0, String arg1)
    {
       // TODO Auto-generated method stub

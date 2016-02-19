@@ -236,17 +236,17 @@ public class MockServletContext implements ServletContext
    {
       throw new UnsupportedOperationException();
    }
-
+   @Deprecated
    public Servlet getServlet(String name) throws ServletException
    {
       throw new UnsupportedOperationException();
    }
-
+   @Deprecated
    public Enumeration getServlets()
    {
       return null;
    }
-
+   @Deprecated
    public Enumeration getServletNames()
    {
       return null;
@@ -256,7 +256,7 @@ public class MockServletContext implements ServletContext
    {
 
    }
-
+   @Deprecated
    public void log(Exception ex, String msg)
    {
 
