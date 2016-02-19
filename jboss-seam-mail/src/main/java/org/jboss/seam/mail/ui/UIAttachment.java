@@ -154,11 +154,11 @@ public class UIAttachment extends MailComponent implements ValueHolder
              {
                  if (value != null)
                  {
-                     throw new NullPointerException("Error accessing " + value);
+                     throw new NullPointerException("Error accessing " + value, e);
                  }
                  else
                  {
-                     throw new NullPointerException("Error accessing " + getValueExpression("value").getExpressionString());
+                     throw new NullPointerException("Error accessing " + getValueExpression("value").getExpressionString(), e);
                  }
             }
             MimeBodyPart attachment = new MimeBodyPart();
