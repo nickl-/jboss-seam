@@ -237,7 +237,7 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
       List<javax.faces.model.SelectItem> selectItems =  new ArrayList<javax.faces.model.SelectItem>();
       for (final Object o : iterable)
       {
-         selectItems.add(new ContextualSelectItem(o)
+         selectItems.add(o instanceof javax.faces.model.SelectItem ? (javax.faces.model.SelectItem) o : new ContextualSelectItem(o)
          {
 
             @Override
