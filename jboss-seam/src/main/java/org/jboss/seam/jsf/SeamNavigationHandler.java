@@ -8,7 +8,9 @@ import javax.faces.application.NavigationCase;
 import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
 import javax.faces.context.PartialViewContext;
+import javax.servlet.ServletContext;
 
+import org.jboss.seam.Seam;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.faces.FacesManager;
 import org.jboss.seam.navigation.Pages;
@@ -35,6 +37,12 @@ public class SeamNavigationHandler extends ConfigurableNavigationHandler
    @Override
    public void handleNavigation(FacesContext context, String fromAction, String outcome) 
    {
+		// Skip non-seam applications
+		ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
+		if (servletContext.getAttribute(Seam.VERSION) == null) {
+			baseNavigationHandler.handleNavigation(context, fromAction, outcome);
+			return;
+		}
       if ( !context.getResponseComplete() ) //workaround for a bug in MyFaces
       {
     	  String oldView = (context.getViewRoot() != null ? context.getViewRoot().getViewId() : "");
