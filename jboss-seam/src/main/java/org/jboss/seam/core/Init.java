@@ -77,7 +77,8 @@ public class Init
    
    private Collection<Namespace> globalImports = new ArrayList<Namespace>();
    
-   //private boolean isClientSideConversations = false;
+   private Map<String, Class<? extends Enum>> enums = new HashMap<String, Class<? extends Enum>>();
+   
    private boolean jbpmInstalled;
    private String jndiPattern;
    private boolean debug;
@@ -486,6 +487,14 @@ public class Init
       globalImports.add(namespace);
    }
 
+	public Map<String, Class<? extends Enum>> getEnums() {
+		return enums;
+	}
+
+	public void importEnums(Map<String, Class<? extends Enum>> ienums) {
+		enums = ienums;
+	}
+	
    public void addInstalledFilter(String name)
    {
       installedFilters.add(name);

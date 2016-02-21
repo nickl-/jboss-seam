@@ -20,6 +20,10 @@ public class Namespace
       this.name = name;
    }
    
+   public String getName() {
+	   return this.name;
+   }
+   
    /**
     * Get a component or child namespace
     */

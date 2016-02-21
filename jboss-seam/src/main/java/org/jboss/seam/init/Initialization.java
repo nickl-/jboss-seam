@@ -96,6 +96,7 @@ public class Initialization
    private NamespacePackageResolver namespacePackageResolver = new NamespacePackageResolver();
    private Map<String, EventListenerDescriptor> eventListenerDescriptors = new HashMap<String, EventListenerDescriptor>();
    private Collection<String> globalImports = new ArrayList<String>();
+   private Map<String, Class<? extends Enum>> enums = new HashMap<String, Class<? extends Enum>>();
    
    private StandardDeploymentStrategy standardDeploymentStrategy;
    private HotDeploymentStrategy hotDeploymentStrategy;
@@ -133,6 +134,7 @@ public class Initialization
                 new StandardDeploymentStrategy(Thread.currentThread().getContextClassLoader(), this.servletContext);
         this.standardDeploymentStrategy.scan();
         addNamespaces();
+        addEnums();
         initComponentsFromXmlDocument("/WEB-INF/components.xml");
         initComponentsFromXmlDocument("/WEB-INF/events.xml"); // deprecated
         initComponentsFromXmlDocuments();
@@ -721,7 +723,15 @@ public class Initialization
         for (String globalImport : this.globalImports) {
             init.importNamespace(globalImport);
         }
-
+		// adding enum namespaces to namespaces
+		for (Class<? extends Enum> e : enums.values()) {
+			String enumName = e.getName();
+			String packageName = enumName.substring(0, enumName.lastIndexOf('.'));
+			init.importNamespace(packageName);
+		}
+		// saving enums in Init
+		init.importEnums(enums);
+              
         ServletLifecycle.endInitialization();
         log.debug("done initializing Seam");
         return this;
@@ -944,6 +954,17 @@ public class Initialization
             addNamespace(pkg);
         }
     }
+
+	/**
+	 * Saves enums for EL use
+	 * 
+	 * @author Stefano Aquino
+	 */
+	private void addEnums() {
+		for (Class<? extends Enum> e : standardDeploymentStrategy.getScannedEnums()) {
+			enums.put(e.getName(), e);
+		}
+	}
 
     private void initPropertiesFromServletContext() {
         Enumeration<String> params = this.servletContext.getInitParameterNames();

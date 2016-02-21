@@ -19,6 +19,7 @@ import org.jboss.seam.core.Init;
  * allows the use of #{dataModel.size}, #{dataModel.empty},
  * #{collection.size}, #{map.size}, #{map.values}, #{map.keySet},
  * and #{map.entrySet}. Also allows #{sessionContext['name']}.
+ * Also allows enum resolution of fully qualified enum as #{com.acme.Enum.value}.
  * 
  * @author Gavin King
  *
@@ -51,11 +52,16 @@ public class SeamELResolver extends ELResolver
             return resolveBase(context, property);
             
         } else if (base instanceof Namespace) {
-            return resolveInNamespace(context, (Namespace) base, property);
-            
+        	Object result = resolveInNamespace(context, (Namespace) base, property);
+        	 // if there isn't a component in this namespace, looks for an enum type
+        	if (result == null) {
+        		result = resolveInEnums(context, (Namespace) base, property);
+        	}
+        	return result;
+        } else if (base.getClass().isInstance(Enum.class)) {
+        	return resolveInEnumValues(context, (Class<? extends Enum>)base, property);
         } else if (JSF.DATA_MODEL.isInstance(base)) {
-            return resolveInDataModel(context,  base, property);
-            
+            return resolveInDataModel(context,  base, property);            
         } else if (base instanceof Collection) {
             return resolveInCollection(context, (Collection) base, property);
             
@@ -70,6 +76,46 @@ public class SeamELResolver extends ELResolver
         }
     }
 
+	/**
+	 * Resolves expression looking for an enum type
+	 * 
+	 * @author Stefano Aquino
+	 */
+	private Object resolveInEnumValues(ELContext context, Class<? extends Enum> enumClass, Object property) {
+		String value = (String) property;
+		Enum[] econstants = enumClass.getEnumConstants();
+		Enum choice = null;
+		if (econstants != null) {
+			for (Enum e : econstants) {
+				if (e.name().equals(value)) {
+					choice = e;
+					break;
+				}
+			}
+		}
+		if (choice != null) {
+			context.setPropertyResolved(true);
+		}
+		return choice;
+	}
+
+	/**
+	 * Resolves expression looking for a value of an enum type
+	 * 
+	 * @author Stefano Aquino
+	 */
+	private Object resolveInEnums(ELContext context, Namespace namespace, Object property) {
+		String key = (String) property;
+		Init init = Init.instance();
+		Map<String, Class<? extends Enum>> enums = init.getEnums();
+		String e = namespace.getName() + key;
+		Class<? extends Enum> result = enums.get(e);
+		if (result != null) {
+			context.setPropertyResolved(true);
+		}
+		return result;
+	}
+   
    private Object resolveInContextObject(ELContext context, Context seamContext, Object property)
    {
         if (seamContext.isSet((String) property)) {
@@ -179,7 +225,8 @@ public class SeamELResolver extends ELResolver
     public boolean isReadOnly(ELContext context, Object base, Object property) 
     {
         return base != null
-                && (JSF.DATA_MODEL.isInstance(base) || (base instanceof Collection) || (base instanceof Map));
+        		 && (JSF.DATA_MODEL.isInstance(base) || (base instanceof Collection) 
+        		 || (base instanceof Map) || (base.getClass().isInstance(Enum.class)) );
     }
 
     @Override

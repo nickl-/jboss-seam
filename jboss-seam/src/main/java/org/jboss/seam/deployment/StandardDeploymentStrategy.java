@@ -46,6 +46,7 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
    private ComponentDeploymentHandler componentDeploymentHandler;
    private ComponentsXmlDeploymentHandler componentsXmlDeploymentHandler;
    private NamespaceDeploymentHandler namespaceDeploymentHandler;
+   private EnumDeploymentHandler enumDeploymentHandler;
    private AnnotationDeploymentHandler annotationDeploymentHandler;
    private DotComponentDotXmlDeploymentHandler dotComponentDotXmlDeploymentHandler;
    
@@ -65,6 +66,8 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
       getDeploymentHandlers().put(DotComponentDotXmlDeploymentHandler.NAME, dotComponentDotXmlDeploymentHandler);
       namespaceDeploymentHandler = new NamespaceDeploymentHandler();
       getDeploymentHandlers().put(NamespaceDeploymentHandler.NAME, namespaceDeploymentHandler);
+      enumDeploymentHandler = new EnumDeploymentHandler();
+      getDeploymentHandlers().put(EnumDeploymentHandler.NAME, enumDeploymentHandler);
       annotationDeploymentHandler = new AnnotationDeploymentHandler(new SeamDeploymentProperties(classLoader).getPropertyValues(AnnotationDeploymentHandler.ANNOTATIONS_KEY), classLoader);
       getDeploymentHandlers().put(AnnotationDeploymentHandler.NAME, annotationDeploymentHandler);
    }
@@ -107,6 +110,14 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
    {
       return Collections.unmodifiableSet(namespaceDeploymentHandler.getPackages());
    }
+   /**
+    * Get all scanned and handled enums
+    * 
+    * @author Stefano Aquino
+   */
+	public Set<Class<? extends Enum>> getScannedEnums() {
+		return Collections.unmodifiableSet(enumDeploymentHandler.getEnums());
+	}
    
    public Map<String, Set<Class<?>>> getAnnotatedClasses()
    {
