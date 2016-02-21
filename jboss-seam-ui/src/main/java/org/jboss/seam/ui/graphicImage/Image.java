@@ -26,8 +26,8 @@ import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.ResourceLoader;
+
 
 /**
  * Image manipulation and interrogation
@@ -445,10 +445,6 @@ public class Image implements Serializable
 
    public static Image instance()
    {
-      if (!Contexts.isConversationContextActive())
-      {
-         throw new IllegalStateException("No active conversation scope");
-      }
       return (Image) Component.getInstance(Image.class);
    }
 

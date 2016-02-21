@@ -51,8 +51,12 @@ public class GraphicImageRendererBase extends RendererBase
       }
       else
       {
+    	  Object value = graphicImage.getValue();
+    	  if (isNullOrEmptyArray(value)){
+    		  return;
+    	  }
 
-         image.setInput(graphicImage.getValue());
+         image.setInput(value);
 
          // Do transforms
 
@@ -86,7 +90,18 @@ public class GraphicImageRendererBase extends RendererBase
       writer.endElement(HTML.IMG_ELEM);
    }
    
-   @Override
+	private boolean isNullOrEmptyArray(Object input) {
+		if (input == null) {
+			return true;
+		}
+		if (input.getClass().isArray() && input.getClass().getComponentType().isAssignableFrom(Byte.TYPE)) {
+			byte[] b = (byte[]) input;
+			return b.length == 0;
+		}
+		return false;
+	}
+
+@Override
    public boolean getRendersChildren()
    {
       return true;
