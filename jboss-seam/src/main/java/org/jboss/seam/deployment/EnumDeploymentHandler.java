@@ -69,8 +69,12 @@ public class EnumDeploymentHandler extends AbstractDeploymentHandler
       for (FileDescriptor fileDescriptor : getResources())
       {
          String cname = filenameToClassName(fileDescriptor.getName());
+    	 if (cname.startsWith("org.jboss.seam.mock.DB") || cname.startsWith("org.jboss.seam.mock.J") || cname.startsWith("org.jboss.seam.jmx.AgentID")){
+    		 continue;
+    	 }
          try
          {
+        
             Class<?> clazz = Class.forName(cname);
             if (clazz.isEnum())
             {
