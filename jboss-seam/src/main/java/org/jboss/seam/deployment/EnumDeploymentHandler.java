@@ -69,7 +69,7 @@ public class EnumDeploymentHandler extends AbstractDeploymentHandler
       for (FileDescriptor fileDescriptor : getResources())
       {
          String cname = filenameToClassName(fileDescriptor.getName());
-    	 if (cname.startsWith("org.jboss.seam.mock.DB") || cname.startsWith("org.jboss.seam.mock.J") || cname.startsWith("org.jboss.seam.jmx.AgentID")){
+    	 if (isOmitClass(cname)){
     		 continue;
     	 }
          try
@@ -90,7 +90,24 @@ public class EnumDeploymentHandler extends AbstractDeploymentHandler
       }
    }
 
-   private static String filenameToClassName(String filename)
+	private boolean isOmitClass(String cname) {
+		// To reduce verbose logging of NoClassDefFoundError on JBOSS AS 7.1.1 under some specific configurations.
+		// thos classes / packages doesn't contains enums
+		if (cname == null || "".equals(cname)) {
+			return true;
+		}
+		return 
+				cname.startsWith("org.jboss.seam.mock.DB") || 
+				cname.startsWith("org.jboss.seam.mock.J") || 
+				cname.startsWith("org.jboss.seam.jmx.AgentID") ||
+				cname.startsWith("org.jboss.seam.async.") ||
+				cname.startsWith("org.jboss.seam.persistence.") || 
+				cname.startsWith("org.jboss.seam.drools.") || 
+				cname.startsWith("org.jboss.seam.bpm.") ||
+				"org.jboss.seam.pageflow.Page".equals(cname);
+	}
+
+private static String filenameToClassName(String filename)
    {
       return filename.substring(0, filename.lastIndexOf(".class")).replace('/', '.').replace('\\', '.');
    }
