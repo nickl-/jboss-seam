@@ -87,4 +87,19 @@ public class MultipartRequestImplTest
       }
       return buffer;
    }
+   
+   /**
+    * Test for bug JBSEAM-4822 MultipartRequestImpl incorrect parse filename with semicolon
+    */
+   @Test
+   public void testFileNameWithSemicolon () {
+	   EnhancedMockHttpServletRequest req = new EnhancedMockHttpServletRequest();       
+       MultipartRequestImpl r = new MultipartRequestImpl(req, false, 0);
+       Map<String, String> headers =  r.parseParams("Content-Disposition: form-data; name=\"form:fileUpload\"; filename=\"x;a.txt\"", ";");
+       assertEquals(3, headers.size());
+       assertEquals(headers.get("Content-Disposition"), "form-data");
+       assertEquals(headers.get("name"), "form:fileUpload");
+       assertEquals(headers.get("filename"), "x;a.txt");
+       
+   }
 }

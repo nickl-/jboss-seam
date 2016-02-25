@@ -22,6 +22,8 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
+import org.jboss.seam.web.fileupload.ParameterParser;
+
 /**
  * Request wrapper for supporting multipart requests, used for file uploading.
  * 
@@ -496,7 +498,7 @@ public class MultipartRequestImpl extends HttpServletRequestWrapper implements M
    private static final Pattern PARAM_VALUE_PATTERN = Pattern
             .compile("^\\s*([^\\s=]+)\\s*[=:]\\s*(.+)\\s*$");
 
-   private Map parseParams(String paramStr, String separator)
+   public Map parseParams(String paramStr, String separator)
    {
       Map<String,String> paramMap = new HashMap<String, String>();
       parseParams(paramStr, separator, paramMap);
@@ -505,23 +507,29 @@ public class MultipartRequestImpl extends HttpServletRequestWrapper implements M
    
    private void parseParams(String paramStr, String separator, Map paramMap)
    {
-      String[] parts = paramStr.split("[" + separator + "]");
-
-      for (String part : parts)
-      {
-         Matcher m = PARAM_VALUE_PATTERN.matcher(part);
-         if (m.matches())
-         {
-            String key = m.group(1);
-            String value = m.group(2);
-            
-            // Strip double quotes
-            if (value.startsWith("\"") && value.endsWith("\""))
-               value = value.substring(1, value.length() - 1);
-            
-            paramMap.put(key, value);
-         }
-      }    
+	   
+	   ParameterParser parser = new ParameterParser();
+	   Map<String, String > params = parser.parse(paramStr, separator.toCharArray());
+	   paramMap.putAll(params);
+	   
+	   
+//      String[] parts = paramStr.split("[" + separator + "]");
+//
+//      for (String part : parts)
+//      {
+//         Matcher m = PARAM_VALUE_PATTERN.matcher(part);
+//         if (m.matches())
+//         {
+//            String key = m.group(1);
+//            String value = m.group(2);
+//            
+//            // Strip double quotes
+//            if (value.startsWith("\"") && value.endsWith("\""))
+//               value = value.substring(1, value.length() - 1);
+//            
+//            paramMap.put(key, value);
+//         }
+//      }    
    }
 
    private Param getParam(String name)
