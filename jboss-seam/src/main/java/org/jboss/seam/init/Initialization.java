@@ -670,22 +670,7 @@ public class Initialization
         Contexts.getApplicationContext().set(Component.PROPERTIES, this.properties);
         addComponent(new ComponentDescriptor(Init.class), Contexts.getApplicationContext());
         Init init = (Init) Component.getInstance(Init.class, ScopeType.APPLICATION);
-
-        boolean debugClassesLoaded = false;
-        try {
-        	Class<?> clz = Class.forName("org.jboss.seam.debug.Contexts");
-        	debugClassesLoaded = clz != null;
-        }
-        catch (ClassNotFoundException cnfe) {
-        	debugClassesLoaded = false;
-        }
-        if (!debugClassesLoaded) {
-        	init.setDebug(false);
-        }
-        
-        
-        
-
+        init.setDebug(false);
 
         // Make the deployment strategies available in the contexts. This gives
         // access to custom deployment handlers for processing custom
