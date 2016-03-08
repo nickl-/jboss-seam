@@ -1,6 +1,29 @@
 JBoss Seam Changelog
 ====================
 
+Release Notes - Seam 2 - Version 2.3.2.ayg
+
+** Bug
+    * [JBSEAM-1898] - EntityQuery hints map is defined as <String, String> instead of <String, Object>
+    * [JBSEAM-4375] - ManagedEntityInterceptor destroys components in parent nested conversation, when ending a nested conversation
+    * [JBSEAM-4672] - s:graphicImage in rich:extendedDataTable - using byte array datasource results in wrong drawing
+    * [JBSEAM-4695] - UISelectItems.asSelectItem(items) should not wrap item if already instanceof SelectItem
+    * [JBSEAM-4777] - styleClass attribute not rendered properly for s:download
+    * [JBSEAM-4806] - failed to load multiple apps with jboss-seam.jar in global classpath
+    * [JBSEAM-4822] - MultipartRequestImpl incorrect parse filename with semicolon
+    * [JBSEAM-4827] - FacesMessages may trigger NPE in JSF code
+
+** Enhancement
+    * [JBSEAM-4853] - Change DocumentStorePhaseListener to allow downloads of IE over SSL
+
+** Patch
+    * [JBSEAM-1792] - Configure PersistenceContextName in EntityHome/EntityQuery using annotation
+    * [JBSEAM-3051] - Properties file translated to Brazilian Portuguese (pt_BR)
+    * [JBSEAM-4625] - Include exception cause when UIAttachment fails to read DataSource
+    * [JBSEAM-4842] - Support for Enums in EL 
+
+
+
 Release Notes - Seam 2 - Version 2.3.1.Final
 
 ** Bug

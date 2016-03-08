@@ -43,5 +43,6 @@ kpiwko@redhat.com                    Karel Piwko
 sboscarine                           Steven Boscarine
 sannegrinovero                       Sanne Grinovero
 swd847                               Stuart Douglas
+albfernandez                         Alberto Fernández
 ------------------------------------------------------------------------
 * JBoss is a registered trademark of Red Hat, Inc.
