@@ -9,6 +9,9 @@ import java.util.Set;
 import javax.servlet.ServletContext;
 
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.init.Initialization;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 
 /**
  * The standard deployment strategy used with Seam, deploys non-hot-deployable
@@ -50,6 +53,8 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
    private AnnotationDeploymentHandler annotationDeploymentHandler;
    private DotComponentDotXmlDeploymentHandler dotComponentDotXmlDeploymentHandler;
    
+   private static final LogProvider log = Logging.getLogProvider(StandardDeploymentStrategy.class);
+   
    
    /**
     * @param classLoader The classloader used to load and handle resources
@@ -69,6 +74,7 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
       enumDeploymentHandler = new EnumDeploymentHandler();
       boolean enableEnums = Boolean.parseBoolean(servletContext.getInitParameter(EnumDeploymentHandler.NAME));
       if (enableEnums) {
+    	  log.info("Enum scanning enabled");
     	  getDeploymentHandlers().put(EnumDeploymentHandler.NAME, enumDeploymentHandler);
       }
       annotationDeploymentHandler = new AnnotationDeploymentHandler(new SeamDeploymentProperties(classLoader).getPropertyValues(AnnotationDeploymentHandler.ANNOTATIONS_KEY), classLoader);
@@ -128,25 +134,24 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
    }
    
    @Override
-   public void scan()
-   {
-      getScanner().scanResources(RESOURCE_NAMES);
-      getScanner().scanDirectories(getFiles().toArray(new File[0]));
-      postScan();
-   }
+	public void scan() {
+		log.info("Scanning resources");
+		getScanner().scanResources(RESOURCE_NAMES);
+		log.info("Scanning directories");
+		getScanner().scanDirectories(getFiles().toArray(new File[0]));
+		log.info("PostScan");
+		postScan();
+	}
    
-   public static StandardDeploymentStrategy instance()
-   {
-      if (Contexts.getEventContext().isSet(NAME))
-      {
-         return (StandardDeploymentStrategy) Contexts.getEventContext().get(NAME);
-      }
-      return null;
-   }
+	public static StandardDeploymentStrategy instance() {
+		if (Contexts.getEventContext().isSet(NAME)) {
+			return (StandardDeploymentStrategy) Contexts.getEventContext().get(NAME);
+		}
+		return null;
+	}
 
-   @Override
-   public ServletContext getServletContext()
-   {
-      return servletContext;
-   }
+	@Override
+	public ServletContext getServletContext() {
+		return servletContext;
+	}
 }

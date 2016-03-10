@@ -108,18 +108,16 @@ public class EnumDeploymentHandler extends AbstractDeploymentHandler
 				"org.jboss.seam.pageflow.Page".equals(cname);
 	}
 
-private static String filenameToClassName(String filename)
-   {
-      return filename.substring(0, filename.lastIndexOf(".class")).replace('/', '.').replace('\\', '.');
-   }
+	private static String filenameToClassName(String filename) {
+		return filename.substring(0, filename.lastIndexOf(".class"))
+				.replace('/', '.').replace('\\', '.');
+	}
 
-   public String getName()
-   {
-      return NAME;
-   }
+	public String getName() {
+		return NAME;
+	}
 
-   public DeploymentMetadata getMetadata()
-   {
-      return ENUM_METADATA;
-   }
+	public DeploymentMetadata getMetadata() {
+		return ENUM_METADATA;
+	}
 }

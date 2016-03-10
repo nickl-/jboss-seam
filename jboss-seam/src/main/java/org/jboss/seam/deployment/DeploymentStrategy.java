@@ -105,12 +105,12 @@ public abstract class DeploymentStrategy
          Scanner scanner = instantiateScanner(className);
          if (scanner != null)
          {
-            log.trace("Using " + scanner.toString());
+            log.info("Using " + scanner.toString());
             this.scanner = scanner;
             return;
          }        
       }
-      log.trace("Using default URLScanner");
+      log.info("Using default URLScanner");
       this.scanner = new URLScanner(this);
    }
    
@@ -220,12 +220,14 @@ public abstract class DeploymentStrategy
       return getScanner().getTimestamp();
    }
    
-   protected void postScan()
-   {
-      for (Entry<String, DeploymentHandler> entry : getDeploymentHandlers().entrySet())
-      {
-         entry.getValue().postProcess(getClassLoader());
-      }
-   }
+	protected void postScan() {
+		for (Entry<String, DeploymentHandler> entry : getDeploymentHandlers()
+				.entrySet()) {
+			if (log.isInfoEnabled()) {
+				log.info("postScan:" + entry.getValue().getName());
+			}
+			entry.getValue().postProcess(getClassLoader());
+		}
+	}
    
 }

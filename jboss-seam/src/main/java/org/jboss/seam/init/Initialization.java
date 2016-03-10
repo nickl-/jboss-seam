@@ -132,7 +132,9 @@ public class Initialization
     public Initialization create() {
         this.standardDeploymentStrategy =
                 new StandardDeploymentStrategy(Thread.currentThread().getContextClassLoader(), this.servletContext);
+        log.info("Begin scanning");
         this.standardDeploymentStrategy.scan();
+        log.info("End scanning");
         addNamespaces();
         addEnums();
         initComponentsFromXmlDocument("/WEB-INF/components.xml");
@@ -146,6 +148,7 @@ public class Initialization
     }
 
     private void initComponentsFromXmlDocuments() {
+        log.info("Reading components from META-INF/components.xml");
         Enumeration<URL> resources;
         try {
             resources = Thread.currentThread().getContextClassLoader().getResources("META-INF/components.xml");
