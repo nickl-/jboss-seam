@@ -67,7 +67,10 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
       namespaceDeploymentHandler = new NamespaceDeploymentHandler();
       getDeploymentHandlers().put(NamespaceDeploymentHandler.NAME, namespaceDeploymentHandler);
       enumDeploymentHandler = new EnumDeploymentHandler();
-      getDeploymentHandlers().put(EnumDeploymentHandler.NAME, enumDeploymentHandler);
+      boolean enableEnums = Boolean.parseBoolean(servletContext.getInitParameter(EnumDeploymentHandler.NAME));
+      if (enableEnums) {
+    	  getDeploymentHandlers().put(EnumDeploymentHandler.NAME, enumDeploymentHandler);
+      }
       annotationDeploymentHandler = new AnnotationDeploymentHandler(new SeamDeploymentProperties(classLoader).getPropertyValues(AnnotationDeploymentHandler.ANNOTATIONS_KEY), classLoader);
       getDeploymentHandlers().put(AnnotationDeploymentHandler.NAME, annotationDeploymentHandler);
    }
