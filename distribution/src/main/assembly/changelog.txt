@@ -1,7 +1,7 @@
 JBoss Seam Changelog
 ====================
 
-Release Notes - Seam 2 - Version 2.3.3.ayg
+Release Notes - Seam 2 - Version 2.3.4-SNAPSHOT
 
     * [JBSEAM-4842] - Support for Enums in EL (disabled by default, can be enabled via initial parameter org.jboss.seam.deployment.EnumDeploymentHandler)
 
