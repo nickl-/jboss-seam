@@ -76,9 +76,10 @@ public class EnumDeploymentHandler extends AbstractDeploymentHandler
          {
         
             Class<?> clazz = Class.forName(cname);
-            if (clazz.isEnum())
-            {
-               log.debug("Processing enum " + clazz.getName());
+            if (clazz.isEnum()) {
+            	if (log.isDebugEnabled()) {
+            		log.debug("Processing enum " + clazz.getName());
+            	}
                enums.add((Class<? extends Enum>) clazz);
             }
          }
