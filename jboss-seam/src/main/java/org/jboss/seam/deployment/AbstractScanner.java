@@ -27,6 +27,7 @@ import org.jboss.seam.log.Logging;
  */
 public abstract class AbstractScanner implements Scanner
 {
+	public static final String KEY_OMIT_PACKAGES = "org.jboss.seam.deployment.OMIT_PACKAGES";
    
    protected ServletContext servletContext;
    
@@ -42,53 +43,70 @@ public abstract class AbstractScanner implements Scanner
       private ClassLoader classLoader;
       private String name;
       private ServletContext servletContext;
-      
+      private String[] omittedPackages;
       public Handler(String name, Set<Entry<String, DeploymentHandler>> deploymentHandlers, ClassLoader classLoader,ServletContext servletContext)
       {
          this.deploymentHandlers = deploymentHandlers;
          this.name = name;
          this.classLoader = classLoader;
          this.servletContext=servletContext;
+         this.omittedPackages = (String []) this.servletContext.getAttribute(KEY_OMIT_PACKAGES);
+         if (this.omittedPackages == null) {
+	         String omittedPackageString = this.servletContext.getInitParameter(KEY_OMIT_PACKAGES);
+	         if (omittedPackageString != null && !"".equals(omittedPackageString)) {
+	        	 this.omittedPackages = omittedPackageString.split(",");
+	         }
+	         else {
+	        	 this.omittedPackages = new String[0];
+	         }
+	         this.servletContext.setAttribute(KEY_OMIT_PACKAGES, this.omittedPackages);
+         }
       }
       
       /**
        * Return true if the file was handled (false if it was ignored)
        */
-      protected boolean handle(DeploymentHandler deploymentHandler)
-      {
-         boolean handled = false;
-         if (deploymentHandler instanceof ClassDeploymentHandler) 
-         {
-            if (name.endsWith(".class"))
-            {
-               ClassDeploymentHandler classDeploymentHandler = (ClassDeploymentHandler) deploymentHandler;
-               if (hasAnnotations(getClassFile(), classDeploymentHandler.getMetadata().getClassAnnotatedWith()))
-               {
-                  if (getClassDescriptor().getClazz() != null)
-                  {
-                     log.trace("adding class to deployable list " + name + " for deployment handler " + deploymentHandler.getName());
-                     classDeploymentHandler.getClasses().add(getClassDescriptor());
-                     handled = true;
-                  }
-                  else
-                  {
-                     log.debug("skipping class " + name + " because it cannot be loaded (may reference a type which is not available on the classpath)");
-                  }
-               }
-            }
-         }
-         else
-         {
-            if (name.endsWith(deploymentHandler.getMetadata().getFileNameSuffix()))
-            {
-               deploymentHandler.getResources().add(getFileDescriptor());
-               handled = true;
-            }
-         }
-         return handled;
-      }
+		protected boolean handle(DeploymentHandler deploymentHandler) {
+			boolean handled = false;
+			if (deploymentHandler instanceof ClassDeploymentHandler) {
+				if (name.endsWith(".class") && !isOmmitedPackage(name)) {
+					ClassDeploymentHandler classDeploymentHandler = (ClassDeploymentHandler) deploymentHandler;
+					if (hasAnnotations(getClassFile(), classDeploymentHandler.getMetadata().getClassAnnotatedWith())) {
+						if (getClassDescriptor().getClazz() != null) {
+							log.trace("adding class to deployable list " + name + " for deployment handler " + deploymentHandler.getName());
+							classDeploymentHandler.getClasses().add(getClassDescriptor());
+							handled = true;
+						} else {
+							log.debug("skipping class " + name
+									+ " because it cannot be loaded (may reference a type which is not available on the classpath)");
+						}
+					}
+				}
+			} else {
+				if (name.endsWith(deploymentHandler.getMetadata().getFileNameSuffix())) {
+					deploymentHandler.getResources().add(getFileDescriptor());
+					handled = true;
+				}
+			}
+			return handled;
+		}
       
-      protected boolean handle()
+      private boolean isOmmitedPackage(String fullClassFileName) {
+    	  if (omittedPackages.length == 0) {
+    		  return false;
+    	  }
+    	  String packageName = fullClassFileName.substring(0, fullClassFileName.lastIndexOf('/'));
+    	  packageName = packageName.replaceAll("/", ".");
+    	  for (String omittedPackage : omittedPackages) {
+    		  if (packageName.startsWith(omittedPackage)) {
+    			  return true;
+    		  }
+    	  }
+    	  
+		return false;
+	}
+
+	protected boolean handle()
       {
          log.trace("found " + name);
          boolean handled = false;
