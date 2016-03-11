@@ -59,8 +59,7 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
    /**
     * @param classLoader The classloader used to load and handle resources
     */
-   public StandardDeploymentStrategy(ClassLoader classLoader,ServletContext servletContext)
-   {
+   public StandardDeploymentStrategy(ClassLoader classLoader,ServletContext servletContext) {
       this.classLoader = Thread.currentThread().getContextClassLoader();
       this.servletContext=servletContext;
       componentDeploymentHandler = new ComponentDeploymentHandler();
@@ -78,7 +77,9 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
     	  getDeploymentHandlers().put(EnumDeploymentHandler.NAME, enumDeploymentHandler);
       }
       annotationDeploymentHandler = new AnnotationDeploymentHandler(new SeamDeploymentProperties(classLoader).getPropertyValues(AnnotationDeploymentHandler.ANNOTATIONS_KEY), classLoader);
-      getDeploymentHandlers().put(AnnotationDeploymentHandler.NAME, annotationDeploymentHandler);
+      if (!annotationDeploymentHandler.getMetadata().getClassAnnotatedWith().isEmpty()) {
+    	  getDeploymentHandlers().put(AnnotationDeploymentHandler.NAME, annotationDeploymentHandler);
+      }    	  
    }
 
    @Override
