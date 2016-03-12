@@ -2,6 +2,12 @@ JBoss Seam Changelog
 ====================
 
 Release Notes - Seam 2 - Version 2.3.4-SNAPSHOT
+	 
+	 * [ ] Allow to exclude packages from scanning (initial parameter org.jboss.seam.deployment.OMIT_PACKAGES)
+	 * [ ] Don't scan for annotations if we have no annotations to search for
+
+
+Release Notes - Seam 2 - Version 2.3.3-ayg
 
     * [JBSEAM-4842] - Support for Enums in EL (disabled by default, can be enabled via initial parameter org.jboss.seam.deployment.EnumDeploymentHandler)
 
@@ -25,6 +31,44 @@ Release Notes - Seam 2 - Version 2.3.2.ayg
     * [JBSEAM-3051] - Properties file translated to Brazilian Portuguese (pt_BR)
     * [JBSEAM-4625] - Include exception cause when UIAttachment fails to read DataSource
     * [JBSEAM-4842] - Support for Enums in EL 
+
+
+
+
+
+Release Notes - Seam 2 - Version 2.3.2.CR1 (not released)
+
+** Bug
+    * [JBSEAM-4679] - Incorrect parsing of a multipart request
+    * [JBSEAM-5002] - Components included with ui:include src="#{pageScopedViewId} broken
+    * [JBSEAM-5056] - chatroom example occasional NPE in org.jboss.seam.jms.TopicSession.create(TopicSession.java:38)
+    * [JBSEAM-5095] - ResourceRequestEnvironment should use a proper servlet context when available
+    * [JBSEAM-5111] - seambay example fails to deploy on EAP 6.1
+    * [JBSEAM-5112] - Seam-gen generated projects contains doubled jboss-deployment-structure.xml file
+    * [JBSEAM-5113] - Seam-gen generated projects have wrong eclipse classpath artifacts
+    * [JBSEAM-5116] - seam.bat java.lang.ClassNotFoundException: org.apache.tools.ant.launch.Launcher on Windows
+    * [JBSEAM-5117] - javamail.providers in jboss-seam.jar causes javax.mail.NoSuchProviderException in JBOSS 7.1.1.Final
+    * [JBSEAM-5125] - seam distribution lib directory misses guava.jar
+    * [JBSEAM-5127] - SeamNavigationHandler is not JSF2 compliant
+    * [JBSEAM-5130] - Add security warning to seam logging docs
+    * [JBSEAM-5132] - Two XXE security issues in Seam remoting (fixes CVE-2013-6447 and CVE-2013-6448)  
+    * [JBSEAM-5134] - Docs for <s:validateFormattedText> missing
+    * [JBSEAM-5138] - styleClass and style attributes missing in <s:label> ui component
+
+** Enhancement
+    * [JBSEAM-5120] - Convert readme.md to html version as additionally
+    * [JBSEAM-5135] - Remove old Seam ProxyFactory
+
+
+** Feature Request
+    * [JBSEAM-5094] - Parentless examples
+
+
+** Task
+    * [JBSEAM-3136] - Consider Remvoing Client State Saving Suggestion
+    * [JBSEAM-5126] - Upgrade arquillian core and arquillian jbossas container to not hang on newer versions than 7.1.1.Final
+    * [JBSEAM-5128] - Add session['class'] to EL blacklist
+    * [JBSEAM-5129] - Remove remote jquery link from seamdiscs example
 
 
 
