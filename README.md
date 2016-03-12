@@ -1,14 +1,15 @@
 #JBoss Seam - Contextual Component framework for Java EE
 
 
-This software is distributed under the terms of the FSF Lesser Gnu
+This software is distributed under the terms of the FSF Lesser GNU
 Public License (see http://www.gnu.org/licenses/lgpl-3.0.txt). 
 
 ##Seam 2: Next generation enterprise Java development
 
-Seam 2.3 targets Java EE 6 capabilities such as JSF2 and JPA2 on the JBoss Enterprise Application Platform 6 (JBoss AS 7) - Seam 2.3 also supports RichFaces 4 which is also available for commercial support via Web Framework Kit. If you are looking for the long-term support with a service level agreement of Seam 2.2 and/or Seam 2.3 then please contact us at http://www.redhat.com/contact/sales.html - Seam 2.3 is part of Web Framework Kit, included as part of the JBoss Enterprise Application Platform subscription.
+This is a modified fork of https://github.com/seam2/jboss-seam.
 
-Seam 2.3 was released in September 2012. This is an update to the Seam 2 code base to make it compatible with Jave EE 6.
+Seam 2.3 targets Java EE 6 capabilities such as JSF2 and JPA2 on the JBoss Enterprise Application Platform 6 (JBoss AS 7) 
+Seam 2.3 also supports RichFaces 4
 
 Seam 2 is a powerful open source development platform for building rich Internet applications in Java. Seam integrates technologies such as Asynchronous JavaScript and XML (AJAX), JavaServer Faces (JSF), Java Persistence (JPA), Enterprise Java Beans (EJB 3.1) and Business Process Management (BPM) into a unified full-stack solution, complete with sophisticated tooling.
 
@@ -26,8 +27,7 @@ Seam has been designed from the ground up to eliminate complexity at both archit
 
 ##Learn more
 
-* Read the documentation in the link:seam-reference-guide/src/docbook/en-US[reference documentation] directory
-* Read the online FAQ http://www.seamframework.org/Documentation/FAQs
+* Read the documentation in http://seamframework.org/Seam2/Documentation.html
 
 ##Notes for this release
 
@@ -35,6 +35,23 @@ Be warned that JBoss Embedded is *LEGACY runtime* and is not in Seam 2.3 distrib
 
 ##Compiling from sources
 
-You need an install of Maven 3.0.x and set up additional Maven repository like we have in settings.xml or just copy build/settings.xml to your local Maven user home - user_home/.m2/
+You need an install of Maven 3.0.x
 
-To build Seam from github, just run `mvn clean install` . 
+
+To build Seam from github, just run 
+
+```bash
+
+	git clone https://github.com/albfernandez/jboss-seam.git
+	cd jboss-seam
+	mvn -Pdistribution clean package
+	
+``` 
+
+When finished you have the complete seam distribution in ``distribution/target/``
+
+If you are making changes to source code and want to test quickly without making a full release, you can type
+
+    mvn clean package
+
+Resulting jar files will be in each sub-project target directory.
