@@ -12,6 +12,8 @@ target
 test-output
 *.log
 
+# maven jar dependencies for this project
+
 #eclipse output
 bin
 
