@@ -13,6 +13,7 @@ test-output
 *.log
 
 # maven jar dependencies for this project
+jar-dependencies/
 
 #eclipse output
 bin
