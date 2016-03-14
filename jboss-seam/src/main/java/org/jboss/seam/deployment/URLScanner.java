@@ -51,6 +51,7 @@ public class URLScanner extends AbstractScanner
    
    public void scanResources(String[] resources)
    {
+	   long startTime = System.currentTimeMillis();
       Set<String> paths = new HashSet<String>();
       for (String resourceName : resources)
       {
@@ -87,13 +88,22 @@ public class URLScanner extends AbstractScanner
             log.warn("could not read: " + resourceName, ioe);
          }
       }
+      long finishTime = System.currentTimeMillis();
+      log.trace("found " + paths.size() + " resources in " + (finishTime - startTime) + " ms");
+      
+      startTime = System.currentTimeMillis();
       handle(paths);
+      finishTime = System.currentTimeMillis();
+      
+      log.info("handled all resources in " + (finishTime - startTime) + " ms");
+      
    }
    
    protected void handle(Set<String> paths)
    {
       for ( String urlPath: paths )
       {
+    	  long startTime = System.currentTimeMillis();
          try
          {
             log.trace("scanning: " + urlPath);
@@ -111,6 +121,8 @@ public class URLScanner extends AbstractScanner
          {
             log.warn("could not read entries", ioe);
          }
+         long finishTime = System.currentTimeMillis();
+         log.info("loaded " + urlPath + " in " + (finishTime - startTime) + " ms");
       }
    }
 
@@ -142,14 +154,14 @@ public class URLScanner extends AbstractScanner
    
    private void handleDirectory(File file, String path, File[] excludedDirectories)
    {
-      for (File excludedDirectory : excludedDirectories)
-      {
-         if (file.equals(excludedDirectory))
-         {
-            log.trace("skipping excluded directory: " + file);
-            return;
-         }
-      } 
+	      for (File excludedDirectory : excludedDirectories)
+	      {
+	         if (file.equals(excludedDirectory))
+	         {
+	            log.trace("skipping excluded directory: " + file);
+	            return;
+	         }
+	      } 
       
       log.trace("handling directory: " + file);
       for ( File child: file.listFiles() )
