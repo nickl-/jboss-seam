@@ -126,26 +126,31 @@ public class URLScanner extends AbstractScanner
       }
    }
 
-   private void handleArchiveByFile(File file) throws IOException
-   {
-      try
-      {
-         log.trace("archive: " + file);
-         touchTimestamp(file);
-         ZipFile zip = new ZipFile(file);
-         Enumeration<? extends ZipEntry> entries = zip.entries();
-         while ( entries.hasMoreElements() )
-         {
-            ZipEntry entry = entries.nextElement();
-            String name = entry.getName();
-            handle(name);
-         }
-      }
-      catch (ZipException e)
-      {
-         throw new RuntimeException("Error handling file " + file, e);
-      }
-   }
+	private void handleArchiveByFile(File file) throws IOException {
+		ZipFile zip = null;
+		try {
+			log.trace("archive: " + file);
+			touchTimestamp(file);
+			zip = new ZipFile(file);
+			Enumeration<? extends ZipEntry> entries = zip.entries();
+			while (entries.hasMoreElements()) {
+				ZipEntry entry = entries.nextElement();
+				String name = entry.getName();
+				handle(name);
+			}
+
+		} catch (ZipException e) {
+			throw new RuntimeException("Error handling file " + file, e);
+		} finally {
+			if (zip != null) {
+				try {
+					zip.close();
+				} catch (IOException ioe) {
+					//
+				}
+			}
+		}
+	}
 
    private void handleDirectory(File file, String path)
    {
