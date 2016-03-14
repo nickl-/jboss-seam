@@ -89,7 +89,7 @@ public class URLScanner extends AbstractScanner
          }
       }
       long finishTime = System.currentTimeMillis();
-      log.trace("found " + paths.size() + " resources in " + (finishTime - startTime) + " ms");
+      log.info("found " + paths.size() + " resources in " + (finishTime - startTime) + " ms");
       
       startTime = System.currentTimeMillis();
       handle(paths);
