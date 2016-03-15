@@ -16,6 +16,8 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Naming;
 
 /**
@@ -33,6 +35,8 @@ public class EntityManagerFactory
 
    private String persistenceUnitName;
    private Map<String, String> persistenceUnitProperties;
+   
+   private static final LogProvider log = Logging.getLogProvider(EntityManagerFactory.class);
    
    @Unwrap
    public javax.persistence.EntityManagerFactory getEntityManagerFactory()
@@ -61,30 +65,31 @@ public class EntityManagerFactory
    
    protected javax.persistence.EntityManagerFactory createEntityManagerFactory()
    {
-      Map properties = new HashMap();
-      Hashtable<String, String> jndiProperties = Naming.getInitialContextProperties();
-      if ( jndiProperties!=null )
-      {
-         // Prefix regular JNDI properties for Hibernate
-         for (Map.Entry<String, String> entry : jndiProperties.entrySet())
-         {
-            properties.put( Environment.JNDI_PREFIX + "." + entry.getKey(), entry.getValue() );
-         }
-      }
-      if (persistenceUnitProperties!=null)
-      {
-         properties.putAll(persistenceUnitProperties);
-      }
+		long startTime = System.currentTimeMillis();
+		log.info("Creating EntityManagerFactory with name:" + persistenceUnitName);
+		Map properties = new HashMap();
+		Hashtable<String, String> jndiProperties = Naming.getInitialContextProperties();
+		if (jndiProperties != null) {
+			// Prefix regular JNDI properties for Hibernate
+			for (Map.Entry<String, String> entry : jndiProperties.entrySet()) {
+				properties.put(Environment.JNDI_PREFIX + "." + entry.getKey(), entry.getValue());
+			}
+		}
+		if (persistenceUnitProperties != null) {
+			properties.putAll(persistenceUnitProperties);
+		}
 
-      if ( properties.isEmpty() )
-      {
-         return Persistence.createEntityManagerFactory(persistenceUnitName);
-      }
-      else
-      {
-         return Persistence.createEntityManagerFactory(persistenceUnitName, properties);
-      }
-   }
+		javax.persistence.EntityManagerFactory retVal = null;
+		if (properties.isEmpty()) {
+			retVal = Persistence.createEntityManagerFactory(persistenceUnitName);
+		} else {
+			retVal = Persistence.createEntityManagerFactory(persistenceUnitName, properties);
+		}
+		long finishTime = System.currentTimeMillis();
+		log.info("EntityManagerFactory created in " + (finishTime - startTime) + " ms");
+
+		return retVal;
+	}
    
    /**
     * The persistence unit name

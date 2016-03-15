@@ -665,7 +665,7 @@ public class Initialization
     }
    
     public Initialization init() {
-        log.debug("initializing Seam");
+        log.info("Initializing Seam");
         if (this.standardDeploymentStrategy == null) {
             throw new IllegalStateException("No deployment strategy!");
         }
@@ -673,6 +673,7 @@ public class Initialization
         Contexts.getApplicationContext().set(Component.PROPERTIES, this.properties);
         addComponent(new ComponentDescriptor(Init.class), Contexts.getApplicationContext());
         Init init = (Init) Component.getInstance(Init.class, ScopeType.APPLICATION);
+        // TODO Recover debug
         init.setDebug(false);
 
         // Make the deployment strategies available in the contexts. This gives
@@ -685,8 +686,8 @@ public class Initialization
             init.setJbpmInstalled(true);
         }
         init.checkDefaultInterceptors();
+        log.info("Scanning war application");
         init.setTimestamp(System.currentTimeMillis());
-
         // Add the war root deployment
         WarRootDeploymentStrategy warRootDeploymentStrategy =
                 new WarRootDeploymentStrategy(Thread.currentThread().getContextClassLoader(), this.warRoot,
@@ -695,7 +696,7 @@ public class Initialization
         Contexts.getEventContext().set(WarRootDeploymentStrategy.NAME, warRootDeploymentStrategy);
         warRootDeploymentStrategy.scan();
         init.setWarTimestamp(System.currentTimeMillis());
-
+        log.info("War scanned in " + (init.getWarTimestamp() - init.getTimestamp()) + " ms");
         this.hotDeploymentStrategy =
                 createHotDeployment(Thread.currentThread().getContextClassLoader(), isHotDeployEnabled(init));
         Contexts.getEventContext().set(HotDeploymentStrategy.NAME, this.hotDeploymentStrategy);
@@ -1022,7 +1023,8 @@ public class Initialization
     }
 
     private void installComponents(Init init) {
-        log.debug("Installing components...");
+    	long startTime = System.currentTimeMillis();
+        log.info("Installing components...");        
         Context context = Contexts.getApplicationContext();
 
         DependencyManager manager = new DependencyManager(this.componentDescriptors);
@@ -1075,6 +1077,8 @@ public class Initialization
                         .createMethodExpression(expression));
             }
         }
+        long finishTime = System.currentTimeMillis();
+        log.info("Installed components in " + (finishTime - startTime) + " ms");
     }
   
    /**
