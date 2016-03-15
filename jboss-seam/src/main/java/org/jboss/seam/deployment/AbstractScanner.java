@@ -1,5 +1,6 @@
 package org.jboss.seam.deployment;
 
+import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -209,7 +210,7 @@ public abstract class AbstractScanner implements Scanner
       {
          throw new IllegalStateException("Cannot load " + name + " from " + classLoader + " (using getResourceAsStream() returned null)");
       }
-      DataInputStream dstream = new DataInputStream(stream);
+      DataInputStream dstream = new DataInputStream(new BufferedInputStream(stream));
 
       try 
       { 
