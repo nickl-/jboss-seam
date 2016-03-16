@@ -118,7 +118,8 @@ public abstract class DeploymentStrategy
    {
       try
       {
-         Class<Scanner> scannerClass =  (Class<Scanner>) getClassLoader().loadClass(className);
+         @SuppressWarnings("unchecked")
+		 Class<Scanner> scannerClass =  (Class<Scanner>) getClassLoader().loadClass(className);
          Constructor<Scanner> constructor = scannerClass.getConstructor(new Class[] {DeploymentStrategy.class});
          return constructor.newInstance( new Object[] {this} );
       }
@@ -183,7 +184,8 @@ public abstract class DeploymentStrategy
    {
       try
       {
-         Class<DeploymentHandler> clazz = (Class<DeploymentHandler>) getClassLoader().loadClass(className);
+         @SuppressWarnings("unchecked")
+		 Class<DeploymentHandler> clazz = (Class<DeploymentHandler>) getClassLoader().loadClass(className);
          return clazz.newInstance();
       }
       catch (ClassNotFoundException e)
