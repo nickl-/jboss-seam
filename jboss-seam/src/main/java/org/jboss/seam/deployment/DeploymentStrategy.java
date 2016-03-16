@@ -105,12 +105,12 @@ public abstract class DeploymentStrategy
          Scanner scanner = instantiateScanner(className);
          if (scanner != null)
          {
-            log.info("Using " + scanner.toString());
+            log.info("Using " + className);
             this.scanner = scanner;
             return;
          }        
       }
-      log.info("Using default URLScanner");
+      log.info("Using default org.jboss.seam.deployment.URLScanner");
       this.scanner = new URLScanner(this);
    }
    
@@ -221,11 +221,8 @@ public abstract class DeploymentStrategy
    }
    
 	protected void postScan() {
-		for (Entry<String, DeploymentHandler> entry : getDeploymentHandlers()
-				.entrySet()) {
-			if (log.isInfoEnabled()) {
-				log.info("postScan:" + entry.getValue().getName());
-			}
+		for (Entry<String, DeploymentHandler> entry : getDeploymentHandlers().entrySet()) {
+			log.info("postScan:" + entry.getValue().getName());
 			entry.getValue().postProcess(getClassLoader());
 		}
 	}
