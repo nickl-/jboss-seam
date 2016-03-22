@@ -29,9 +29,6 @@ Seam has been designed from the ground up to eliminate complexity at both archit
 
 * Read the documentation in http://seamframework.org/Seam2/Documentation.html
 
-##Notes for this release
-
-Be warned that JBoss Embedded is *LEGACY runtime* and is not in Seam 2.3 distribution *anymore*
 
 ##Compiling from sources
 
