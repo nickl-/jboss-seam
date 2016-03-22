@@ -30,6 +30,7 @@ public class UserTokens implements Serializable
    
    @Destroy 
    public void cleanUp() {
-       SubscriptionRegistry.instance().cleanupTokens(tokens);
+	   Set<String> cleanupTokens = new HashSet<String>(tokens);
+	   SubscriptionRegistry.instance().cleanupTokens(cleanupTokens);
    }
 }
