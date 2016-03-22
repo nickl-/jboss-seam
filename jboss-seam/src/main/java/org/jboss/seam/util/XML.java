@@ -78,4 +78,22 @@ public class XML
       xmlReader.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
       return xmlReader;
    }
+   
+      /**
+       * Get escaped <, ", ' characters from input
+       * 
+       * @param input
+       * @return
+       */
+	public static String escapeXMLChars(String input) {
+		String escapedStr = input;
+		if (input != null && input.length() > 0) {
+			escapedStr = input
+					.replaceAll("&", "&amp;")
+					.replaceAll("<", "&lt;")
+					.replaceAll("\"", "&quot;")
+					.replaceAll("'", "&apos;");
+		}
+		return escapedStr;
+	}
 }
