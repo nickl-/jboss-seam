@@ -11,8 +11,8 @@ import javax.faces.context.FacesContext;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.document.ByteArrayDocumentData;
 import org.jboss.seam.document.DocumentData;
-import org.jboss.seam.document.DocumentStore;
 import org.jboss.seam.document.DocumentData.DocumentType;
+import org.jboss.seam.document.DocumentStore;
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.pdf.ITextUtils;
 
@@ -23,6 +23,7 @@ import com.lowagie.text.Element;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.html.HtmlWriter;
 import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfStream;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
 import com.lowagie.text.rtf.RtfWriter2;
@@ -389,7 +390,11 @@ public class UIDocument extends ITextComponent
    {
       if (documentType == PDF)
       {
-         return PdfWriter.getInstance(document, stream);
+         PdfWriter writer = PdfWriter.getInstance(document, stream);
+         writer.setPdfVersion(PdfWriter.PDF_VERSION_1_7);
+         writer.setCompressionLevel(PdfStream.BEST_COMPRESSION);
+         writer.setFullCompression();
+         return writer;
       }
       else if (documentType == RTF)
       {
