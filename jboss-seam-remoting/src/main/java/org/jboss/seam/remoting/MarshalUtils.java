@@ -5,6 +5,7 @@ import java.io.OutputStream;
 
 import org.jboss.seam.remoting.wrapper.BeanWrapper;
 import org.jboss.seam.remoting.wrapper.Wrapper;
+import org.jboss.seam.util.XML;
 
 /**
  *
@@ -33,7 +34,8 @@ public class MarshalUtils
     if (call.getId() != null)
     {
       out.write(RESULT_TAG_OPEN_START);
-      out.write(call.getId().getBytes());
+      String escapedString = XML.escapeXMLChars(call.getId());
+      out.write(escapedString.getBytes());
       out.write(RESULT_TAG_OPEN_END);
     }
     else
