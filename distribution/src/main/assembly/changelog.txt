@@ -1,7 +1,7 @@
 JBoss Seam Changelog
 ====================
 
-Release Notes - Seam 2 - Version 2.3.4-SNAPSHOT
+Release Notes - Seam 2 - Version 2.3.4.ayg
 	 
 	 * [ ] Allow to exclude packages from scanning (initial parameter org.jboss.seam.deployment.OMIT_PACKAGES)
 	 * [ ] Don't scan for annotations if we have no annotations to search for
