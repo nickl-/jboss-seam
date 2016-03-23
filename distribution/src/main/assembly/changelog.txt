@@ -5,6 +5,10 @@ Release Notes - Seam 2 - Version 2.3.4.ayg
 	 
 	 * [ ] Allow to exclude packages from scanning (initial parameter org.jboss.seam.deployment.OMIT_PACKAGES)
 	 * [ ] Don't scan for annotations if we have no annotations to search for
+	 * [ ] Log on startup times
+	 * [ ] Fix posible concurrency issues on UserTokens.java
+	 * [ ] Escape xml data before putting it in a stream (MarshalUtils.java)
+	 * [ ] Seam pdf now generates full compressed PDF version 1.7 
 
 
 Release Notes - Seam 2 - Version 2.3.3-ayg
