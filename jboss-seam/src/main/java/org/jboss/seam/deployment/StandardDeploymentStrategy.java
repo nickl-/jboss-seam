@@ -9,7 +9,6 @@ import java.util.Set;
 import javax.servlet.ServletContext;
 
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.init.Initialization;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
