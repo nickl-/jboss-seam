@@ -673,8 +673,12 @@ public class Initialization
         Contexts.getApplicationContext().set(Component.PROPERTIES, this.properties);
         addComponent(new ComponentDescriptor(Init.class), Contexts.getApplicationContext());
         Init init = (Init) Component.getInstance(Init.class, ScopeType.APPLICATION);
-        // TODO Recover debug
-        init.setDebug(false);
+        init.setDebug(
+        	init.isDebug() && 
+        	"Development".equalsIgnoreCase(servletContext.getInitParameter("javax.faces.PROJECT_STAGE")) && 
+        	Boolean.parseBoolean(servletContext.getInitParameter("facelets.DEVELOPMENT"))
+        );
+
 
         // Make the deployment strategies available in the contexts. This gives
         // access to custom deployment handlers for processing custom
