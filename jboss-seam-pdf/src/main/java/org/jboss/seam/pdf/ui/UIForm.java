@@ -12,10 +12,10 @@ import javax.faces.context.FacesContext;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.ResourceLoader;
-import org.jboss.seam.document.ByteArrayDocumentData;
 import org.jboss.seam.document.DocumentData;
-import org.jboss.seam.document.DocumentStore;
 import org.jboss.seam.document.DocumentData.DocumentType;
+import org.jboss.seam.document.DocumentDataFactory;
+import org.jboss.seam.document.DocumentStore;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.Pages;
@@ -106,7 +106,7 @@ public class UIForm extends FormComponent
 
       DocumentStore store = DocumentStore.instance();
       DocumentType documentType = new DocumentData.DocumentType("pdf", "application/pdf");
-      DocumentData documentData = new ByteArrayDocumentData(baseName, documentType, buffer.toByteArray());
+      DocumentData documentData = DocumentDataFactory.getDocumentData(baseName, documentType, buffer.toByteArray());
       documentData.setFilename(getFilename());
 
       if (getExportKey() != null)

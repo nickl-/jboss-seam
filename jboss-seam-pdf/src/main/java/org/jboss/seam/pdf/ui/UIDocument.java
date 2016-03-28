@@ -11,6 +11,7 @@ import javax.faces.context.FacesContext;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.document.ByteArrayDocumentData;
 import org.jboss.seam.document.DocumentData;
+import org.jboss.seam.document.DocumentDataFactory;
 import org.jboss.seam.document.DocumentData.DocumentType;
 import org.jboss.seam.document.DocumentStore;
 import org.jboss.seam.navigation.Pages;
@@ -311,7 +312,7 @@ public class UIDocument extends ITextComponent
       String viewId = Pages.getViewId(context);
       String baseName = Pages.getCurrentBaseName();
 
-      DocumentData documentData = new ByteArrayDocumentData(baseName, documentType, bytes);
+      DocumentData documentData = DocumentDataFactory.getDocumentData(baseName, documentType, bytes);
       String dispositionValue = (String) valueBinding(context, "disposition", disposition);
       if (dispositionValue != null)
       {

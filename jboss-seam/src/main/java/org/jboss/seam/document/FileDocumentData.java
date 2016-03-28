@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+/**
+ * Stores DocumentData in a file, delete at end when DocumentStore is destroyed.
+ */
 public class FileDocumentData extends DocumentData {
 
 	private File data;

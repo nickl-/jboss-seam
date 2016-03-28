@@ -9,10 +9,10 @@ import javax.faces.context.FacesContext;
 
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.document.ByteArrayDocumentData;
 import org.jboss.seam.document.DocumentData;
-import org.jboss.seam.document.DocumentStore;
 import org.jboss.seam.document.DocumentData.DocumentType;
+import org.jboss.seam.document.DocumentDataFactory;
+import org.jboss.seam.document.DocumentStore;
 import org.jboss.seam.excel.ExcelFactory;
 import org.jboss.seam.excel.ExcelWorkbook;
 import org.jboss.seam.navigation.Pages;
@@ -328,7 +328,7 @@ public class UIWorkbook extends ExcelComponent
       String viewId = Pages.getViewId(context);
       String baseName = Pages.getCurrentBaseName();
 
-      DocumentData documentData = new ByteArrayDocumentData(baseName, type, bytes);
+      DocumentData documentData = DocumentDataFactory.getDocumentData(baseName, type, bytes);
       documentData.setFilename(getFilename());
       Boolean dispositionValue = getDisposition();
       if (dispositionValue != null)

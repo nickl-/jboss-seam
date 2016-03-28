@@ -19,15 +19,15 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.document.ByteArrayDocumentData;
 import org.jboss.seam.document.DocumentData;
+import org.jboss.seam.document.DocumentDataFactory;
 import org.jboss.seam.document.DocumentStore;
 import org.jboss.seam.excel.ExcelFactory;
 import org.jboss.seam.excel.ExcelWorkbook;
 import org.jboss.seam.excel.ExcelWorkbookException;
 import org.jboss.seam.excel.css.CSSNames;
-import org.jboss.seam.excel.css.ColumnStyle;
 import org.jboss.seam.excel.css.CSSParser;
+import org.jboss.seam.excel.css.ColumnStyle;
 import org.jboss.seam.excel.css.StyleMap;
 import org.jboss.seam.excel.ui.ExcelComponent;
 import org.jboss.seam.excel.ui.UICell;
@@ -164,7 +164,7 @@ public class ExcelExporter
    {
       String viewId = Pages.getViewId(FacesContext.getCurrentInstance());
       String baseName = Pages.getCurrentBaseName();
-      DocumentData documentData = new ByteArrayDocumentData(baseName, excelWorkbook.getDocumentType(), excelWorkbook.getBytes());
+      DocumentData documentData = DocumentDataFactory.getDocumentData(baseName, excelWorkbook.getDocumentType(), excelWorkbook.getBytes());
       String id = DocumentStore.instance().newId();
       String url = DocumentStore.instance().preferredUrlForContent(baseName, excelWorkbook.getDocumentType().getExtension(), id);
       url = Manager.instance().encodeConversationId(url, viewId);

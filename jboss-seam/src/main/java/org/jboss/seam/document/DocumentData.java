@@ -57,6 +57,9 @@ public abstract class DocumentData implements Serializable
    {
       return disposition;
    }
+   public void cleanup() {
+	   // Do nothing
+   }
 
    static public class DocumentType implements Serializable
    {

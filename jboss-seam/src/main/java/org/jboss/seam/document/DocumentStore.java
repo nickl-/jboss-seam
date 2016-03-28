@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.PreDestroy;
 import javax.faces.application.ViewHandler;
 import javax.faces.context.FacesContext;
 
@@ -85,6 +86,13 @@ public class DocumentStore
     		url.append("?docId=").append(contentId); 
     	}
         return url.toString();
+    }
+    
+    @PreDestroy
+    public void destroy() {
+    	for (Map.Entry<String, DocumentData> entry: dataStore.entrySet()) {
+    		entry.getValue().cleanup();
+    	}
     }
 
     protected String baseUrlForContent(String baseName, String extension) {
