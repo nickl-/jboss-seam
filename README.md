@@ -19,10 +19,10 @@ Seam has been designed from the ground up to eliminate complexity at both archit
 
 1. Install JBoss AS 7.1.1.Final  
 2. Start JBoss AS by typing `bin/standalone.sh` in the JBoss AS home directory
-3. In the link:examples/booking[] directory, type `mvn clean package` and check  for any error messages.
+3. In the `examples/booking` directory, type `mvn clean package` and check  for any error messages.
 4. In the booking-ear directory run:
     `mvn jboss-as:deploy`   
-5. Point your browser to http://localhost:8080/seam-booking/      
+5. Point your browser to `http://localhost:8080/seam-booking/`    
 6. Register an account, search for hotels, book a room...
 
 ##Learn more
