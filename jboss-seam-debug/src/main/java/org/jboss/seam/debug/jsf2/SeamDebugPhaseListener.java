@@ -7,8 +7,8 @@ import javax.faces.event.PhaseListener;
 import org.jboss.seam.contexts.FacesLifecycle;
 
 /**
- * Intercepts any request for a view-id like /debug.xxx and renders
- * the Seam debug page using facelets.
+ * Intercepts any request for a view-id like /debug.xxx and renders the Seam
+ * debug page using facelets.
  * 
  * @author Gavin King
  */
@@ -21,9 +21,8 @@ public class SeamDebugPhaseListener implements PhaseListener {
 	}
 
 	public void beforePhase(PhaseEvent event) {
-		FacesLifecycle.setPhaseId(event.getPhaseId()); // since this gets called
-														// before
-														// SeamPhaseListener!
+		// since this gets called before SeamPhaseListener!
+		FacesLifecycle.setPhaseId(event.getPhaseId());
 	}
 
 	public void afterPhase(PhaseEvent event) {
@@ -32,5 +31,4 @@ public class SeamDebugPhaseListener implements PhaseListener {
 	public PhaseId getPhaseId() {
 		return PhaseId.RENDER_RESPONSE;
 	}
-
 }
