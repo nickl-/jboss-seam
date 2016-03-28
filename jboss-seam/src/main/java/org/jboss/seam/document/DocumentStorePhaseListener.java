@@ -66,7 +66,7 @@ public class DocumentStorePhaseListener implements PhaseListener
          log.warn(e);
       }
    }
-   private void setHeadersForInternetExplorer(HttpServletRequest request, HttpServletResponse response){
+   protected static void setHeadersForInternetExplorer(HttpServletRequest request, HttpServletResponse response){
        if (request == null) {
            return;
        }
@@ -76,7 +76,7 @@ public class DocumentStorePhaseListener implements PhaseListener
            response.addHeader("Cache-Control", "must-revalidate");
        }
    }
-   private boolean isIE (HttpServletRequest request) {        
+   private static boolean isIE (HttpServletRequest request) {        
        assert request != null;
        String useragent = request.getHeader("User-Agent");
        boolean isIE = useragent != null && useragent.contains("MSIE");

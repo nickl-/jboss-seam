@@ -40,7 +40,7 @@ public class DocumentStoreServlet extends HttpServlet
 
          response.setContentType(documentData.getDocumentType().getMimeType());
          response.setHeader("Content-Disposition", documentData.getDisposition() + "; filename=\"" + documentData.getFileName() + "\"");
-
+         DocumentStorePhaseListener.setHeadersForInternetExplorer(request, response);
          documentData.writeDataToStream(response.getOutputStream());
       }
       else
