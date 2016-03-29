@@ -86,7 +86,12 @@ public class ButtonRendererBase extends RendererBase
       writer.writeAttribute(HTML.TYPE_ATTR, getType(button), HTML.TYPE_ATTR);
       if (button.getImage() != null)
       {
-         writer.writeAttribute(HTML.SRC_ATTR, button.getImage(), HTML.SRC_ATTR);
+    	  String ctx = context.getExternalContext().getRequestContextPath() + "/";
+    	  String img = button.getImage();
+    	  if (!img.startsWith(ctx)) {
+    		  img = ctx + img;
+    	  }
+         writer.writeAttribute(HTML.SRC_ATTR, img, HTML.SRC_ATTR);
       } 
    }
    
