@@ -12,6 +12,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Expressions.ValueExpression;
+import org.jboss.seam.international.StatusMessage;
 
 /**
  * Base class for components which provide persistence
@@ -109,16 +110,20 @@ public abstract class Home<T, E> extends MutableController<T>
    
    protected void initDefaultMessages()
    {
-      Expressions expressions = new Expressions();
-      if (createdMessage == null) {
-         createdMessage = expressions.createValueExpression("Successfully created");
-      }
-      if (updatedMessage == null) {
-         updatedMessage = expressions.createValueExpression("Successfully updated");
-      }
-      if (deletedMessage == null) {
-         deletedMessage = expressions.createValueExpression("Successfully deleted");
-      }
+	   Expressions expressions = new Expressions();
+
+		if (createdMessage == null) {
+			createdMessage = expressions.createValueExpression(StatusMessage.getBundleMessage("successfully.created",
+					"Successfully created"));
+		}
+		if (updatedMessage == null) {
+			updatedMessage = expressions.createValueExpression(StatusMessage.getBundleMessage("successfully.updated",
+					"Successfully updated"));
+		}
+		if (deletedMessage == null) {
+			deletedMessage = expressions.createValueExpression(StatusMessage.getBundleMessage("successfully.deleted",
+					"Successfully deleted"));
+		}
    }
 
    /**
