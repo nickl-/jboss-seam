@@ -120,25 +120,25 @@ public class EqualityValidator implements Validator, StateHolder
             }
             break;
          case GREATER:
-            if (!(compare(value, other) > 0))
+            if (other == null || !(compare(value, other) > 0))
             {
                throwValidationException(value, otherComponent, other);
             }
             break;
          case GREATER_OR_EQUAL:
-            if (!(compare(value, other) >= 0))
+            if (other == null || !(compare(value, other) >= 0))
             {
                throwValidationException(value, otherComponent, other);
             }
             break;
          case LESS:
-            if (!(compare(value, other) < 0))
+            if (other == null || !(compare(value, other) < 0))
             {
                throwValidationException(value, otherComponent, other);
             }
             break;
          case LESS_OR_EQUAL:
-            if (!(compare(value, other) <= 0))
+            if (other == null || !(compare(value, other) <= 0))
             {
                throwValidationException(value, otherComponent, other);
             }
