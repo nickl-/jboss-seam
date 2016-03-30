@@ -28,7 +28,7 @@
    <style type="text/css" media="print">
       #sessionContext, #conversationContext, #applicationContext, #attributes, #processContext { display: block; }
    </style>
-   <script language="Javascript" type="text/javascript">
+   <script type="text/javascript">
       SeamDebugPage = {};
       SeamDebugPage.toggle = function(id) {
          var el = document.getElementById(id);
@@ -62,13 +62,15 @@
   </h:head>
   <h:body>
     <h1><h:outputLink value="#{facesContext.externalContext.request.requestURI}">JBoss Seam Debug Page</h:outputLink></h1>
+    <f:subview rendered="#{not org.jboss.seam.core.init.debug}">Seam Debug is disabled</f:subview>
+    <f:subview rendered="#{org.jboss.seam.core.init.debug}">
     <div>
       This page allows you to browse and inspect components in any of the Seam
       contexts associated with the current session. It also shows a list of
       active, long-running conversations. You can select a conversation to view
       its contents or destroy it.
     </div>
-   
+    
     <h2>Conversations</h2>
     <h:outputText value="No long-running conversations exist"
                   rendered="#{empty org.jboss.seam.debug.contexts.conversationEntries}"/>
@@ -249,7 +251,7 @@
         </ui:repeat>
     </div>
     </f:subview>
-
+</f:subview>
   </h:body>
 </f:view>
 </html>
