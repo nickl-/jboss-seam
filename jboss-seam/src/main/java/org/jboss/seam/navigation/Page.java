@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.faces.component.UIViewRoot;
@@ -349,7 +350,7 @@ public final class Page
     }
    
     private String rfc1123Date(Date when) {
-        SimpleDateFormat format = new SimpleDateFormat(RFC_1123_DATE);
+        SimpleDateFormat format = new SimpleDateFormat(RFC_1123_DATE, Locale.ENGLISH);
        
         return format.format(when);
     }
