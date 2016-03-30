@@ -87,6 +87,12 @@ public class Messages {
 
                 return entrySet;
             }
+            
+            @Override
+            public boolean containsKey(Object key) {
+            	String recovered = get(key);
+            	return recovered != null && !recovered.equals(key);
+            }
 
         };
 
