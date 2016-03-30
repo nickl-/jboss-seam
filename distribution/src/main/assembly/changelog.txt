@@ -1,6 +1,23 @@
 JBoss Seam Changelog
 ====================
 
+Release Notase - Seam 2 - Version 2.3.5-SNAPSHOT
+
+	* [JBSEAM-4853] Complete the fix for JBSEAM-4853 (SSL downloads in IE)
+	* [JBSEAM-5145] Captcha validation prints message key instead of message	
+	* [JBSEAM-2929] Externalize the CAPTCHA incorrect response message to a resource bundle*
+	* [JBSEAM-4651] s:button with image attribute doesn't add contextroot in src attribute	
+	* [JBSEAM-4631] Fix posible NPE in s:validateEquality
+	* [JBSEAM-4313] EntityHome created/updated/deleted default messages should come from resource bundle instead of hard-coded messages
+	* [JBSEAM-2724] Internationalize Home default messages
+	* [JBSEAM-4502] pages.xml expires attribute : invalid Expires HTTP header with non-English JVM default locale
+	* [JBSEAM-4490] Messages: AbstractMap needs containsKey
+	* [JBSEAM-4384] Seam/Hibernate filter enabled --> ClassCastException	
+	* [ ] Recover and improved Seam Debug page
+	* [ ] Only enable Sean Debug if facelets and JSF are in development mode
+	* [ ] FileDocumentData allow store documents on files instead of memory.
+	
+
 Release Notes - Seam 2 - Version 2.3.4.ayg
 	 
 	 * [ ] Allow to exclude packages from scanning (initial parameter org.jboss.seam.deployment.OMIT_PACKAGES)
