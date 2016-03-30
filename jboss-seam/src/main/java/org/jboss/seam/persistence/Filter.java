@@ -67,20 +67,21 @@ public class Filter implements Serializable
    {
       this.name = name;
    }
-   
-   public boolean isFilterEnabled()
-   {
-      ValueExpression enabledValueBinding = getEnabled();
-      if (enabledValueBinding==null)
-      {
-         return true;
-      }
-      else
-      {
-         Boolean enabled = (Boolean) enabledValueBinding.getValue();
-         return enabled!=null && enabled;
-      }
-   }
+
+	public boolean isFilterEnabled() {
+		ValueExpression enabledValueBinding = getEnabled();
+		if (enabledValueBinding == null) {
+			return true;
+		} else {
+			Object enabled = enabledValueBinding.getValue();
+			if (enabled instanceof String) {
+				return Boolean.parseBoolean((String) enabled);
+			} else if (enabled instanceof Boolean) {
+				return ((Boolean) enabled).booleanValue();
+			}
+			return false;
+		}
+	}
 
    @Override
    public String toString()
