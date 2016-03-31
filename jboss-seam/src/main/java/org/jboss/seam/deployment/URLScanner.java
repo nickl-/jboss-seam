@@ -112,9 +112,12 @@ public class URLScanner extends AbstractScanner
             {
                handleDirectory(file, null);
             }
-            else
+            else if (file.isFile() && file.exists())
             {
                handleArchiveByFile(file);
+            }
+            else {
+            	log.warn("file not found:" + urlPath);
             }
          }
          catch (IOException ioe) 
