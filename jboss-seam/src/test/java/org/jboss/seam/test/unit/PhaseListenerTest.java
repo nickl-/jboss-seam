@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.faces.context.ExternalContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.seam.Component;
@@ -68,6 +69,9 @@ public class PhaseListenerTest
    private MockFacesContext createFacesContext()
    {
       ExternalContext externalContext = new MockExternalContext();
+      ServletContext servletContext = (ServletContext) externalContext.getContext();
+      servletContext.setAttribute(Seam.VERSION, Seam.VERSION);
+      
       MockFacesContext facesContext = new MockFacesContext( externalContext, new MockApplication() );
       facesContext.setCurrent().createViewRoot();
       facesContext.getApplication().setStateManager( new SeamStateManager( facesContext.getApplication().getStateManager() ) );

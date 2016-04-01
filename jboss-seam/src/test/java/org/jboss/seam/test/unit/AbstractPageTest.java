@@ -3,6 +3,8 @@ package org.jboss.seam.test.unit;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
+
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Context;
@@ -40,7 +42,10 @@ public abstract class AbstractPageTest
       Lifecycle.beginCall();
 
       // establish the FacesContext
-      new MockFacesContext(new MockExternalContext(), new MockApplication()).setCurrent().createViewRoot();
+      MockExternalContext externalContext = new MockExternalContext();
+      ServletContext servletContext = (ServletContext) externalContext.getContext();
+      servletContext.setAttribute(Seam.VERSION, Seam.VERSION);
+      new MockFacesContext(externalContext, new MockApplication()).setCurrent().createViewRoot();
       FacesLifecycle.resumePage();
 
       // install key components

@@ -21,6 +21,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.seam.Seam;
@@ -100,8 +101,12 @@ public class SeamPhaseListener implements PhaseListener
       return ANY_PHASE;
    }
    
-   public void beforePhase(PhaseEvent event)
-   {
+	public void beforePhase(PhaseEvent event) {
+		// Skip non-seam applications
+		ServletContext servletContext = (ServletContext) event.getFacesContext().getExternalContext().getContext();
+		if (servletContext.getAttribute(Seam.VERSION) == null) {
+			return;
+		}
       log.trace( "before phase: " + event.getPhaseId() );
       
       FacesLifecycle.setPhaseId( event.getPhaseId() );
@@ -179,8 +184,12 @@ public class SeamPhaseListener implements PhaseListener
       }
    }
 
-   public void afterPhase(PhaseEvent event)
-   {
+	public void afterPhase(PhaseEvent event) {
+		// Skip non-seam applications
+		ServletContext servletContext = (ServletContext) event.getFacesContext().getExternalContext().getContext();
+		if (servletContext.getAttribute(Seam.VERSION) == null) {
+			return;
+		}
       log.trace( "after phase: " + event.getPhaseId() );
       
       try
