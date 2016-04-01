@@ -46,32 +46,27 @@ public class MockServletContext implements ServletContext
    private File webInfRoot;
    private File webInfClassesRoot;
    
-   public MockServletContext()
-   {
-      try
-      {
-         URL webxml = getClass().getResource("/WEB-INF/web.xml");
-         if (webxml != null)
-         {
-            webInfRoot = new File(webxml.toURI()).getParentFile();
-            if (webInfRoot != null)
-            {
-               webInfClassesRoot = new File(webInfRoot.getParentFile().getPath() + "/classes");
-               webappRoot = webInfRoot.getParentFile();
-            }
-            // call processing of context parameters
-            processContextParameters(webxml);
-         }
-         else
-         {
-            webappRoot = new File(getClass().getResource("/.").toURI());
-         }
-      }
-      catch (URISyntaxException e)
-      {
-         log.warn("Unable to find web.xml", e);
-      }
-   }
+	public MockServletContext() {
+		try {
+			URL webxml = getClass().getResource("/WEB-INF/web.xml");
+			if (webxml != null) {
+				webInfRoot = new File(webxml.toURI()).getParentFile();
+				if (webInfRoot != null) {
+					webInfClassesRoot = new File(webInfRoot.getParentFile().getPath() + "/classes");
+					webappRoot = webInfRoot.getParentFile();
+				}
+				// call processing of context parameters
+				processContextParameters(webxml);
+			} else if (getClass().getResource("/.") != null) {
+				webappRoot = new File(getClass().getResource("/.").toURI());
+			} else {
+				webappRoot = new File(".");
+			}
+
+		} catch (URISyntaxException e) {
+			log.warn("Unable to find web.xml", e);
+		}
+	}
    
    private void processContextParameters(URL webXML)
    {
