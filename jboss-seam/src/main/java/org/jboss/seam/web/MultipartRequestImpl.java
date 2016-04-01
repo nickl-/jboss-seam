@@ -456,8 +456,8 @@ public class MultipartRequestImpl extends HttpServletRequestWrapper implements M
    
    private byte[] getBoundaryMarker(String contentType)
    {
-      Map<String, Object> params = parseParams(contentType, ";");
-      String boundaryStr = (String) params.get("boundary");
+      Map<String, String> params = parseParams(contentType, ";");
+      String boundaryStr = params.get("boundary");
 
       if (boundaryStr == null) return null;
 
@@ -497,14 +497,14 @@ public class MultipartRequestImpl extends HttpServletRequestWrapper implements M
    private static final Pattern PARAM_VALUE_PATTERN = Pattern
             .compile("^\\s*([^\\s=]+)\\s*[=:]\\s*(.+)\\s*$");
 
-   public Map parseParams(String paramStr, String separator)
+   public Map<String, String> parseParams(String paramStr, String separator)
    {
       Map<String,String> paramMap = new HashMap<String, String>();
       parseParams(paramStr, separator, paramMap);
       return paramMap;
    }
    
-   private void parseParams(String paramStr, String separator, Map paramMap)
+   private void parseParams(String paramStr, String separator, Map<String, String> paramMap)
    {
 	   
 	   ParameterParser parser = new ParameterParser();
@@ -539,7 +539,7 @@ public class MultipartRequestImpl extends HttpServletRequestWrapper implements M
    }
 
    @Override
-   public Enumeration getParameterNames()
+   public Enumeration<String> getParameterNames()
    {
       if (parameters == null) 
          parseRequest();
@@ -629,12 +629,12 @@ public class MultipartRequestImpl extends HttpServletRequestWrapper implements M
    }
 
    @Override
-   public Map getParameterMap()
+   public Map<String, String[]> getParameterMap()
    {
       if (parameters == null)
          parseRequest();
 
-      Map<String,Object> params = new HashMap<String,Object>(super.getParameterMap());
+      Map<String,String[]> params = new HashMap<String,String[]>(super.getParameterMap());
       
       for (String name : parameters.keySet())
       {
@@ -644,7 +644,7 @@ public class MultipartRequestImpl extends HttpServletRequestWrapper implements M
             ValueParam vp = (ValueParam) p;
             if (vp.getValue() instanceof String)
             {
-               params.put(name, vp.getValue());               
+               params.put(name, new String[] { (String) vp.getValue()});               
             }
             else if (vp.getValue() instanceof List)
             {
