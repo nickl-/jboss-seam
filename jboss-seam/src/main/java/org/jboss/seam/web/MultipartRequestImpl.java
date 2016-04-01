@@ -34,6 +34,7 @@ public class MultipartRequestImpl extends HttpServletRequestWrapper implements M
    private static final String PARAM_CONTENT_TYPE = "Content-Type";
    
    private static final int BUFFER_SIZE = 2048;
+   private static final int MAX_BUFFER_SIZE = 16384;
    private static final int CHUNK_SIZE = 512;
    
    private boolean createTempFiles;
@@ -427,18 +428,38 @@ public class MultipartRequestImpl extends HttpServletRequestWrapper implements M
             if (pos < read)
             {
                // move the bytes that weren't read to the start of the buffer
-               int bytesNotRead = read - pos;
-               System.arraycopy(buffer, pos, buffer, 0, bytesNotRead);               
-               read = input.read(buffer, bytesNotRead, buffer.length - bytesNotRead);
-               
-               // Decrement loopCounter if no data was readable
-               if (read == 0)
-               {
-                  loopCounter--;
-               }
-               
-               read += bytesNotRead;
-            }
+					int bytesNotRead = read - pos;
+
+					if (buffer.length == bytesNotRead && buffer.length < MAX_BUFFER_SIZE) {
+
+						// if no end of parameter value can be found in the
+						// buffer, we have to increase size of the buffer
+						byte[] buffer1 = new byte[buffer.length * 2];
+						System.arraycopy(buffer, 0, buffer1, 0, buffer.length);
+						buffer = buffer1;
+
+						read = input.read(buffer, bytesNotRead, buffer.length - bytesNotRead);
+						if (read == -1) {
+							// too bad - nothing more to read (EOF) and last parameter value couldn't be parsed
+							break;
+						}
+						read += bytesNotRead;
+					} else {
+						System.arraycopy(buffer, pos, buffer, 0, bytesNotRead);
+						read = input.read(buffer, bytesNotRead, buffer.length - bytesNotRead);
+
+						if (read == -1) {
+							// too bad - nothing more to read (EOF) and last parameter value couldn't be parsed
+							break;							
+						}
+
+						if (read == 0) {
+							loopCounter--;
+						}
+
+						read += bytesNotRead;
+					}
+				}
             else
             {
                read = input.read(buffer);
