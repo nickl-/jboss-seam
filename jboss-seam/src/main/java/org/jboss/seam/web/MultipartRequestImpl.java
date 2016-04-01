@@ -16,7 +16,6 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
@@ -494,8 +493,6 @@ public class MultipartRequestImpl extends HttpServletRequestWrapper implements M
       return true;
    }
 
-   private static final Pattern PARAM_VALUE_PATTERN = Pattern
-            .compile("^\\s*([^\\s=]+)\\s*[=:]\\s*(.+)\\s*$");
 
    public Map<String, String> parseParams(String paramStr, String separator)
    {
@@ -509,26 +506,7 @@ public class MultipartRequestImpl extends HttpServletRequestWrapper implements M
 	   
 	   ParameterParser parser = new ParameterParser();
 	   Map<String, String > params = parser.parse(paramStr, separator.toCharArray());
-	   paramMap.putAll(params);
-	   
-	   
-//      String[] parts = paramStr.split("[" + separator + "]");
-//
-//      for (String part : parts)
-//      {
-//         Matcher m = PARAM_VALUE_PATTERN.matcher(part);
-//         if (m.matches())
-//         {
-//            String key = m.group(1);
-//            String value = m.group(2);
-//            
-//            // Strip double quotes
-//            if (value.startsWith("\"") && value.endsWith("\""))
-//               value = value.substring(1, value.length() - 1);
-//            
-//            paramMap.put(key, value);
-//         }
-//      }    
+	   paramMap.putAll(params);	      
    }
 
    private Param getParam(String name)
