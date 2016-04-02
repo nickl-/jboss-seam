@@ -41,6 +41,9 @@ public class MockViewHandler extends ViewHandler {
       String pathInfo = ctx.getExternalContext().getRequestPathInfo();
       String servletPath = ctx.getExternalContext().getRequestServletPath(); 
       
+      
+
+      
       if (Strings.isEmpty(pathInfo))
       {
          int sploc = servletPath.lastIndexOf('.');
@@ -55,6 +58,12 @@ public class MockViewHandler extends ViewHandler {
       }
       else
       {
+    	  // we can not seek for extension.
+    	  
+    	  // debug and error are always at contextPath level
+          if ("/error.xhtml".equals(viewId) || "/debug.xhtml".equals(viewId)) {
+        	  return contextPath + viewId;
+          }
          return contextPath + (servletPath!=null?servletPath : "") + viewId;
       }
    }
