@@ -18,6 +18,7 @@ import javax.faces.model.DataModel;
 import org.jboss.seam.framework.Query;
 import org.jboss.seam.ui.converter.ConverterChain;
 import org.jboss.seam.ui.converter.NoSelectionConverter;
+import org.jboss.seam.util.Strings;
 import org.richfaces.cdk.annotations.*;
 
 
@@ -195,6 +196,9 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
    @Attribute(description = @Description("an EL expression specifying the data that backs the List&lt;SelectItem&gt;"))
    public Object getValue()
    {
+	   if (Strings.isEmpty(getVar())) {
+		   throw new FacesException("'var' attribute is mandatory in s:selectItems");
+	   }
       List<javax.faces.model.SelectItem> temporarySelectItems = new ArrayList<javax.faces.model.SelectItem>();
       javax.faces.model.SelectItem noSelectionLabel = noSelectionLabel();
       if (noSelectionLabel != null) 
