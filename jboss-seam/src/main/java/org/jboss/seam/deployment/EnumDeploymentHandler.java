@@ -48,21 +48,22 @@ public class EnumDeploymentHandler extends AbstractDeploymentHandler
 
    private static final LogProvider log = Logging.getLogProvider(EnumDeploymentHandler.class);
 
-   private Set<Class<? extends Enum>> enums;
+   private Set<Class<? extends Enum<?>>> enums;
 
    public EnumDeploymentHandler()
    {
-      enums = new HashSet<Class<? extends Enum>>();
+      enums = new HashSet<Class<? extends Enum<?>>>();
    }
 
    /**
     * Returns enum classes
     */
-   public Set<Class<? extends Enum>> getEnums()
+   public Set<Class<? extends Enum<?>>> getEnums()
    {
       return Collections.unmodifiableSet(enums);
    }
 
+   @SuppressWarnings("unchecked")
    @Override
    public void postProcess(ClassLoader classLoader)
    {
@@ -80,7 +81,7 @@ public class EnumDeploymentHandler extends AbstractDeploymentHandler
             	if (log.isDebugEnabled()) {
             		log.debug("Processing enum " + clazz.getName());
             	}
-               enums.add((Class<? extends Enum>) clazz);
+               enums.add((Class<? extends Enum<?>>) clazz);
             }
          }
          // catching everything, to manage Errors

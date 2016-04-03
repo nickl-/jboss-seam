@@ -107,9 +107,9 @@ public class SeamELResolver extends ELResolver
 	private Object resolveInEnums(ELContext context, Namespace namespace, Object property) {
 		String key = (String) property;
 		Init init = Init.instance();
-		Map<String, Class<? extends Enum>> enums = init.getEnums();
+		Map<String, Class<? extends Enum<?>>> enums = init.getEnums();
 		String e = namespace.getName() + key;
-		Class<? extends Enum> result = enums.get(e);
+		Class<? extends Enum<?>> result = enums.get(e);
 		if (result != null) {
 			context.setPropertyResolved(true);
 		}

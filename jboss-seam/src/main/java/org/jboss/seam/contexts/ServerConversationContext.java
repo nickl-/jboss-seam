@@ -145,7 +145,8 @@ public class ServerConversationContext implements Context
       }
    }
 
-   public void set(String name, Object value) 
+   @SuppressWarnings("unchecked")
+public void set(String name, Object value) 
    {
       if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.preSetVariable." + name);
       if (value==null)
@@ -162,15 +163,15 @@ public class ServerConversationContext implements Context
          }
          else if ( value instanceof List )
          {
-            value = new EntityBeanList( (List) value );
+            value = new EntityBeanList( (List<Object>) value );
          }
          else if ( value instanceof Map )
          {
-            value = new EntityBeanMap( (Map) value );
+            value = new EntityBeanMap( (Map<Object, Object>) value );
          }
          else if ( value instanceof Set )
          {
-            value = new EntityBeanSet( (Set) value );
+            value = new EntityBeanSet( (Set<Object>) value );
          }
          additions.put(name, value);
       }
@@ -238,7 +239,7 @@ public class ServerConversationContext implements Context
    }
    
 
-   public Object get(Class clazz)
+   public Object get(Class<?> clazz)
    {
       return get( Component.getComponentName(clazz) );
    }

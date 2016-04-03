@@ -86,7 +86,7 @@ public class SeamFunctionMapper extends ExtendedFunctionMapper
       }
    }    
    
-   private static void cacheMethod(String localName, Class cls, String name, Class[] params)
+   private static void cacheMethod(String localName, Class<?> cls, String name, Class<?>[] params)
    {
       try
       {

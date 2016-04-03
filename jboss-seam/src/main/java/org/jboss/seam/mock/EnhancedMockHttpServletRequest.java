@@ -858,13 +858,13 @@ public class EnhancedMockHttpServletRequest implements HttpServletRequest
       return headerValues;
    }
 
-   public Enumeration getHeaders(String name)
+   public Enumeration<String> getHeaders(String name)
    {
       HeaderValueHolder header = HeaderValueHolder.getByName(this.headers, name);
-      return Collections.enumeration(header != null ? header.getValues() : Collections.EMPTY_LIST);
+      return Collections.enumeration(header != null ? header.getValues() : Collections.emptyList());
    }
 
-   public Enumeration getHeaderNames()
+   public Enumeration<String> getHeaderNames()
    {
       return this.headers.keys();
    }

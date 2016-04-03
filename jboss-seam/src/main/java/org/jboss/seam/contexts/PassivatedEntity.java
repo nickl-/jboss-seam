@@ -152,7 +152,7 @@ class PassivatedEntity implements Serializable
 
    public static PassivatedEntity passivateEntity(Object value)
    {
-      Class entityClass = Seam.getEntityClass( value.getClass() );
+      Class<?> entityClass = Seam.getEntityClass( value.getClass() );
       if (entityClass!=null)
       {
          for ( String persistenceContextName: PersistenceContexts.instance().getTouchedContexts() )
@@ -164,7 +164,7 @@ class PassivatedEntity implements Serializable
       return null;
    }
 
-   private static PassivatedEntity createPassivatedEntity(Object value, Class entityClass, String persistenceContextName, Object persistenceContext)
+   private static PassivatedEntity createPassivatedEntity(Object value, Class<?> entityClass, String persistenceContextName, Object persistenceContext)
    {
       if (persistenceContext instanceof EntityManager)
       {
@@ -195,7 +195,7 @@ class PassivatedEntity implements Serializable
       return "org.jboss.seam.passivatedEntity." + entityClass.getName() + '#' + getId();
    }*/
 
-   private static PassivatedEntity createUsingHibernate(Object value, Class entityClass, String persistenceContextName, Object persistenceContext)
+   private static PassivatedEntity createUsingHibernate(Object value, Class<?> entityClass, String persistenceContextName, Object persistenceContext)
    {
       //TODO: split this out to somewhere to isolate the Hibernate dependency!!
       Session session = (Session) persistenceContext;
@@ -226,7 +226,7 @@ class PassivatedEntity implements Serializable
       return managed;
    }
 
-   private static PassivatedEntity createUsingEntityManager(Object value, Class entityClass, String persistenceContextName, Object persistenceContext)
+   private static PassivatedEntity createUsingEntityManager(Object value, Class<?> entityClass, String persistenceContextName, Object persistenceContext)
    {
       EntityManager em = (EntityManager) persistenceContext;
       if ( isManaged(value, em) )
@@ -256,7 +256,7 @@ class PassivatedEntity implements Serializable
       return managed;
    }
 
-   private static PassivatedEntity create(Class entityClass, String persistenceContextName, Object id, Object version)
+   private static PassivatedEntity create(Class<?> entityClass, String persistenceContextName, Object id, Object version)
    {
       if (id==null)
       {

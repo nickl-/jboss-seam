@@ -77,7 +77,7 @@ public class PageContext implements Context
    {
       if ( !isInPhase() )
       {
-         return Collections.EMPTY_MAP;
+         return Collections.emptyMap();
       }
       else
       {
@@ -127,7 +127,7 @@ public class PageContext implements Context
       return "PageContext";
    }
 
-   public Object get(Class clazz)
+   public Object get(Class<?> clazz)
    {
       return get( Component.getComponentName(clazz) );
    }
@@ -138,12 +138,12 @@ public class PageContext implements Context
     */
    public void flush()
    {
-      Map viewMap = getOrCreateViewMap();
+      Map<String, Object> viewMap = getOrCreateViewMap();
       viewMap.putAll(nextPageMap);
       nextPageMap = viewMap;
    }
 
-   private static Map getOrCreateViewMap()
+   private static Map<String, Object> getOrCreateViewMap()
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
       if (facesContext==null)
@@ -152,7 +152,7 @@ public class PageContext implements Context
       }
       UIViewRoot viewRoot = facesContext.getViewRoot();
       return viewRoot==null ? 
-            new HashMap() : viewRoot.getViewMap();
+            new HashMap<String, Object>() : viewRoot.getViewMap();
    }
 
    private static PhaseId getPhaseId()

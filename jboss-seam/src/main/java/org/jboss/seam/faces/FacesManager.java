@@ -11,6 +11,7 @@ import static org.jboss.seam.annotations.Install.FRAMEWORK;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -205,7 +206,8 @@ public class FacesManager extends Manager
          throw new RedirectException("cannot redirect to a null viewId");
       }
       FacesContext context = FacesContext.getCurrentInstance();
-      String url = context.getApplication().getViewHandler().getRedirectURL(context, viewId, Collections.EMPTY_MAP, false);
+      Map <String, List<String>> emptyParameterList = Collections.emptyMap();
+      String url = context.getApplication().getViewHandler().getRedirectURL(context, viewId, emptyParameterList, false);
       url = encodeConversationId(url, viewId, conversationId);
       redirect(viewId, context, url);
    }
@@ -321,5 +323,4 @@ public class FacesManager extends Manager
    {
       return (FacesManager) Manager.instance();
    }
-
 }

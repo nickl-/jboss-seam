@@ -126,7 +126,7 @@ public class ResourceRequestEnvironment
                      return null;
                   }
 
-                  public Enumeration getInitParameterNames()
+                  public Enumeration<String> getInitParameterNames()
                   {
                      return null;
                   }
@@ -216,12 +216,12 @@ public class ResourceRequestEnvironment
 
       protected Map<String, String> getRequestQueryParameters()
       {
-         return Collections.EMPTY_MAP;
+         return Collections.emptyMap();
       }
 
       protected List<Cookie> getCookies()
       {
-         return Collections.EMPTY_LIST;
+         return Collections.emptyList();
       }
 
       protected String getPrincipalName()
@@ -231,7 +231,7 @@ public class ResourceRequestEnvironment
 
       protected Set<String> getPrincipalRoles()
       {
-         return Collections.EMPTY_SET;
+         return Collections.emptySet();
       }
 
       protected void prepareRequest(EnhancedMockHttpServletRequest request)
@@ -261,7 +261,7 @@ public class ResourceRequestEnvironment
 
    public Map<String, Object> getDefaultHeaders()
    {
-      return Collections.EMPTY_MAP;
+      return Collections.emptyMap();
    }
 
 }

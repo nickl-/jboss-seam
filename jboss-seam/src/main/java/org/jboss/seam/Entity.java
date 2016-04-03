@@ -145,14 +145,14 @@ public class Entity extends Model
       return forClass(bean.getClass());
    }
    
-   public static Entity forClass(Class clazz)
+   public static Entity forClass(Class<?> clazz)
    {
       if (!Contexts.isApplicationContextActive())
       {
          throw new IllegalStateException("No application context active");
       }
 
-      Class entityClass = Seam.getEntityClass(clazz);
+      Class<?> entityClass = Seam.getEntityClass(clazz);
       
       if (entityClass == null)
       {
@@ -292,7 +292,7 @@ public class Entity extends Model
       }
    }
 
-   private static Method getEntityCallbackMethod(Class beanClass, String callbackMethodName)
+   private static Method getEntityCallbackMethod(Class<?> beanClass, String callbackMethodName)
    {
       try
       {

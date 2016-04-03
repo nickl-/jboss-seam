@@ -6,12 +6,10 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 import java.lang.reflect.Method;
 
 import org.infinispan.Cache;
+import org.infinispan.manager.DefaultCacheManager;
 import org.infinispan.tree.Fqn;
 import org.infinispan.tree.TreeCache;
 import org.infinispan.tree.TreeCacheFactory;
-import org.infinispan.configuration.cache.Configuration;
-import org.infinispan.configuration.cache.ConfigurationBuilder;
-import org.infinispan.manager.DefaultCacheManager;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;

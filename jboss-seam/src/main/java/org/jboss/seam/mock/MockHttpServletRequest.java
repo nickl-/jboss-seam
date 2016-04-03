@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -144,7 +145,7 @@ public MockHttpServletRequest(HttpSession session, ExternalContext externalConte
       this(session, principalName, principalRoles, new Cookie[] {}, null);
    }
 
-   @SuppressWarnings("unchecked")
+
    public MockHttpServletRequest(HttpSession session, String principalName, Set<String> principalRoles, Cookie[] cookies, String method)
    {
       this.session = session;
@@ -154,7 +155,8 @@ public MockHttpServletRequest(HttpSession session, ExternalContext externalConte
       this.method = method;
       // The 1.2 RI NPEs if this header isn't present 
       headers.put("Accept", new String[0]);
-      locales = new IteratorEnumeration<Locale>(Collections.EMPTY_LIST.iterator());
+      List<Locale> list = Collections.emptyList();
+      locales = new IteratorEnumeration<Locale>(list.iterator());
    }
 
    public Map<String, String[]> getParameters()

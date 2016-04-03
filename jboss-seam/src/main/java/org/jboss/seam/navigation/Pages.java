@@ -375,7 +375,7 @@ public class Pages
             Object value = Component.getInstance(name, true);
             if (value!=null)
             {
-               DataModel dataModel = (DataModel) value;
+               DataModel<?> dataModel = (DataModel<?>) value;
                if ( index<dataModel.getRowCount() )
                {
                   dataModel.setRowIndex(index);
@@ -704,7 +704,7 @@ public class Pages
             if ( !SafeActions.instance().isActionSafe(actionId) ) return result;
             String expression = SafeActions.toAction(actionId);
             result = true;
-            MethodExpression actionExpression = Expressions.instance().createMethodExpression(expression);
+            MethodExpression<?> actionExpression = Expressions.instance().createMethodExpression(expression);
             outcome = toString( actionExpression.invoke() );
             fromAction = expression;
             handleOutcome(facesContext, outcome, fromAction);
@@ -923,7 +923,8 @@ public class Pages
     */
    public String encodePageParameters(FacesContext facesContext, String url, String viewId)
    {
-      return encodePageParameters(facesContext, url, viewId, Collections.EMPTY_SET);
+	   Set<String> override = Collections.emptySet();
+      return encodePageParameters(facesContext, url, viewId, override);
    }
    
    /**

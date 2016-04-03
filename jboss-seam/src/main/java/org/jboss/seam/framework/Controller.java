@@ -272,7 +272,7 @@ public abstract class Controller implements Serializable
       return Component.getInstance(name);
    }
 
-   protected Object getComponentInstance(Class clazz)
+   protected Object getComponentInstance(Class<?> clazz)
    {
       return Component.getInstance(clazz);
    }
@@ -309,7 +309,7 @@ public abstract class Controller implements Serializable
        return Expressions.instance().createValueExpression(expression, type);
    }
    
-   protected ValueExpression createValueExpression(String expression)
+   protected ValueExpression<?> createValueExpression(String expression)
    {
        return createValueExpression(expression, Object.class);
    }

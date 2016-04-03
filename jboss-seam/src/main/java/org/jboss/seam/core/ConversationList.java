@@ -34,7 +34,7 @@ public class ConversationList
       ConversationEntries conversationEntries = ConversationEntries.getInstance();
       if (conversationEntries==null)
       {
-         return Collections.EMPTY_LIST;
+         return Collections.emptyList();
       }
       else
       {

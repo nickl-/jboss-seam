@@ -123,7 +123,7 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
     * Get all scanned and handled enums
     * 
    */
-	public Set<Class<? extends Enum>> getScannedEnums() {
+	public Set<Class<? extends Enum<?>>> getScannedEnums() {
 		return Collections.unmodifiableSet(enumDeploymentHandler.getEnums());
 	}
    

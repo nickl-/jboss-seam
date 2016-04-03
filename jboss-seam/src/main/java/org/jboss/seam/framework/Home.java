@@ -34,9 +34,9 @@ public abstract class Home<T, E> extends MutableController<T>
    private Class<E> entityClass;
    protected ValueExpression<T> newInstance;
 
-   private ValueExpression deletedMessage;
-   private ValueExpression createdMessage;
-   private ValueExpression updatedMessage;
+   private ValueExpression<?> deletedMessage;
+   private ValueExpression<?> createdMessage;
+   private ValueExpression<?> updatedMessage;
    
    /**
     * Add a {@link javax.faces.application.FacesMessage} and log a message when 
@@ -212,7 +212,8 @@ public abstract class Home<T, E> extends MutableController<T>
     * Utility method called by {@link #initInstance()} to create a new instance 
     * of the entity.
     */
-   protected E createInstance()
+   @SuppressWarnings("unchecked")
+protected E createInstance()
    {
       if (newInstance!=null)
       {
@@ -240,7 +241,8 @@ public abstract class Home<T, E> extends MutableController<T>
     * <br />
     * If not explicitly specified, the generic type of implementation is used.
     */
-   public Class<E> getEntityClass()
+   @SuppressWarnings("unchecked")
+public Class<E> getEntityClass()
    {
       if (entityClass == null)
       {
@@ -342,7 +344,7 @@ public abstract class Home<T, E> extends MutableController<T>
     * Mainly used when configuring the {@link Home} components in 
     * <code>components.xml</code>.
     */
-   public ValueExpression getNewInstance()
+   public ValueExpression<?> getNewInstance()
    {
       return newInstance;
    }
@@ -353,7 +355,7 @@ public abstract class Home<T, E> extends MutableController<T>
     * Mainly used when configuring the {@link Home} components in 
     * <code>components.xml</code>.
     */
-   public void setNewInstance(ValueExpression newInstance)
+   public void setNewInstance(ValueExpression<T> newInstance)
    {
       this.newInstance = newInstance;
    }
@@ -361,7 +363,7 @@ public abstract class Home<T, E> extends MutableController<T>
    /**
     * Message displayed to user when the managed entity is created.
     */
-   public ValueExpression getCreatedMessage()
+   public ValueExpression<?> getCreatedMessage()
    {
       return createdMessage;
    }
@@ -369,7 +371,7 @@ public abstract class Home<T, E> extends MutableController<T>
    /**
     * Message displayed to user when the managed entity is created.
     */
-   public void setCreatedMessage(ValueExpression createdMessage)
+   public void setCreatedMessage(ValueExpression<?> createdMessage)
    {
       this.createdMessage = createdMessage;
    }
@@ -377,7 +379,7 @@ public abstract class Home<T, E> extends MutableController<T>
    /**
     * Message displayed to user when the managed entity is deleted.
     */
-   public ValueExpression getDeletedMessage()
+   public ValueExpression<?> getDeletedMessage()
    {
       return deletedMessage;
    }
@@ -385,7 +387,7 @@ public abstract class Home<T, E> extends MutableController<T>
    /**
     * Message displayed to user when the managed entity is deleted.
     */
-   public void setDeletedMessage(ValueExpression deletedMessage)
+   public void setDeletedMessage(ValueExpression<?> deletedMessage)
    {
       this.deletedMessage = deletedMessage;
    }
@@ -393,7 +395,7 @@ public abstract class Home<T, E> extends MutableController<T>
    /**
     * Message displayed to user when the managed entity is updated.
     */
-   public ValueExpression getUpdatedMessage()
+   public ValueExpression<?> getUpdatedMessage()
    {
       return updatedMessage;
    }
@@ -401,7 +403,7 @@ public abstract class Home<T, E> extends MutableController<T>
    /**
     * Message displayed to user when the managed entity is updated.
     */
-   public void setUpdatedMessage(ValueExpression updatedMessage)
+   public void setUpdatedMessage(ValueExpression<?> updatedMessage)
    {
       this.updatedMessage = updatedMessage;
    }

@@ -17,10 +17,10 @@ class EntityBeanMap extends AbstractEntityBeanCollection
 {
    private static final long serialVersionUID = -2884601453783925804L;
    
-   private Map map;
+   private Map<Object, Object> map;
    private Map<Object, PassivatedEntity> passivatedEntityMap;
    
-   public EntityBeanMap(Map instance)
+   public EntityBeanMap(Map<Object, Object> instance)
    {
       this.map = instance;
    }
@@ -65,13 +65,13 @@ class EntityBeanMap extends AbstractEntityBeanCollection
       HashMap<Object, PassivatedEntity> newPassivatedMap = 
           new HashMap<Object, PassivatedEntity>(map.size());
       boolean found = false;
-      for (Map.Entry me: (Set<Map.Entry>) map.entrySet()) {
+      for (Map.Entry<Object, Object> me: (Set<Map.Entry<Object, Object>>) map.entrySet()) {
          Object value = me.getValue();
          if (value!=null) {
             PassivatedEntity passivatedEntity = PassivatedEntity.passivateEntity(value);
             if (passivatedEntity!=null) {
                if (!found) {
-                   map = new HashMap(map);
+                   map = new HashMap<Object, Object>(map);
                    found=true;
                }
 

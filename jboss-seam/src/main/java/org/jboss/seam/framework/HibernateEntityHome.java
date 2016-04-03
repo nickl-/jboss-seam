@@ -79,7 +79,8 @@ public class HibernateEntityHome<E> extends Home<Session, E>
         }
     }
 
-    protected E loadInstance() 
+    @SuppressWarnings("unchecked")
+	protected E loadInstance() 
     {
         return (E) getSession().get(getEntityClass(), (Serializable) getId());   
     }

@@ -28,7 +28,7 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 public class Parameters
 {
 
-   protected Object convertRequestParameter(String requestParameter, Class type)
+   protected Object convertRequestParameter(String requestParameter, Class<?> type)
    {
       if ( String.class.equals(type) ) return requestParameter;
       throw new IllegalArgumentException("No converters available");
@@ -45,7 +45,7 @@ public class Parameters
             return servletRequest.getParameterMap();
          }
       }
-      return Collections.EMPTY_MAP;
+      return Collections.emptyMap();
    }
 
    public Object convertMultiValueRequestParameter(Map<String, String[]> requestParameters, String name, Class<?> type)

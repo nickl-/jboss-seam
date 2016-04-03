@@ -18,10 +18,10 @@ class EntityBeanSet extends AbstractEntityBeanCollection
 {
    private static final long serialVersionUID = -2884601453783925804L;
    
-   private Set set;
+   private Set<Object> set;
    private List<PassivatedEntity> passivatedEntityList;
    
-   public EntityBeanSet(Set instance)
+   public EntityBeanSet(Set<Object> instance)
    {
       this.set = instance;
    }
@@ -70,7 +70,7 @@ class EntityBeanSet extends AbstractEntityBeanCollection
                PassivatedEntity passivatedEntity = PassivatedEntity.passivateEntity(value);
                if (passivatedEntity!=null) {
                    if (!found) {
-                       set = new HashSet(set);
+                       set = new HashSet<Object>(set);
                        found=true;
                    }
                    //this would be dangerous, except that we 

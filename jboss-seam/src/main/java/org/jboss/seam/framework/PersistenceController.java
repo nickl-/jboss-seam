@@ -13,6 +13,7 @@ public abstract class PersistenceController<T> extends Controller
 {
    private transient T persistenceContext;
    
+   @SuppressWarnings("unchecked")
    public T getPersistenceContext()
    {
       if (persistenceContext==null)

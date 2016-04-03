@@ -11,16 +11,16 @@ public class EntityNotFoundException extends RuntimeException
    private static final long serialVersionUID = -3469578090343847583L;
    
    private Object id;
-   private Class entityClass;
+   private Class<?> entityClass;
    
-   public EntityNotFoundException(Object id, Class entityClass)
+   public EntityNotFoundException(Object id, Class<?> entityClass)
    {
       super( String.format("entity not found: %s#%s", entityClass.getName(), id) );
       this.id = id;
       this.entityClass = entityClass;
    }
    
-   public Class getEntityClass()
+   public Class<?> getEntityClass()
    {
       return entityClass;
    }

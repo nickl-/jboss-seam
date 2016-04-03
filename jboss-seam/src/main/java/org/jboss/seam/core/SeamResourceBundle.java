@@ -170,7 +170,7 @@ public class SeamResourceBundle extends java.util.ResourceBundle
       }
       else
       {
-         return Collections.EMPTY_LIST;
+         return Collections.emptyList();
       }
    }
    

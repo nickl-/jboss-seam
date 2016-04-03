@@ -44,9 +44,9 @@ public class Events
     * @param methodBindingExpression a method binding, expressed in EL
     * @param argTypes the argument types of the method binding
     */
-   public void addListener(String type, String methodBindingExpression, Class... argTypes)
+   public void addListener(String type, String methodBindingExpression, Class<?>... argTypes)
    {
-      MethodExpression methodBinding = Expressions.instance().createMethodExpression(methodBindingExpression, Object.class, argTypes);
+      MethodExpression<?> methodBinding = Expressions.instance().createMethodExpression(methodBindingExpression, Object.class, argTypes);
       Init.instance().addObserverMethodExpression(type, methodBinding);
    }
    

@@ -397,15 +397,6 @@ public class Pageflow extends AbstractMutable implements Serializable
       
       processInstance = Pageflow.createInstance( getPageflowProcessDefinition(pageflowDefinitionName) );
       
-      //if ( Lifecycle.getPhaseId().equals(PhaseId.RENDER_RESPONSE) ) 
-      //{
-    	  //if a pageflow starts during the render response phase
-    	  //(as a result of a @Create method), we know the navigation
-    	  //handler will not get called, so we should force the
-    	  //pageflow out of the start state immediately
-        //TODO: this is not actually completely true, what about <s:actionLink/>
-    	  //pi.signal();
-      //}
       
       setDirty();
       

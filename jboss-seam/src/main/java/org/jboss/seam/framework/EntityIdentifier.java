@@ -14,7 +14,7 @@ public class EntityIdentifier extends Identifier<EntityManager>
       
    }
    
-   public EntityIdentifier(Class clazz, Object id)
+   public EntityIdentifier(Class<?> clazz, Object id)
    {
       super(clazz, id);
    }

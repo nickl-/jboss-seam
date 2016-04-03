@@ -142,7 +142,8 @@ public class Exceptions
       if (handler!=null) exceptionHandlers.add(handler);
    }
    
-   private ExceptionHandler parse(String fileName) throws DocumentException, ClassNotFoundException
+   @SuppressWarnings("unchecked")
+private ExceptionHandler parse(String fileName) throws DocumentException, ClassNotFoundException
    {
       ExceptionHandler anyhandler = null;
       InputStream stream = ResourceLoader.instance().getResourceAsStream(fileName);
@@ -213,7 +214,7 @@ public class Exceptions
       return anyhandler;
    }
 
-   private ExceptionHandler createHandler(Element exception, final Class clazz)
+   private ExceptionHandler createHandler(Element exception, final Class<?> clazz)
    {
       final boolean endConversation = exception.elementIterator("end-conversation").hasNext();
       

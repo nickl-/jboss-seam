@@ -52,7 +52,7 @@ public class Seam
    // application-scoped property in which the Seam version is stored
    public static final String VERSION = "org.jboss.seam.version";
    
-   private static String jarName;
+
    private static String versionString;
 
    public static EjbDescriptor getEjbDescriptor(Class clazz)
@@ -96,7 +96,7 @@ public class Seam
     * Get the scope for a role
     * @see Scope
     */
-   public static ScopeType getComponentRoleScope(Class clazz, Role role)
+   public static ScopeType getComponentRoleScope(Class<?> clazz, Role role)
    {
       return role.scope()==ScopeType.UNSPECIFIED ?
             getComponentType(clazz).getDefaultScope() :
@@ -176,7 +176,7 @@ public class Seam
     * class
     * 
     */
-   public static Class getEntityClass(Class clazz)
+   public static Class<?> getEntityClass(Class<?> clazz)
    {
       while (clazz != null && !Object.class.equals(clazz))
       {
@@ -361,7 +361,6 @@ public class Seam
                      final Attributes mainAttributes = manifest.getMainAttributes();
                      if (mainAttributes != null && "Seam Core".equals(mainAttributes.getValue("Specification-Title")))
                      {
-                        jarName = mainAttributes.getValue("Specification-Title");
                         versionString = mainAttributes.getValue("Specification-Version");
                      }
                   }

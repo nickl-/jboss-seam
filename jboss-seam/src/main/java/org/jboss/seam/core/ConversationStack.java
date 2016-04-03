@@ -34,14 +34,14 @@ public class ConversationStack
       ConversationEntries conversationEntries = ConversationEntries.getInstance();
       if (conversationEntries==null)
       {
-         return Collections.EMPTY_LIST;
+         return Collections.emptyList();
       }
       else
       {
          ConversationEntry currentConversationEntry = Manager.instance().getCurrentConversationEntry();
          if (currentConversationEntry==null)
          {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
          }
          else
          {

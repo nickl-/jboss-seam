@@ -39,7 +39,7 @@ public class BasicContext implements Context
       return scope;
    }
 
-   public Object get(Class clazz)
+   public Object get(Class<?> clazz)
    {
       return get( Component.getComponentName(clazz) );
    }

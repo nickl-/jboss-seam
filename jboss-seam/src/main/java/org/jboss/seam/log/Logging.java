@@ -33,7 +33,7 @@ public class Logging
       return new LogImpl(category);
    }
    
-   public static Log getLog(Class clazz)
+   public static Log getLog(Class<?> clazz)
    {
       return new LogImpl( clazz.getName() );
    }
@@ -45,7 +45,7 @@ public class Logging
                new JDKProvider(category, wrapped);
    }
 
-   public static LogProvider getLogProvider(Class clazz)
+   public static LogProvider getLogProvider(Class<?> clazz)
    {
        return getLogProvider( clazz.getName(), false );
    }

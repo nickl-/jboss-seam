@@ -134,40 +134,7 @@ public class FacesPage implements Serializable
          discardTemporaryConversation();
       }
 
-      /*if ( !sessionInvalid && Init.instance().isClientSideConversations()  )
-      {
-         // if we are using client-side conversations, put the
-         // map containing the conversation context variables 
-         // into the view root (or remove it for a temp 
-         // conversation context)
-         Contexts.getConversationContext().flush();
-      }*/
-
    }
 
-   /*public Map<String, Object> getPageParameters()
-   {
-      return pageParameters==null ? Collections.EMPTY_MAP : pageParameters;
-   }
-
-   public void setPageParameters(Map<String, Object> pageParameters)
-   {
-      this.pageParameters = pageParameters.isEmpty() ? null : pageParameters;
-   }
-   
-   /**
-    * Used by test harness
-    * 
-    * @param name the page parameter name
-    * @param value the value
-    */
-   /*public void setPageParameter(String name, Object value)
-   {
-      if (pageParameters==null)
-      {
-         pageParameters = new HashMap<String, Object>();
-      }
-      pageParameters.put(name, value);
-   }*/
 
 }

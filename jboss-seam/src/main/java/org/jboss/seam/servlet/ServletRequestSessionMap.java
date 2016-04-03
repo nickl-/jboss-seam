@@ -68,7 +68,7 @@ public class ServletRequestSessionMap implements Map<String, Object>
       HttpSession session = request.getSession(false);
       if (session==null)
       {
-         return Collections.EMPTY_SET;
+         return Collections.emptySet();
       }
       else
       {

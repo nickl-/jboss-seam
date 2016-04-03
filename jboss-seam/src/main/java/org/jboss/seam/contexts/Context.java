@@ -24,7 +24,7 @@ public interface Context
     * Get a component instance, by its component name,
     * as determined by the @Name annotation value.
     */
-   public Object get(Class clazz);
+   public Object get(Class<?> clazz);
    /**
     * Set a value.
     */

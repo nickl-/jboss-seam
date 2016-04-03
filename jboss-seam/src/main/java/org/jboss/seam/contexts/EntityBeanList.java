@@ -17,10 +17,10 @@ class EntityBeanList extends AbstractEntityBeanCollection
 {
    private static final long serialVersionUID = -2884601453783925804L;
  
-   private List list;
+   private List<Object> list;
    private List<PassivatedEntity> passivatedEntityList;
    
-   public EntityBeanList(List instance)
+   public EntityBeanList(List<Object> instance)
    {
       this.list = instance;
    }
@@ -78,7 +78,7 @@ class EntityBeanList extends AbstractEntityBeanCollection
                
                if (passivatedEntity!=null) {
                    if (!found) {
-                       list = new ArrayList(list);
+                       list = new ArrayList<Object>(list);
                        found=true;
                    }
 

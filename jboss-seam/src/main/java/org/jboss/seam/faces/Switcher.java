@@ -45,7 +45,7 @@ public class Switcher implements Serializable
       ConversationEntries conversationEntries = ConversationEntries.getInstance();
       if (conversationEntries==null)
       {
-         selectItems = Collections.EMPTY_LIST;
+         selectItems = Collections.emptyList();
       }
       else
       {

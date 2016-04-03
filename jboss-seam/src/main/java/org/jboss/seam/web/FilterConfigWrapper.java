@@ -41,13 +41,14 @@ public class FilterConfigWrapper implements FilterConfig
       }
    }
 
-   public Enumeration getInitParameterNames()
+   @SuppressWarnings("unchecked")
+   public Enumeration<String> getInitParameterNames()
    {
       Enumeration[] enumerations = {
                delegate.getInitParameterNames(), 
                Collections.enumeration( parameters.keySet() )
             };
-      return new EnumerationEnumeration(enumerations);
+      return new EnumerationEnumeration<String>(enumerations);
    }
 
    public ServletContext getServletContext()

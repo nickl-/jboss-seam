@@ -27,7 +27,7 @@ public class Model
    }
 
    @SuppressWarnings("deprecation")
-   public static Model forClass(Class clazz)
+   public static Model forClass(Class<?> clazz)
    {
       if ( !Contexts.isApplicationContextActive() )
       {
@@ -45,7 +45,7 @@ public class Model
       return model;
    }
 
-   static String getModelName(Class clazz)
+   static String getModelName(Class<?> clazz)
    {
       return clazz.getName() + ".model";
    }

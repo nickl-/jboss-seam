@@ -10,10 +10,10 @@ public final class ConfigErrorHandler extends ErrorHandler
 {
    private final String message;
    private final boolean conversation;
-   private final Class clazz;
+   private final Class<?> clazz;
    private final int code;
 
-   public ConfigErrorHandler(String message, boolean conversation, Class clazz, int code)
+   public ConfigErrorHandler(String message, boolean conversation, Class<?> clazz, int code)
    {
       this.message = message;
       this.conversation = conversation;

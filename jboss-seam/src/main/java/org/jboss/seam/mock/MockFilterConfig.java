@@ -2,6 +2,7 @@ package org.jboss.seam.mock;
 
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletContext;
@@ -35,8 +36,8 @@ public class MockFilterConfig implements FilterConfig
       return null;
    }
 
-	@SuppressWarnings("unchecked")
 	public Enumeration<String> getInitParameterNames() {
-		return new IteratorEnumeration<String>(Collections.EMPTY_LIST.iterator());
+		List<String> list = Collections.emptyList();
+		return new IteratorEnumeration<String>(list.iterator());
 	}
 }

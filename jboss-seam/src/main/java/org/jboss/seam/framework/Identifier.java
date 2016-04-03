@@ -10,8 +10,10 @@ import java.io.Serializable;
  */
 public abstract class Identifier<T> implements Serializable
 {
-
-   public Identifier(Class clazz, Object id)
+	   
+	   private Class<?> clazz;
+	   private Object id;
+   public Identifier(Class<?> clazz, Object id)
    {
       if (clazz == null || id == null)
       {
@@ -20,11 +22,9 @@ public abstract class Identifier<T> implements Serializable
       this.clazz = clazz;
       this.id = id;
    }
-   
-   private Class clazz;
-   private Object id;
 
-   public Class getClazz()
+
+   public Class<?> getClazz()
    {
       return clazz;
    }
@@ -39,7 +39,7 @@ public abstract class Identifier<T> implements Serializable
    {
       if (other instanceof Identifier)
       {
-         Identifier that = (Identifier) other; 
+		 Identifier<?> that = (Identifier<?>) other; 
          if (id == null || clazz == null)
          {
             throw new IllegalArgumentException("Class and Id must not be null");

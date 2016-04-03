@@ -65,7 +65,7 @@ public class SeamExpressionFactory extends ExpressionFactory
     }
     
     @Override
-    public Object coerceToType(Object obj, Class targetType) 
+    public Object coerceToType(Object obj, Class<?> targetType) 
     {
         return expressionFactory.coerceToType(obj, targetType);
     }

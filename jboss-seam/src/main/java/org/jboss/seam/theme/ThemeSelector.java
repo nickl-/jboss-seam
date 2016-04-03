@@ -24,8 +24,8 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
-import org.jboss.seam.faces.Selector;
 import org.jboss.seam.core.Locale;
+import org.jboss.seam.faces.Selector;
 import org.jboss.seam.international.Messages;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -163,7 +163,8 @@ public class ThemeSelector extends Selector
             @Override
             public Enumeration<String> getKeys()
             {
-               return new IteratorEnumeration( Collections.EMPTY_LIST.iterator() );
+            	List<String> list = Collections.emptyList();
+               return new IteratorEnumeration<String>(list.iterator() );
             }
             @Override
             protected Object handleGetObject(String key)

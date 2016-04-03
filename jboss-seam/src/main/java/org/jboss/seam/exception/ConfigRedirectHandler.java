@@ -14,7 +14,7 @@ import org.jboss.seam.core.Expressions.ValueExpression;
 public final class ConfigRedirectHandler extends RedirectHandler
 {
    private final ValueExpression<String> id;
-   private final Class clazz;
+   private final Class<?> clazz;
    private final boolean conversation;
    private final String message;
    private final Severity messageSeverity;
@@ -23,7 +23,7 @@ public final class ConfigRedirectHandler extends RedirectHandler
     * Construct a ConfigRedirectHandler.
     * 
     */
-   public ConfigRedirectHandler(ValueExpression<String> id, Class clazz, boolean conversation, String message, Severity messageSeverity)
+   public ConfigRedirectHandler(ValueExpression<String> id, Class<?> clazz, boolean conversation, String message, Severity messageSeverity)
    {
       this.id = id;
       this.clazz = clazz;
@@ -33,7 +33,7 @@ public final class ConfigRedirectHandler extends RedirectHandler
    }
    
    @Deprecated
-   public ConfigRedirectHandler(String id, Class clazz, boolean conversation, String message, Severity messageSeverity)
+   public ConfigRedirectHandler(String id, Class<?> clazz, boolean conversation, String message, Severity messageSeverity)
    {
       this(Expressions.instance().createValueExpression(id, String.class), clazz, conversation, message, messageSeverity);
    }

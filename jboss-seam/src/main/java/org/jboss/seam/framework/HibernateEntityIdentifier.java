@@ -13,7 +13,7 @@ public class HibernateEntityIdentifier extends Identifier<Session>
       super(HibernatePersistenceProvider.instance().getBeanClass(entity), session.getIdentifier(entity));
    }
    
-   public HibernateEntityIdentifier(Class clazz, Object id)
+   public HibernateEntityIdentifier(Class<?> clazz, Object id)
    {
       super(clazz, id);
    }

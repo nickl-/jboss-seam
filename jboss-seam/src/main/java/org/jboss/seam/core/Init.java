@@ -77,7 +77,7 @@ public class Init
    
    private Collection<Namespace> globalImports = new ArrayList<Namespace>();
    
-   private Map<String, Class<? extends Enum>> enums = new HashMap<String, Class<? extends Enum>>();
+   private Map<String, Class<? extends Enum<?>>> enums = new HashMap<String, Class<? extends Enum<?>>>();
    
    private boolean jbpmInstalled;
    private String jndiPattern;
@@ -176,12 +176,12 @@ public class Init
          this.scope = scope;
       }
       
-      public MethodExpression getMethodBinding()
+      public MethodExpression<?> getMethodBinding()
       {
          //TODO: figure out some way to cache this!!
          return Expressions.instance().createMethodExpression(expression);
       }
-      public ValueExpression getValueBinding()
+      public ValueExpression<?> getValueBinding()
       {
          //TODO: figure out some way to cache this!!
          return Expressions.instance().createValueExpression(expression);
@@ -335,14 +335,14 @@ public class Init
    
    public static class ObserverMethodExpression
    {
-      private MethodExpression methodBinding;
-      
-      ObserverMethodExpression(MethodExpression method)
+      private MethodExpression<?> methodBinding;
+
+      ObserverMethodExpression(MethodExpression<?> method)
       {
          this.methodBinding = method;
       }
 
-      public MethodExpression getMethodBinding()
+      public MethodExpression<?> getMethodBinding()
       {
          return methodBinding;
       }
@@ -380,7 +380,7 @@ public class Init
       }
    }
    
-   public void addObserverMethodExpression(String eventType, MethodExpression methodBinding)
+   public void addObserverMethodExpression(String eventType, MethodExpression<?> methodBinding)
    {
       List<ObserverMethodExpression> observerList = observerMethodBindings.get(eventType);
       if (observerList==null)
@@ -487,11 +487,11 @@ public class Init
       globalImports.add(namespace);
    }
 
-	public Map<String, Class<? extends Enum>> getEnums() {
+	public Map<String, Class<? extends Enum<?>>> getEnums() {
 		return enums;
 	}
 
-	public void importEnums(Map<String, Class<? extends Enum>> ienums) {
+	public void importEnums(Map<String, Class<? extends Enum<?>>> ienums) {
 		enums = ienums;
 	}
 	

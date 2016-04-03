@@ -71,6 +71,7 @@ public abstract class CacheProvider<T>
     * @param type - the type of the object to return
     * @return - the object if found or null if not
     */
+   @SuppressWarnings("unchecked")
    public <E> E get(String key, E type)
    {
       return (E) get(null, key);
@@ -96,6 +97,7 @@ public abstract class CacheProvider<T>
     * 
     * @return - the object if found or null if not
     */
+   @SuppressWarnings("unchecked")
    public <E> E get(String region, String key, E type)
    {
       return (E) get(region, key);
@@ -158,6 +160,7 @@ public abstract class CacheProvider<T>
       this.defaultRegion = defaultRegion;
    }
 
+   @SuppressWarnings("rawtypes")
    public static CacheProvider instance()
    {
       if (!Contexts.isApplicationContextActive())
@@ -167,9 +170,10 @@ public abstract class CacheProvider<T>
       return (CacheProvider) Component.getInstance("org.jboss.seam.cache.cacheProvider", ScopeType.APPLICATION);
    }
 
+   @SuppressWarnings("unchecked")
    public static <T> CacheProvider<T> instance(Class<? extends T> type)
    {
-      return instance();
+      return (CacheProvider <T> ) instance();
    }
 
 }

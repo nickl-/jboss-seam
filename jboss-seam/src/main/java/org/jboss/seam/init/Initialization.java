@@ -96,7 +96,7 @@ public class Initialization
    private NamespacePackageResolver namespacePackageResolver = new NamespacePackageResolver();
    private Map<String, EventListenerDescriptor> eventListenerDescriptors = new HashMap<String, EventListenerDescriptor>();
    private Collection<String> globalImports = new ArrayList<String>();
-   private Map<String, Class<? extends Enum>> enums = new HashMap<String, Class<? extends Enum>>();
+   private Map<String, Class<? extends Enum<?>>> enums = new HashMap<String, Class<? extends Enum<?>>>();
    
    private StandardDeploymentStrategy standardDeploymentStrategy;
    private HotDeploymentStrategy hotDeploymentStrategy;
@@ -717,7 +717,7 @@ public class Initialization
             init.importNamespace(globalImport);
         }
 		// adding enum namespaces to namespaces
-		for (Class<? extends Enum> e : enums.values()) {
+		for (Class<? extends Enum<?>> e : enums.values()) {
 			String enumName = e.getName();
 			String packageName = enumName.substring(0, enumName.lastIndexOf('.'));
 			init.importNamespace(packageName);
@@ -954,7 +954,7 @@ public class Initialization
 	 * @author Stefano Aquino
 	 */
 	private void addEnums() {
-		for (Class<? extends Enum> e : standardDeploymentStrategy.getScannedEnums()) {
+		for (Class<? extends Enum<?>> e : standardDeploymentStrategy.getScannedEnums()) {
 			enums.put(e.getName(), e);
 		}
 	}

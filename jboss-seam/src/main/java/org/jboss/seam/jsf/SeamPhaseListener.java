@@ -66,25 +66,37 @@ public class SeamPhaseListener implements PhaseListener
    private static boolean exists = false;
    
    private static final Method SET_RENDER_PARAMETER;
-   private static final Class ACTION_RESPONSE;
-   private static final Class PORTLET_REQUEST;
+   private static final Class<?> ACTION_RESPONSE;
+   private static final Class<?> PORTLET_REQUEST;
    
    static
    {
       Method method = null;
-      Class actionResponseClass = null;
-      Class portletRequestClass = null;
+      Class<?> actionResponseClass = null;
+      Class<?> portletRequestClass = null;
+      boolean loaded = false;
       try
       {
-         Class[] parameterTypes = { String.class, String.class };
+         Class<?>[] parameterTypes = { String.class, String.class };
          actionResponseClass = Class.forName("javax.portlet.ActionResponse");
          portletRequestClass = Class.forName("javax.portlet.PortletRequest");
          method = actionResponseClass.getMethod("setRenderParameter", parameterTypes);
+         loaded = true;
       }
-      catch (Exception e) {}
-      SET_RENDER_PARAMETER = method;
-      ACTION_RESPONSE = actionResponseClass;
-      PORTLET_REQUEST = portletRequestClass;
+      catch (Exception e) {
+    	  loaded = false;
+    	  log.trace("Error loading portlet classes", e);
+      }
+      if (loaded) {
+    	  SET_RENDER_PARAMETER = method;
+    	  ACTION_RESPONSE = actionResponseClass;
+	      PORTLET_REQUEST = portletRequestClass;
+      }
+      else {
+          SET_RENDER_PARAMETER = null;
+          ACTION_RESPONSE = null;
+          PORTLET_REQUEST = null;
+      }
    }
 
    public SeamPhaseListener()
@@ -309,7 +321,7 @@ public class SeamPhaseListener implements PhaseListener
    
    private static void setPortletRenderParameter(Object response, String conversationIdParameter, String conversationId)
    {
-      if ( ACTION_RESPONSE.isInstance(response) )
+      if ( ACTION_RESPONSE != null && ACTION_RESPONSE.isInstance(response) )
       {
          Reflections.invokeAndWrap(SET_RENDER_PARAMETER, response, conversationIdParameter, conversationId);
       }
@@ -414,32 +426,6 @@ public class SeamPhaseListener implements PhaseListener
          Events.instance().raiseEvent("org.jboss.seam.beforePhase", event);
       }
       
-      /*if ( Contexts.isConversationContextActive() && Init.instance().isJbpmInstalled() && Pageflow.instance().isInProcess() )
-      {
-         String name;
-         PhaseId phaseId = event.getPhaseId();
-         if ( phaseId == PhaseId.PROCESS_VALIDATIONS )
-         {
-            name = "process-validations";
-         }
-         else if ( phaseId == PhaseId.UPDATE_MODEL_VALUES )
-         {
-            name = "update-model-values";
-         }
-         else if ( phaseId == PhaseId.INVOKE_APPLICATION )
-         {
-            name = "invoke-application";
-         }
-         else if ( phaseId == PhaseId.RENDER_RESPONSE )
-         {
-            name = "render-response";
-         }
-         else
-         {
-            return;
-         }
-         Pageflow.instance().processEvents(name);
-      }*/
    }
    
    public void raiseEventsAfterPhase(PhaseEvent event)

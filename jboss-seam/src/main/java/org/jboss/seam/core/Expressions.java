@@ -152,7 +152,8 @@ public class Expressions implements Serializable
             return getExpressionFactory().createValueExpression( getELContext(), expression, type );
          }
          
-         public T getValue()
+         @SuppressWarnings("unchecked")
+		public T getValue()
          {
             return (T) toUnifiedValueExpression().getValue( getELContext() );
          }        
@@ -167,7 +168,8 @@ public class Expressions implements Serializable
             return expression;
          }
          
-         public Class<T> getType()
+         @SuppressWarnings("unchecked")
+		public Class<T> getType()
          {
             // QUESTION shouldn't we use the type provided in the constructor?
             return (Class<T>) toUnifiedValueExpression().getType( getELContext() );
@@ -183,7 +185,7 @@ public class Expressions implements Serializable
     * @param type the method return type
     * @param argTypes the method parameter types
     */
-   public <T> MethodExpression<T> createMethodExpression(final String expression, final Class<T> type, final Class... argTypes)
+   public <T> MethodExpression<T> createMethodExpression(final String expression, final Class<T> type, final Class<?>... argTypes)
    {
       checkELExpression(expression);
       
@@ -217,7 +219,8 @@ public class Expressions implements Serializable
             return getExpressionFactory().createMethodExpression( getELContext(), expression, type, argTypes );
          }
          
-         public T invoke(Object... args)
+         @SuppressWarnings("unchecked")
+		public T invoke(Object... args)
          {
             return (T) toUnifiedMethodExpression().invoke( getELContext(), args );
          }

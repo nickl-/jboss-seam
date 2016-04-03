@@ -112,6 +112,7 @@ public class BusinessProcessContext implements Context
       return results.toArray(new String[]{});
    }
 
+   @SuppressWarnings({ "unchecked", "rawtypes" })
    private Set<String> getNamesFromContext() 
    {
        //TODO: note that this is called from Contexts.destroy(), 
@@ -133,7 +134,7 @@ public class BusinessProcessContext implements Context
        return results;
    }
 
-   public Object get(Class clazz)
+   public Object get(Class<?> clazz)
    {
       return get( Component.getComponentName(clazz) );
    }

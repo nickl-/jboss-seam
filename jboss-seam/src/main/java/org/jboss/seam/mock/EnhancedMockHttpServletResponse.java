@@ -307,9 +307,9 @@ public class EnhancedMockHttpServletResponse implements HttpServletResponse {
 	 * @param name the name of the header
 	 * @return the associated header values, or an empty List if none
 	 */
-	public List getHeaders(String name) {
+	public List<String> getHeaders(String name) {
 		HeaderValueHolder header = HeaderValueHolder.getByName(this.headers, name);
-		return (header != null ? header.getValues() : Collections.EMPTY_LIST);
+		return (header != null ? header.getValues() : Collections.emptyList());
 	}
 
 	/**

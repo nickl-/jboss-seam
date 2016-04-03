@@ -46,7 +46,8 @@ public class HibernateEntityQuery<E> extends Query<Session, E>
       return truncResultList(resultList);
    }
 
-   private void initResultList()
+   @SuppressWarnings("unchecked")
+private void initResultList()
    {
       if (resultList==null)
       {
@@ -75,7 +76,8 @@ public class HibernateEntityQuery<E> extends Query<Session, E>
       return singleResult;
    }
 
-   private void initSingleResult()
+   @SuppressWarnings("unchecked")
+private void initSingleResult()
    {
       if (singleResult==null)
       {
@@ -161,6 +163,7 @@ public class HibernateEntityQuery<E> extends Query<Session, E>
       return query;
    }
 
+   @SuppressWarnings("rawtypes")
    private void setParameters(org.hibernate.Query query, List<Object> parameters, int start)
    {
       for (int i=0; i<parameters.size(); i++)

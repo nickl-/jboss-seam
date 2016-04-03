@@ -28,7 +28,7 @@ public class Parameters extends org.jboss.seam.web.Parameters
 {
 
    @Override
-   protected Object convertRequestParameter(String requestParameter, Class type)
+   protected Object convertRequestParameter(String requestParameter, Class<?> type)
    {
       if ( String.class.equals(type) ) return requestParameter;
    
