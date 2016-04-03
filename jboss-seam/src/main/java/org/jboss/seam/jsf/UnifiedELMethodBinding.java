@@ -4,9 +4,7 @@ import java.io.Serializable;
 
 import javax.el.MethodExpression;
 import javax.faces.context.FacesContext;
-import javax.faces.el.EvaluationException;
-import javax.faces.el.MethodBinding;
-import javax.faces.el.MethodNotFoundException;
+
 
 /**
  * Nobody should be using MethodBinding anymore, but if they 
@@ -15,9 +13,8 @@ import javax.faces.el.MethodNotFoundException;
  * @author Gavin King
  *
  */
-@SuppressWarnings("deprecation")
 @Deprecated
-public class UnifiedELMethodBinding extends MethodBinding implements Serializable
+public class UnifiedELMethodBinding extends javax.faces.el.MethodBinding implements Serializable
 {
    private transient MethodExpression methodExpression;
    
@@ -39,13 +36,13 @@ public class UnifiedELMethodBinding extends MethodBinding implements Serializabl
    }
 
    @Override
-   public Class getType(FacesContext ctx) throws MethodNotFoundException
+   public Class getType(FacesContext ctx) throws javax.faces.el.MethodNotFoundException
    {
       return getMethodExpression(ctx).getMethodInfo( ctx.getELContext() ).getReturnType();
    }
 
    @Override
-   public Object invoke(FacesContext ctx, Object[] args) throws EvaluationException, MethodNotFoundException
+   public Object invoke(FacesContext ctx, Object[] args) throws javax.faces.el.EvaluationException, javax.faces.el.MethodNotFoundException
    {
       return getMethodExpression(ctx).invoke( ctx.getELContext(), args);
    }

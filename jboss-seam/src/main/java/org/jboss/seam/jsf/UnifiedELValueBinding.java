@@ -4,9 +4,7 @@ import java.io.Serializable;
 
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
-import javax.faces.el.EvaluationException;
-import javax.faces.el.PropertyNotFoundException;
-import javax.faces.el.ValueBinding;
+
 
 /**
  * Nobody should be using ValueBinding anymore, but if they 
@@ -15,9 +13,9 @@ import javax.faces.el.ValueBinding;
  * @author Gavin King
  *
  */
-@SuppressWarnings("deprecation")
+
 @Deprecated
-public class UnifiedELValueBinding extends ValueBinding implements Serializable
+public class UnifiedELValueBinding extends javax.faces.el.ValueBinding implements Serializable
 {
    private transient ValueExpression valueExpression;
    
@@ -37,22 +35,22 @@ public class UnifiedELValueBinding extends ValueBinding implements Serializable
    }
 
    @Override
-   public Class getType(FacesContext ctx) throws EvaluationException, PropertyNotFoundException {
+   public Class getType(FacesContext ctx) throws javax.faces.el.EvaluationException, javax.faces.el.PropertyNotFoundException {
       return getValueExpression(ctx).getType( ctx.getELContext() );
    }
 
    @Override
-   public Object getValue(FacesContext ctx) throws EvaluationException, PropertyNotFoundException {
+   public Object getValue(FacesContext ctx) throws javax.faces.el.EvaluationException, javax.faces.el.PropertyNotFoundException {
    	return getValueExpression(ctx).getValue( ctx.getELContext() );
    }
 
    @Override
-   public boolean isReadOnly(FacesContext ctx) throws EvaluationException, PropertyNotFoundException {
+   public boolean isReadOnly(FacesContext ctx) throws javax.faces.el.EvaluationException, javax.faces.el.PropertyNotFoundException {
    	return getValueExpression(ctx).isReadOnly( ctx.getELContext() );
    }
 
    @Override
-   public void setValue(FacesContext ctx, Object value) throws EvaluationException, PropertyNotFoundException {
+   public void setValue(FacesContext ctx, Object value) throws javax.faces.el.EvaluationException, javax.faces.el.PropertyNotFoundException {
       getValueExpression(ctx).setValue( ctx.getELContext(), value);
    }
    

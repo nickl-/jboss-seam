@@ -12,7 +12,6 @@ import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSessionContext;
 
 import org.jboss.seam.util.IteratorEnumeration;
 
@@ -69,7 +68,7 @@ public class MockHttpSession implements HttpSession
    }
    @Override
    @Deprecated
-   public HttpSessionContext getSessionContext()
+   public javax.servlet.http.HttpSessionContext getSessionContext()
    {
       throw new UnsupportedOperationException();
    }
@@ -84,10 +83,10 @@ public class MockHttpSession implements HttpSession
       return getAttribute(att);
    }
 
-   public Enumeration getAttributeNames()
-   {
-      return new IteratorEnumeration( attributes.keySet().iterator() );
-   }
+   @SuppressWarnings("unchecked")
+	public Enumeration<String> getAttributeNames() {
+		return new IteratorEnumeration(attributes.keySet().iterator());
+	}
 
    public String[] getValueNames()
    {
