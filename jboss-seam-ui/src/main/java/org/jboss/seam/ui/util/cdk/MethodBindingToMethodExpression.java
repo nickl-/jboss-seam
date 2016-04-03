@@ -25,8 +25,6 @@ import javax.el.PropertyNotFoundException;
 import javax.faces.FacesException;
 import javax.faces.component.StateHolder;
 import javax.faces.context.FacesContext;
-import javax.faces.el.EvaluationException;
-import javax.faces.el.MethodBinding;
 
 /**
  * Converts a MethodBinding to a MethodExpression
@@ -38,9 +36,9 @@ import javax.faces.el.MethodBinding;
 @SuppressWarnings("deprecation")
 public class MethodBindingToMethodExpression extends MethodExpression implements StateHolder
 {
-    private static final Class[] EXPECTED_TYPES = new Class[] { MethodBinding.class, StateHolder.class };
+    private static final Class[] EXPECTED_TYPES = new Class[] { javax.faces.el.MethodBinding.class, StateHolder.class };
 
-    private MethodBinding methodBinding;
+    private javax.faces.el.MethodBinding methodBinding;
 
     private boolean _transientFlag;
 
@@ -54,7 +52,7 @@ public class MethodBindingToMethodExpression extends MethodExpression implements
     }
 
     /** Creates a new instance of MethodBindingToMethodExpression */
-    public MethodBindingToMethodExpression(MethodBinding methodBinding)
+    public MethodBindingToMethodExpression(javax.faces.el.MethodBinding methodBinding)
     {
         checkNullArgument(methodBinding, "methodBinding");
         this.methodBinding = methodBinding;
@@ -63,12 +61,12 @@ public class MethodBindingToMethodExpression extends MethodExpression implements
     /**
      * Return the wrapped MethodBinding.
      */
-    public MethodBinding getMethodBinding()
+    public javax.faces.el.MethodBinding getMethodBinding()
     {
         return methodBinding;
     }
     
-    void setMethodBinding(MethodBinding methodBinding)
+    void setMethodBinding(javax.faces.el.MethodBinding methodBinding)
     {
         this.methodBinding = methodBinding;
     }
@@ -159,15 +157,15 @@ public class MethodBindingToMethodExpression extends MethodExpression implements
 
     public void restoreState(FacesContext context, Object state)
     {
-        if (state instanceof MethodBinding)
+        if (state instanceof javax.faces.el.MethodBinding)
         {
-            methodBinding = (MethodBinding) state;
+            methodBinding = (javax.faces.el.MethodBinding) state;
             methodInfo = null;
         }
         else if (state != null)
         {
             Object[] values = (Object[]) state;
-            methodBinding = (MethodBinding) newInstance(values[0].toString(), EXPECTED_TYPES);
+            methodBinding = (javax.faces.el.MethodBinding) newInstance(values[0].toString(), EXPECTED_TYPES);
             ((StateHolder) methodBinding).restoreState(context, values[1]);
             methodInfo = null;
         }
@@ -234,7 +232,7 @@ public class MethodBindingToMethodExpression extends MethodExpression implements
         {
             throw new MethodNotFoundException(e.getMessage(), e);
         }
-        catch (EvaluationException e)
+        catch (javax.faces.el.EvaluationException e)
         {
             throw new ELException(e.getMessage(), e);
         }
