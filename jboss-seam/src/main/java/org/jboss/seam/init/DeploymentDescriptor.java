@@ -22,10 +22,10 @@ public class DeploymentDescriptor
 { 
     private static final LogProvider log = Logging.getLogProvider(DeploymentDescriptor.class);
     
-    private Map<Class, EjbDescriptor> ejbDescriptors = new HashMap<Class, EjbDescriptor>();
-    private Class componentClass;
+    private Map<Class<?>, EjbDescriptor> ejbDescriptors = new HashMap<Class<?>, EjbDescriptor>();
+    private Class<?> componentClass;
 
-    public DeploymentDescriptor(Class clazz) 
+    public DeploymentDescriptor(Class<?> clazz) 
     {
         componentClass = clazz;
         if (clazz.getClassLoader() == null) {
@@ -59,7 +59,7 @@ public class DeploymentDescriptor
         }
     }
     
-    public Map<Class, EjbDescriptor> getEjbDescriptors()
+    public Map<Class<?>, EjbDescriptor> getEjbDescriptors()
     {
        return ejbDescriptors;
     }
@@ -128,7 +128,7 @@ public class DeploymentDescriptor
     {
        try
        {
-          Class ejbClass = componentClass.getClassLoader().loadClass( descriptor.getEjbClassName() );
+          Class<?> ejbClass = componentClass.getClassLoader().loadClass( descriptor.getEjbClassName() );
           ejbDescriptors.put(ejbClass, descriptor);
        }
        catch (ClassNotFoundException cnfe)

@@ -45,8 +45,8 @@ import org.jboss.seam.web.Session;
  */
 public class Seam
 {
-   private static final Map<Class, String> COMPONENT_NAME_CACHE = new ConcurrentHashMap<Class, String>();
-   private static final Map<Class, EjbDescriptor> EJB_DESCRIPTOR_CACHE = new ConcurrentHashMap<Class, EjbDescriptor>();
+   private static final Map<Class<?>, String> COMPONENT_NAME_CACHE = new ConcurrentHashMap<Class<?>, String>();
+   private static final Map<Class<?>, EjbDescriptor> EJB_DESCRIPTOR_CACHE = new ConcurrentHashMap<Class<?>, EjbDescriptor>();
    private static final Set<ClassLoader> CLASSLOADERS_LOADED = new HashSet<ClassLoader>(); 
 
    // application-scoped property in which the Seam version is stored
@@ -55,7 +55,7 @@ public class Seam
 
    private static String versionString;
 
-   public static EjbDescriptor getEjbDescriptor(Class clazz)
+   public static EjbDescriptor getEjbDescriptor(Class<?> clazz)
    {
       EjbDescriptor info = EJB_DESCRIPTOR_CACHE.get(clazz);
       if (info != null) 
@@ -71,11 +71,11 @@ public class Seam
       return null;
    }
    
-   private synchronized static void cacheEjbDescriptors(Class clazz)
+   private synchronized static void cacheEjbDescriptors(Class<?> clazz)
    {
       if (!CLASSLOADERS_LOADED.contains(clazz.getClassLoader()))
       {         
-         Map<Class, EjbDescriptor> ejbDescriptors = new DeploymentDescriptor(clazz).getEjbDescriptors();
+         Map<Class<?>, EjbDescriptor> ejbDescriptors = new DeploymentDescriptor(clazz).getEjbDescriptors();
          EJB_DESCRIPTOR_CACHE.putAll(ejbDescriptors);
          CLASSLOADERS_LOADED.add(clazz.getClassLoader());         
       }

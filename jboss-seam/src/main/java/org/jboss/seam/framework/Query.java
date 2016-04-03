@@ -46,7 +46,7 @@ public abstract class Query<T, E>
    private String ejbql;
    private Integer firstResult;
    private Integer maxResults;
-   private List<ValueExpression> restrictions = new ArrayList<ValueExpression>(0);
+   private List<ValueExpression<?>> restrictions = new ArrayList<ValueExpression<?>>(0);
    private String order;
    private String orderColumn;
    private String orderDirection;
@@ -57,9 +57,9 @@ public abstract class Query<T, E>
    private DataModel dataModel;
    
    private String parsedEjbql;
-   private List<ValueExpression> queryParameters;
+   private List<ValueExpression<?>> queryParameters;
    private List<String> parsedRestrictions;
-   private List<ValueExpression> restrictionParameters;
+   private List<ValueExpression<?>> restrictionParameters;
    
    private List<Object> queryParameterValues;
    private List<Object> restrictionParameterValues;
@@ -97,10 +97,10 @@ public abstract class Query<T, E>
     * Get the selected row of the JSF {@link DataModel}
     * 
     */
-   public E getDataModelSelection()
-   {
-      return (E) getDataModel().getRowData();
-   }
+	@SuppressWarnings("unchecked")
+	public E getDataModelSelection() {
+		return (E) getDataModel().getRowData();
+	}
    
    /**
     * Get the index of the selected row of the JSF {@link DataModel}
@@ -221,10 +221,10 @@ public abstract class Query<T, E>
          queryParameters = qp.getParameterValueBindings();
          parsedEjbql = qp.getEjbql();
          
-         List<ValueExpression> restrictionFragments = getRestrictions();
+         List<ValueExpression<?>> restrictionFragments = getRestrictions();
          parsedRestrictions = new ArrayList<String>( restrictionFragments.size() );
-         restrictionParameters = new ArrayList<ValueExpression>( restrictionFragments.size() );         
-         for ( ValueExpression restriction: restrictionFragments )
+         restrictionParameters = new ArrayList<ValueExpression<?>>( restrictionFragments.size() );         
+         for ( ValueExpression<?> restriction: restrictionFragments )
          {
             QueryParser rqp = new QueryParser( restriction.getExpressionString(), queryParameters.size() + restrictionParameters.size() );            
             if ( rqp.getParameterValueBindings().size()!=1 ) 
@@ -270,6 +270,7 @@ public abstract class Query<T, E>
       return builder.toString();
    }
    
+   @SuppressWarnings("rawtypes")
    protected boolean isRestrictionParameterSet(Object parameterValue)
    {
       return parameterValue != null && !"".equals(parameterValue) && (parameterValue instanceof Collection ? !((Collection) parameterValue).isEmpty() : true);
@@ -401,7 +402,7 @@ public abstract class Query<T, E>
     * For a query such as 'from Foo f' a restriction could be 
     * 'f.bar = #{foo.bar}'
     */
-   public List<ValueExpression> getRestrictions()
+   public List<ValueExpression<?>> getRestrictions()
    {
       return restrictions;
    }
@@ -410,7 +411,7 @@ public abstract class Query<T, E>
     * Calling setRestrictions causes the restrictions to be reparsed and the 
     * query refreshed
     */
-   public void setRestrictions(List<ValueExpression> restrictions)
+   public void setRestrictions(List<ValueExpression<?>> restrictions)
    {
       this.restrictions = restrictions;
       parsedRestrictions = null;
@@ -425,7 +426,7 @@ public abstract class Query<T, E>
    public void setRestrictionExpressionStrings(List<String> expressionStrings)
    {
       Expressions expressions = new Expressions();
-      List<ValueExpression> restrictionVEs = new ArrayList<ValueExpression>(expressionStrings.size());
+      List<ValueExpression<?>> restrictionVEs = new ArrayList<ValueExpression<?>>(expressionStrings.size());
       for (String expressionString : expressionStrings)
       {
          restrictionVEs.add(expressions.createValueExpression(expressionString));
@@ -436,7 +437,7 @@ public abstract class Query<T, E>
    public List<String> getRestrictionExpressionStrings()
    {
       List<String> expressionStrings = new ArrayList<String>();
-      for (ValueExpression restriction : getRestrictions())
+      for (ValueExpression<?> restriction : getRestrictions())
       {
          expressionStrings.add(restriction.getExpressionString());
       }
@@ -539,17 +540,17 @@ public abstract class Query<T, E>
          return operator;
       }  
    }
-   protected List<ValueExpression> getQueryParameters()
+   protected List<ValueExpression<?>> getQueryParameters()
    {
       return queryParameters;
    }
    
-   protected List<ValueExpression> getRestrictionParameters()
+   protected List<ValueExpression<?>> getRestrictionParameters()
    {
       return restrictionParameters;
    }
    
-   private static boolean isAnyParameterDirty(List<ValueExpression> valueBindings, List<Object> lastParameterValues)
+   private static boolean isAnyParameterDirty(List<ValueExpression<?>> valueBindings, List<Object> lastParameterValues)
    {
       if (lastParameterValues==null) return true;
       for (int i=0; i<valueBindings.size(); i++)
@@ -567,7 +568,7 @@ public abstract class Query<T, E>
       return false;
    }
    
-   private static List<Object> getParameterValues(List<ValueExpression> valueBindings)
+   private static List<Object> getParameterValues(List<ValueExpression<?>> valueBindings)
    {
       List<Object> values = new ArrayList<Object>( valueBindings.size() );
       for (int i=0; i<valueBindings.size(); i++)
