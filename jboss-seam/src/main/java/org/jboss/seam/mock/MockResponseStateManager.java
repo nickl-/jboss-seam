@@ -7,14 +7,19 @@ import javax.faces.render.ResponseStateManager;
 
 public class MockResponseStateManager extends ResponseStateManager 
 {
+	public MockResponseStateManager() {
+		super();
+	}
 
    @Override
+   @Deprecated
    public Object getComponentStateToRestore(FacesContext ctx) 
    {
       return new Object();
    }
 
    @Override
+   @Deprecated
    public Object getTreeStructureToRestore(FacesContext ctx, String x) 
    {
       return new Object();
