@@ -32,8 +32,6 @@ import javax.servlet.http.HttpSession;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentFactory;
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.EnumerationIterator;
 
 /**
@@ -50,7 +48,6 @@ public class MockExternalContext extends ExternalContext
 
    private HttpServletResponse response;
    
-   private static final LogProvider log = Logging.getLogProvider( MockExternalContext.class );
 
    public MockExternalContext()
    {
@@ -124,12 +121,12 @@ public class MockExternalContext extends ExternalContext
    }
 
    @Override
-   public Map getApplicationMap()
+   public Map<String, Object> getApplicationMap()
    {
-      return new AttributeMap()
+      return new AttributeMap<String, Object>()
       {
          @Override
-         public Enumeration keys()
+         public Enumeration<String> keys()
          {
             return context.getAttributeNames();
          }
@@ -211,9 +208,9 @@ public class MockExternalContext extends ExternalContext
    }
 
    @Override
-   public Map getRequestCookieMap()
+   public Map<String, Object> getRequestCookieMap()
    {
-      Map<String, Cookie> cookieMap = new HashMap<String, Cookie>();
+      Map<String, Object> cookieMap = new HashMap<String, Object>();
       
       if (request != null && request.getCookies() != null)
       {
@@ -227,9 +224,9 @@ public class MockExternalContext extends ExternalContext
    }
 
    @Override
-   public Map getRequestHeaderMap()
+   public Map<String, String> getRequestHeaderMap()
    {
-      Map result = new HashMap();
+      Map<String, String> result = new HashMap<String, String>();
       Enumeration<String> names = request.getHeaderNames();
       while (names.hasMoreElements())
       {
@@ -240,7 +237,7 @@ public class MockExternalContext extends ExternalContext
    }
 
    @Override
-   public Map getRequestHeaderValuesMap()
+   public Map<String, String[]> getRequestHeaderValuesMap()
    {
       Map<String, String[]> result = new HashMap<String, String[]>();
       Enumeration<String> en = request.getHeaderNames();
@@ -265,18 +262,18 @@ public class MockExternalContext extends ExternalContext
    }
 
    @Override
-   public Iterator getRequestLocales()
+   public Iterator<Locale> getRequestLocales()
    {
       return Collections.singleton(Locale.ENGLISH).iterator();
    }
 
    @Override
-   public Map getRequestMap()
+   public Map<String, Object> getRequestMap()
    {
-      return new AttributeMap()
+      return new AttributeMap<String, Object>()
       {
          @Override
-         public Enumeration keys()
+         public Enumeration<String> keys()
          {
             return request.getAttributeNames();
          }
@@ -302,9 +299,9 @@ public class MockExternalContext extends ExternalContext
    }
 
    @Override
-   public Map getRequestParameterMap()
+   public Map<String, String> getRequestParameterMap()
    {
-      Map map = new HashMap();
+      Map<String, String> map = new HashMap<String, String>();
       Enumeration<String> names = request.getParameterNames();
       while (names.hasMoreElements())
       {
@@ -315,13 +312,13 @@ public class MockExternalContext extends ExternalContext
    }
 
    @Override
-   public Iterator getRequestParameterNames()
+   public Iterator<String> getRequestParameterNames()
    {
       return request.getParameterMap().keySet().iterator();
    }
 
    @Override
-   public Map getRequestParameterValuesMap()
+   public Map<String, String[]> getRequestParameterValuesMap()
    {
       return request.getParameterMap();
    }
@@ -353,7 +350,7 @@ public class MockExternalContext extends ExternalContext
    }
 
    @Override
-   public Set getResourcePaths(String name)
+   public Set<String> getResourcePaths(String name)
    {
       return context.getResourcePaths(name);
    }
@@ -371,13 +368,14 @@ public class MockExternalContext extends ExternalContext
    }
 
    @Override
-   public Map getSessionMap()
+   public Map<String, Object> getSessionMap()
    {
-      final HttpSession session = request.getSession(true); //TODO: create the session lazily, RI should do that to
-      return new AttributeMap()
+	 //TODO: create the session lazily, RI should do that to
+      final HttpSession session = request.getSession(true); 
+      return new AttributeMap<String, Object>()
       {
          @Override
-         public Enumeration keys()
+         public Enumeration<String> keys()
          {
             return session.getAttributeNames();
          }
@@ -402,26 +400,26 @@ public class MockExternalContext extends ExternalContext
       };
    }
 
-   static abstract class AttributeMap implements Map
+   static abstract class AttributeMap<K,V> implements Map<K,V>
    {
 
-      public abstract Enumeration keys();
+      public abstract Enumeration<K> keys();
 
-      public Object get(Object key)
+      public V get(Object key)
       {
          return getAttribute((String) key);
       }
 
-      public Object put(Object key, Object value)
+      public V put(Object key, Object value)
       {
-         Object result = get(key);
+         V result = get(key);
          setAttribute((String) key, value);
          return result;
       }
 
       public void clear()
       {
-         Enumeration e = keys();
+         Enumeration<K> e = keys();
          while (e.hasMoreElements())
          {
             remove(e.nextElement());
@@ -430,17 +428,19 @@ public class MockExternalContext extends ExternalContext
 
       public boolean containsKey(Object key)
       {
-         Enumeration e = keys();
+         Enumeration<K> e = keys();
          while (e.hasMoreElements())
          {
-            if (key.equals(e.nextElement())) return true;
+            if (key.equals(e.nextElement())){
+            	return true;
+            }
          }
          return false;
       }
 
       public boolean containsValue(Object value)
       {
-         Enumeration e = keys();
+         Enumeration<K> e = keys();
          while (e.hasMoreElements())
          {
             if (value.equals(get(e.nextElement()))) return true;
@@ -448,27 +448,27 @@ public class MockExternalContext extends ExternalContext
          return false;
       }
 
-      public Set entrySet()
+      public Set<Map.Entry<K, V>> entrySet()
       {
          throw new UnsupportedOperationException();
       }
 
-      public abstract Object getAttribute(String key);
+      public abstract V getAttribute(String key);
 
       public boolean isEmpty()
       {
          return size() == 0;
       }
 
-      public Set keySet()
+      public Set<K> keySet()
       {
-         return new AbstractSet()
+         return new AbstractSet<K>()
          {
 
             @Override
-            public Iterator iterator()
+            public Iterator<K> iterator()
             {
-               return new EnumerationIterator(keys());
+               return new EnumerationIterator<K>(keys());
             }
 
             @Override
@@ -484,17 +484,17 @@ public class MockExternalContext extends ExternalContext
 
       public abstract void removeAttribute(String key);
 
-      public void putAll(Map t)
+      public void putAll(Map<? extends K, ? extends V> t)
       {
-         for (Map.Entry me : (Set<Map.Entry>) t.entrySet())
+         for (Map.Entry<? extends K,?extends V> me :  t.entrySet())
          {
             put(me.getKey(), me.getValue());
          }
       }
 
-      public Object remove(Object key)
+      public V remove(Object key)
       {
-         Object result = getAttribute((String) key);
+         V result = getAttribute((String) key);
          removeAttribute((String) key);
          return result;
       }
@@ -502,7 +502,7 @@ public class MockExternalContext extends ExternalContext
       public int size()
       {
          int i = 0;
-         Enumeration e = keys();
+         Enumeration<K> e = keys();
          while (e.hasMoreElements())
          {
             e.nextElement();
@@ -511,7 +511,7 @@ public class MockExternalContext extends ExternalContext
          return i;
       }
 
-      public Collection values()
+      public Collection<V> values()
       {
          throw new UnsupportedOperationException();
       }

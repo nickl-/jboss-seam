@@ -68,7 +68,8 @@ public class MockServletContext implements ServletContext
 		}
 	}
    
-   private void processContextParameters(URL webXML)
+   @SuppressWarnings("unchecked")
+private void processContextParameters(URL webXML)
    {
       try
       {
@@ -120,7 +121,8 @@ public class MockServletContext implements ServletContext
       return null;
    }
    
-   public Set getResourcePaths(String name)
+   @Override
+   public Set<String> getResourcePaths(String name)
    {
       Enumeration<URL> enumeration = null;
       try
@@ -237,12 +239,12 @@ public class MockServletContext implements ServletContext
       throw new UnsupportedOperationException();
    }
    @Deprecated
-   public Enumeration getServlets()
+   public Enumeration<Servlet> getServlets()
    {
       return null;
    }
    @Deprecated
-   public Enumeration getServletNames()
+   public Enumeration<String> getServletNames()
    {
       return null;
    }
@@ -284,9 +286,9 @@ public class MockServletContext implements ServletContext
       return initParameters.get(param);
    }
 
-   public Enumeration getInitParameterNames()
+   public Enumeration<String> getInitParameterNames()
    {
-      return new IteratorEnumeration(initParameters.keySet().iterator());
+      return new IteratorEnumeration<String>(initParameters.keySet().iterator());
    }
 
    public Object getAttribute(String att)
@@ -294,9 +296,9 @@ public class MockServletContext implements ServletContext
       return attributes.get(att);
    }
 
-   public Enumeration getAttributeNames()
+   public Enumeration<String> getAttributeNames()
    {
-      return new IteratorEnumeration(attributes.keySet().iterator());
+      return new IteratorEnumeration<String>(attributes.keySet().iterator());
    }
 
    public void setAttribute(String att, Object value)

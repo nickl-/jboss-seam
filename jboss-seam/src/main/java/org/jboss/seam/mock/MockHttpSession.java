@@ -20,7 +20,7 @@ import org.jboss.seam.util.IteratorEnumeration;
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @version $Revision: 9668 $
  */
-@SuppressWarnings("deprecation")
+
 public class MockHttpSession implements HttpSession
 {
    
@@ -66,12 +66,6 @@ public class MockHttpSession implements HttpSession
    {
       return maxInactiveInterval;
    }
-   @Override
-   @Deprecated
-   public javax.servlet.http.HttpSessionContext getSessionContext()
-   {
-      throw new UnsupportedOperationException();
-   }
 
    public Object getAttribute(String att)
    {
@@ -83,9 +77,8 @@ public class MockHttpSession implements HttpSession
       return getAttribute(att);
    }
 
-   @SuppressWarnings("unchecked")
 	public Enumeration<String> getAttributeNames() {
-		return new IteratorEnumeration(attributes.keySet().iterator());
+		return new IteratorEnumeration<String>(attributes.keySet().iterator());
 	}
 
    public String[] getValueNames()
@@ -139,6 +132,13 @@ public class MockHttpSession implements HttpSession
    public ServletContext getServletContext()
    {
       return servletContext;
+   }
+
+   @Override
+   @Deprecated
+   public javax.servlet.http.HttpSessionContext getSessionContext()
+   {
+      throw new UnsupportedOperationException();
    }
 
 

@@ -5,9 +5,9 @@ import java.util.Iterator;
 
 public class EnumerationIterator<T> implements Iterator<T>
 {
-   private Enumeration e;
+   private Enumeration<? extends T> e;
 
-   public EnumerationIterator(Enumeration e)
+   public EnumerationIterator(Enumeration<? extends T> e)
    {
       this.e = e;
    }

@@ -10,9 +10,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -76,7 +76,7 @@ public class MockHttpServletRequest implements HttpServletRequest
    private String remoteAddr;
    private String remoteHost;
    private Locale locale;
-   private Enumeration locales;
+   private Enumeration<Locale> locales;
    private boolean isSecure;
    private int remotePort;
    private String localName;
@@ -90,7 +90,8 @@ public class MockHttpServletRequest implements HttpServletRequest
       this(session, null, new HashSet<String>());
    }
    
-   public MockHttpServletRequest(HttpSession session, ExternalContext externalContext) 
+   @SuppressWarnings("unchecked")
+public MockHttpServletRequest(HttpSession session, ExternalContext externalContext) 
    {
       this(session, null, new HashSet<String>());
       Object request = externalContext.getRequest();
@@ -143,6 +144,7 @@ public class MockHttpServletRequest implements HttpServletRequest
       this(session, principalName, principalRoles, new Cookie[] {}, null);
    }
 
+   @SuppressWarnings("unchecked")
    public MockHttpServletRequest(HttpSession session, String principalName, Set<String> principalRoles, Cookie[] cookies, String method)
    {
       this.session = session;
@@ -152,7 +154,7 @@ public class MockHttpServletRequest implements HttpServletRequest
       this.method = method;
       // The 1.2 RI NPEs if this header isn't present 
       headers.put("Accept", new String[0]);
-      locales = new IteratorEnumeration(new ArrayList().iterator());
+      locales = new IteratorEnumeration<Locale>(Collections.EMPTY_LIST.iterator());
    }
 
    public Map<String, String[]> getParameters()
@@ -186,14 +188,15 @@ public class MockHttpServletRequest implements HttpServletRequest
       return values==null || values.length==0 ? null : values[0];
    }
 
-   public Enumeration getHeaders(String header)
+
+   public Enumeration<String> getHeaders(String header)
    {
-      return new IteratorEnumeration( Arrays.asList( headers.get(header) ).iterator() );
+      return new IteratorEnumeration<String>( Arrays.asList( headers.get(header) ).iterator() );
    }
 
-   public Enumeration getHeaderNames()
+   public Enumeration<String> getHeaderNames()
    {
-      return new IteratorEnumeration( headers.keySet().iterator() );
+      return new IteratorEnumeration<String>( headers.keySet().iterator() );
    }
 
    public int getIntHeader(String header)
@@ -292,20 +295,16 @@ public class MockHttpServletRequest implements HttpServletRequest
    {
       return false;
    }
-   @Deprecated
-   public boolean isRequestedSessionIdFromUrl()
-   {
-      return false;
-   }
+
 
    public Object getAttribute(String att)
    {
       return attributes.get(att);
    }
 
-   public Enumeration getAttributeNames()
+   public Enumeration<String> getAttributeNames()
    {
-      return new IteratorEnumeration( attributes.keySet().iterator() );
+      return new IteratorEnumeration<String>( attributes.keySet().iterator() );
    }
 
    public String getCharacterEncoding()
@@ -341,9 +340,9 @@ public class MockHttpServletRequest implements HttpServletRequest
       return values==null || values.length==0 ? null : values[0];
    }
 
-   public Enumeration getParameterNames()
+   public Enumeration<String> getParameterNames()
    {
-      return new IteratorEnumeration( parameters.keySet().iterator() );
+      return new IteratorEnumeration<String>( parameters.keySet().iterator() );
    }
 
    public String[] getParameterValues(String param)
@@ -351,7 +350,7 @@ public class MockHttpServletRequest implements HttpServletRequest
       return parameters.get(param);
    }
 
-   public Map getParameterMap()
+   public Map<String, String[]> getParameterMap()
    {
       return parameters;
    }
@@ -413,7 +412,7 @@ public class MockHttpServletRequest implements HttpServletRequest
       return locale;
    }
 
-   public Enumeration getLocales()
+   public Enumeration<Locale> getLocales()
    {
       return locales;
    }
@@ -432,15 +431,6 @@ public class MockHttpServletRequest implements HttpServletRequest
       return null;
    }
 
-   @Deprecated
-   public String getRealPath(String path)
-   {
-      if(httpServletRequest != null) 
-      {
-         return httpServletRequest.getRealPath(path);
-      }
-      return null;
-   }
 
    public int getRemotePort()
    {
@@ -550,4 +540,21 @@ public class MockHttpServletRequest implements HttpServletRequest
       // TODO Auto-generated method stub
       return null;
    }
+   
+   
+   @Deprecated
+   public boolean isRequestedSessionIdFromUrl()
+   {
+      return false;
+   }
+   @Deprecated
+   public String getRealPath(String path)
+   {
+      if(httpServletRequest != null) 
+      {
+         return httpServletRequest.getRealPath(path);
+      }
+      return null;
+   }
+
 }

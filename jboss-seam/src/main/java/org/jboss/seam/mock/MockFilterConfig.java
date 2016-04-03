@@ -35,8 +35,8 @@ public class MockFilterConfig implements FilterConfig
       return null;
    }
 
-   public Enumeration getInitParameterNames()
-   {
-      return new IteratorEnumeration( Collections.EMPTY_LIST.iterator() );
-   }
+	@SuppressWarnings("unchecked")
+	public Enumeration<String> getInitParameterNames() {
+		return new IteratorEnumeration<String>(Collections.EMPTY_LIST.iterator());
+	}
 }

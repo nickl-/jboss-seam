@@ -130,11 +130,11 @@ public class Strings
       return builder.substring(sep.length());
    }
    
-   public static String toString(String sep, Class... classes)
+   public static String toString(String sep, Class<?>... classes)
    {
       if (classes.length==0) return "";
       StringBuilder builder = new StringBuilder();
-      for (Class clazz: classes)
+      for (Class<?> clazz: classes)
       {
          builder.append(sep).append( clazz.getName() );
       }

@@ -73,7 +73,7 @@ public class MockFacesContext extends FacesContext
    }
 
    @Override
-   public Iterator getClientIdsWithMessages()
+   public Iterator<String> getClientIdsWithMessages()
    {
       return messages.values().iterator();
    }
@@ -99,15 +99,15 @@ public class MockFacesContext extends FacesContext
    }
 
    @Override
-   public Iterator getMessages()
+   public Iterator<FacesMessage> getMessages()
    {
       return messages.keySet().iterator();
    }
 
    @Override
-   public Iterator getMessages(String clientId)
+   public Iterator<FacesMessage> getMessages(String clientId)
    {
-      List list = new ArrayList();
+      List<FacesMessage> list = new ArrayList<FacesMessage>();
       for (Map.Entry<FacesMessage, String> entry : messages.entrySet())
       {
          String messageId = entry.getValue();

@@ -49,8 +49,8 @@ public class ServletContextWrapper implements ServletContext {
       return attributes.get(arg0);
    }
 
-   public Enumeration getAttributeNames() {
-      return new IteratorEnumeration(attributes.keySet().iterator());
+   public Enumeration<String> getAttributeNames() {
+      return new IteratorEnumeration<String>(attributes.keySet().iterator());
    }
 
    public ServletContext getContext(String arg0) {
@@ -65,7 +65,7 @@ public class ServletContextWrapper implements ServletContext {
       return delegate.getInitParameter(arg0);
    }
 
-   public Enumeration getInitParameterNames() {
+   public Enumeration<String> getInitParameterNames() {
       return delegate.getInitParameterNames();
    }
 
@@ -102,7 +102,7 @@ public class ServletContextWrapper implements ServletContext {
       return ret;
    }
 
-   public Set getResourcePaths(String arg0) {
+   public Set<String> getResourcePaths(String arg0) {
       return delegate.getResourcePaths(arg0);
    }
 
@@ -118,11 +118,11 @@ public class ServletContextWrapper implements ServletContext {
       return "Wrap";
    }
    @Deprecated
-   public Enumeration getServletNames() {
+   public Enumeration<String> getServletNames() {
       return delegate.getServletNames();
    }
    @Deprecated
-   public Enumeration getServlets() {
+   public Enumeration<Servlet> getServlets() {
       return delegate.getServlets();
    }
 
