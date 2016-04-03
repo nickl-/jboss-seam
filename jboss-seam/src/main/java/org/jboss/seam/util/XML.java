@@ -83,7 +83,7 @@ public class XML
        * Get escaped <, ", ' characters from input
        * 
        * @param input
-       * @return
+       * @return escaped string
        */
 	public static String escapeXMLChars(String input) {
 		String escapedStr = input;
