@@ -84,7 +84,11 @@ public class HotDeploymentStrategy extends DeploymentStrategy
    {
       try
       {
-         URL url = hotDeployDirectory.toURL();
+    	  // have to suprress warning because it's "ok" http://bugs.java.com/bugdatabase/view_bug.do?bug_id=6179468
+         @SuppressWarnings("deprecation")
+		 URL url = hotDeployDirectory.toURL();
+         
+         
          URL[] urls = { url };
          hotDeployClassLoader = new URLClassLoader(urls, classLoader);
          getFiles().add(hotDeployDirectory);
@@ -131,7 +135,7 @@ public class HotDeploymentStrategy extends DeploymentStrategy
    /**
     * Return true if the component is from a hot deployment classloader
     */
-   public boolean isFromHotDeployClassLoader(Class componentClass)
+   public boolean isFromHotDeployClassLoader(Class<?> componentClass)
    {
       return componentClass.getClassLoader() == hotDeployClassLoader;
    }
@@ -149,8 +153,8 @@ public class HotDeploymentStrategy extends DeploymentStrategy
    {
       try
       {
-         Class initializer = Reflections.classForName(className);
-         Constructor ctr = initializer.getConstructor(ClassLoader.class, File.class, ServletContext.class, boolean.class);
+         Class<?> initializer = Reflections.classForName(className);
+         Constructor<?> ctr = initializer.getConstructor(ClassLoader.class, File.class, ServletContext.class, boolean.class);
          return (HotDeploymentStrategy) ctr.newInstance(classLoader, hotDeployDirectory, servletContext, enabled);
       }
       catch (Exception e)
