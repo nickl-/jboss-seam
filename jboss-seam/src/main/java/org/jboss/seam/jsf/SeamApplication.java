@@ -23,11 +23,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.behavior.Behavior;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.el.MethodBinding;
-import javax.faces.el.PropertyResolver;
-import javax.faces.el.ReferenceSyntaxException;
-import javax.faces.el.ValueBinding;
-import javax.faces.el.VariableResolver;
 import javax.faces.event.ActionListener;
 import javax.faces.event.SystemEvent;
 import javax.faces.event.SystemEventListener;
@@ -45,7 +40,6 @@ import org.jboss.seam.el.SeamExpressionFactory;
  * @author Gavin King
  *
  */
-@SuppressWarnings("deprecation")
 public class SeamApplication extends Application
 {  
    
@@ -80,7 +74,7 @@ public class SeamApplication extends Application
    }
 
    @Override
-   public void addConverter(Class targetClass, String converterClass)
+   public void addConverter(Class<?> targetClass, String converterClass)
    {
       application.addConverter(targetClass, converterClass);
    }
@@ -98,12 +92,7 @@ public class SeamApplication extends Application
       return application.createComponent(componentType);
    }
 
-   @Override
-   public UIComponent createComponent(ValueBinding componentBinding,
-         FacesContext context, String componentType) throws FacesException
-   {
-      return application.createComponent(componentBinding, context, componentType);
-   }
+
    
    @Override
    public UIComponent createComponent(FacesContext context, 
@@ -133,7 +122,7 @@ public class SeamApplication extends Application
    }
 
    @Override
-   public Converter createConverter(Class targetClass)
+   public Converter createConverter(Class<?> targetClass)
    {
       Converter converter = null;
       if ( Contexts.isApplicationContextActive() )
@@ -150,11 +139,11 @@ public class SeamApplication extends Application
    private class ConverterLocator 
    {
       
-      private Map<Class, String> converters;
-      private Class targetClass;
+      private Map<Class<?>, String> converters;
+      private Class<?> targetClass;
       private Converter converter;
       
-      public ConverterLocator(Class targetClass)
+      public ConverterLocator(Class<?> targetClass)
       {
          converters = Init.instance().getConvertersByClass();
          this.targetClass = targetClass;
@@ -169,12 +158,12 @@ public class SeamApplication extends Application
          return converter;
       }
       
-      private Converter createConverter(Class clazz)
+      private Converter createConverter(Class<?> clazz)
       {
          return (Converter) Component.getInstance(converters.get(clazz));
       }
       
-      private void locateConverter(Class clazz)
+      private void locateConverter(Class<?> clazz)
       {
          if (converters.containsKey(clazz))
          {
@@ -182,7 +171,7 @@ public class SeamApplication extends Application
             return;
          }
          
-         for (Class _interface: clazz.getInterfaces())
+         for (Class<?> _interface: clazz.getInterfaces())
          {
             if (converters.containsKey(_interface))
             {
@@ -199,7 +188,7 @@ public class SeamApplication extends Application
             }
          }
          
-         Class superClass = clazz.getSuperclass();
+         Class<?> superClass = clazz.getSuperclass();
          if (converters.containsKey(superClass))
          {
             converter = createConverter(superClass);
@@ -226,20 +215,7 @@ public class SeamApplication extends Application
       return application.createValidator(validatorId);
    }
 
-   @Override
-   public MethodBinding createMethodBinding(String expression, Class[] params)
-         throws ReferenceSyntaxException
-   {
-      return new UnifiedELMethodBinding(expression, params);
 
-   }
-
-   @Override
-   public ValueBinding createValueBinding(String expression)
-         throws ReferenceSyntaxException
-   {
-      return new UnifiedELValueBinding(expression);
-   }
 
    @Override
    public ActionListener getActionListener()
@@ -248,21 +224,21 @@ public class SeamApplication extends Application
    }
 
    @Override
-   public Iterator getComponentTypes()
+   public Iterator<String> getComponentTypes()
    {
       return application.getComponentTypes();
    }
 
    @Override
-   public Iterator getConverterIds()
+   public Iterator<String> getConverterIds()
    {
       return application.getConverterIds();
    }
 
    @Override
-   public Iterator getConverterTypes()
+   public Iterator<Class<?>> getConverterTypes()
    {
-      return application.getComponentTypes();
+      return application.getConverterTypes();
    }
 
    @Override
@@ -281,16 +257,6 @@ public class SeamApplication extends Application
    public String getMessageBundle()
    {
       return application.getMessageBundle();
-      //obsolete, now handled by faces-config.xml:
-      /*String messageBundle = application.getMessageBundle();
-      if (messageBundle!=null)
-      {
-         return messageBundle;
-      }
-      else
-      {
-         return "org.jboss.seam.core.SeamResourceBundle";
-      }*/
    }
 
    @Override
@@ -299,11 +265,7 @@ public class SeamApplication extends Application
       return application.getNavigationHandler();
    }
 
-   @Override
-   public PropertyResolver getPropertyResolver()
-   {
-      return application.getPropertyResolver();
-   }
+
 
    @Override
    public StateManager getStateManager()
@@ -312,23 +274,19 @@ public class SeamApplication extends Application
    }
 
    @Override
-   public Iterator getSupportedLocales()
+   public Iterator<Locale> getSupportedLocales()
    {
       return application.getSupportedLocales();
    }
 
    @Override
-   public Iterator getValidatorIds()
+   public Iterator<String> getValidatorIds()
    {
       return application.getValidatorIds();
    }
 
-   @Override
-   public VariableResolver getVariableResolver()
-   {
-      return application.getVariableResolver();
-   }
 
+   
    @Override
    public ViewHandler getViewHandler()
    {
@@ -365,11 +323,7 @@ public class SeamApplication extends Application
       application.setNavigationHandler(handler);
    }
 
-   @Override
-   public void setPropertyResolver(PropertyResolver resolver)
-   {
-      application.setPropertyResolver(resolver);
-   }
+
 
    @Override
    public void setStateManager(StateManager manager)
@@ -378,16 +332,12 @@ public class SeamApplication extends Application
    }
 
    @Override
-   public void setSupportedLocales(Collection locales)
+   public void setSupportedLocales(Collection<Locale> locales)
    {
       application.setSupportedLocales(locales);
    }
 
-   @Override
-   public void setVariableResolver(VariableResolver resolver)
-   {
-      application.setVariableResolver(resolver);
-   }
+
 
    @Override
    public void setViewHandler(ViewHandler handler)
@@ -413,10 +363,11 @@ public class SeamApplication extends Application
       return application.createComponent(ve, fc, id);
    }
 
+   @SuppressWarnings("unchecked")
    @Override
-   public Object evaluateExpressionGet(FacesContext ctx, String expr, Class type) throws ELException
+   public <T> T evaluateExpressionGet(FacesContext ctx, String expr, Class<? extends T> type) throws ELException
    {
-      return getExpressionFactory().createValueExpression( ctx.getELContext(), expr, type).getValue( ctx.getELContext() );
+      return (T) getExpressionFactory().createValueExpression( ctx.getELContext(), expr, type).getValue( ctx.getELContext() );
    }
 
    @Override
@@ -577,5 +528,57 @@ public class SeamApplication extends Application
    public void unsubscribeFromEvent(Class<? extends SystemEvent> systemEventClass, SystemEventListener listener)
    {
       application.unsubscribeFromEvent(systemEventClass, listener);
+   }
+   
+   
+   
+   @Override
+   @Deprecated
+   public javax.faces.el.MethodBinding createMethodBinding(String expression, Class<?>[] params)
+         throws javax.faces.el.ReferenceSyntaxException
+   {
+      return new UnifiedELMethodBinding(expression, params);
+
+   }
+
+   @Override
+   @Deprecated
+   public javax.faces.el.ValueBinding createValueBinding(String expression)
+         throws javax.faces.el.ReferenceSyntaxException
+   {
+      return new UnifiedELValueBinding(expression);
+   }
+   
+   @Override
+   @Deprecated
+   public javax.faces.el.PropertyResolver getPropertyResolver()
+   {
+      return application.getPropertyResolver();
+   }
+   @Override
+   @Deprecated
+   public javax.faces.el.VariableResolver getVariableResolver()
+   {
+      return application.getVariableResolver();
+   }
+   @Override
+   @Deprecated
+   public void setPropertyResolver(javax.faces.el.PropertyResolver resolver)
+   {
+      application.setPropertyResolver(resolver);
+   }
+   @Override
+   @Deprecated
+   public void setVariableResolver(javax.faces.el.VariableResolver resolver)
+   {
+      application.setVariableResolver(resolver);
+   }
+   
+   @Override
+   @Deprecated
+   public UIComponent createComponent(javax.faces.el.ValueBinding componentBinding,
+         FacesContext context, String componentType) throws FacesException
+   {
+      return application.createComponent(componentBinding, context, componentType);
    }
 }

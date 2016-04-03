@@ -411,6 +411,7 @@ class EmptyRequest implements HttpServletRequest
    }
    
    @Override
+   @Deprecated
    public String getRealPath(String arg0)
    {
       // TODO Auto-generated method stub
@@ -551,6 +552,7 @@ class EmptyRequest implements HttpServletRequest
    }
    
    @Override
+   @Deprecated
    public boolean isRequestedSessionIdFromUrl()
    {
       // TODO Auto-generated method stub

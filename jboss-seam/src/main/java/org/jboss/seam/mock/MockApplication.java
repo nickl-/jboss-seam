@@ -30,12 +30,6 @@ import javax.faces.convert.FloatConverter;
 import javax.faces.convert.IntegerConverter;
 import javax.faces.convert.LongConverter;
 import javax.faces.convert.ShortConverter;
-import javax.faces.el.EvaluationException;
-import javax.faces.el.MethodBinding;
-import javax.faces.el.PropertyResolver;
-import javax.faces.el.ReferenceSyntaxException;
-import javax.faces.el.ValueBinding;
-import javax.faces.el.VariableResolver;
 import javax.faces.event.ActionListener;
 import javax.faces.event.SystemEvent;
 import javax.faces.validator.Validator;
@@ -45,11 +39,9 @@ import org.jboss.seam.el.SeamExpressionFactory;
 import org.jboss.seam.jsf.SeamNavigationHandler;
 import org.jboss.seam.jsf.SeamStateManager;
 import org.jboss.seam.jsf.SeamViewHandler;
-import org.jboss.seam.jsf.UnifiedELMethodBinding;
-import org.jboss.seam.jsf.UnifiedELValueBinding;
 import org.jboss.seam.util.Reflections;
 
-@SuppressWarnings("deprecation")
+
 public class MockApplication extends Application
 {
    
@@ -67,7 +59,7 @@ public class MockApplication extends Application
 
    private javax.el.CompositeELResolver elResolver;
    private javax.el.CompositeELResolver additionalResolvers;
-   private Collection locales;
+   private Collection<Locale> locales;
    
    public MockApplication()
    {
@@ -77,10 +69,11 @@ public class MockApplication extends Application
      elResolver.add(EL.EL_RESOLVER); 
    }
    
+   @SuppressWarnings("unchecked")
    @Override
-   public Object evaluateExpressionGet(FacesContext context, String expression, Class type) throws javax.el.ELException 
+   public <T> T evaluateExpressionGet(FacesContext context, String expression, Class<? extends T> type) throws javax.el.ELException 
    {
-      return getExpressionFactory().createValueExpression(context.getELContext(), expression, type).getValue(context.getELContext());
+       return (T) getExpressionFactory().createValueExpression(context.getELContext(), expression, type).getValue(context.getELContext());
    }
    
    @Override
@@ -193,37 +186,7 @@ public class MockApplication extends Application
       this.navigationHandler = navigationHandler;
    }
 
-   @Override
-   public PropertyResolver getPropertyResolver()
-   {
-      throw new UnsupportedOperationException();
-   }
-
-   @Override
-   public void setPropertyResolver(PropertyResolver pr)
-   {
-      throw new UnsupportedOperationException();
-   }
-
-   private VariableResolver variableResolver = /*new SeamVariableResolver(*/ new VariableResolver() { 
-      @Override
-      public Object resolveVariable(FacesContext ctx, String name) throws EvaluationException
-      {
-         return null;
-      }
-   } /*)*/;
-
-   @Override
-   public VariableResolver getVariableResolver()
-   {
-      return variableResolver;
-   }
-
-   @Override
-   public void setVariableResolver(VariableResolver variableResolver)
-   {
-      this.variableResolver = variableResolver;
-   }
+ 
 
    private ViewHandler viewHandler = new SeamViewHandler( new MockViewHandler() );
 
@@ -287,20 +250,15 @@ public class MockApplication extends Application
       return createComponent(componentType);
    }
 
+
+
    @Override
-   public UIComponent createComponent(ValueBinding vb, FacesContext fc, String x)
-            throws FacesException
+   public Iterator<String> getComponentTypes()
    {
       throw new UnsupportedOperationException();
    }
 
-   @Override
-   public Iterator getComponentTypes()
-   {
-      throw new UnsupportedOperationException();
-   }
-
-   private final Map<Class, Converter> converters = new HashMap<Class, Converter>();
+   private final Map<Class<?>, Converter> converters = new HashMap<Class<?>, Converter>();
    {
       converters.put(Integer.class, new IntegerConverter());
       converters.put(Long.class, new LongConverter());
@@ -335,7 +293,7 @@ public class MockApplication extends Application
    }
 
    @Override
-   public void addConverter(Class type, String converterClass)
+   public void addConverter(Class<?> type, String converterClass)
    {
       converters.put(type, instantiateConverter(converterClass));
    }
@@ -359,40 +317,25 @@ public class MockApplication extends Application
    }
 
    @Override
-   public Converter createConverter(Class clazz)
+   public Converter createConverter(Class<?> clazz)
    {
       return converters.get(clazz);
    }
 
    @Override
-   public Iterator getConverterIds()
+   public Iterator<String> getConverterIds()
    {
       return convertersById.keySet().iterator();
    }
 
    @Override
-   public Iterator getConverterTypes()
+   public Iterator<Class<?>> getConverterTypes()
    {
       return converters.keySet().iterator();
    }
-
+   
    @Override
-   public MethodBinding createMethodBinding(String expression, Class[] params)
-         throws ReferenceSyntaxException
-   {
-      return new UnifiedELMethodBinding(expression, params);
-
-   }
-
-   @Override
-   public ValueBinding createValueBinding(String expression)
-         throws ReferenceSyntaxException
-   {
-      return new UnifiedELValueBinding(expression);
-   }
-
-   @Override
-   public Iterator getSupportedLocales()
+   public Iterator<Locale> getSupportedLocales()
    {
       if (locales == null)
       {
@@ -405,7 +348,7 @@ public class MockApplication extends Application
    }
 
    @Override
-   public void setSupportedLocales(Collection locales)
+   public void setSupportedLocales(Collection<Locale> locales)
    {
       this.locales = locales;
    }
@@ -437,7 +380,7 @@ public class MockApplication extends Application
    }
 
    @Override
-   public Iterator getValidatorIds()
+   public Iterator<String> getValidatorIds()
    {
       return validatorsById.keySet().iterator();
    }
@@ -446,6 +389,74 @@ public class MockApplication extends Application
    public ExpressionFactory getExpressionFactory()
    {
       return SeamExpressionFactory.INSTANCE;
+   }
+   
+   
+   
+   
+   
+   @Override
+   @Deprecated
+   public UIComponent createComponent(javax.faces.el.ValueBinding vb, FacesContext fc, String x)
+            throws FacesException
+   {
+      throw new UnsupportedOperationException();
+   }
+   
+   @Override
+   @Deprecated
+   public javax.faces.el.MethodBinding createMethodBinding(String expression, Class<?>[] params)
+         throws javax.faces.el.ReferenceSyntaxException
+   {
+      return new org.jboss.seam.jsf.UnifiedELMethodBinding(expression, params);
+
+   }
+
+   @Override
+   @Deprecated
+   public javax.faces.el.ValueBinding createValueBinding(String expression)
+         throws javax.faces.el.ReferenceSyntaxException
+   {
+      return new org.jboss.seam.jsf.UnifiedELValueBinding(expression);
+   }
+
+   
+   
+   @Override
+   @Deprecated
+   public javax.faces.el.PropertyResolver getPropertyResolver()
+   {
+      throw new UnsupportedOperationException();
+   }
+
+   @Override
+   @Deprecated
+   public void setPropertyResolver(javax.faces.el.PropertyResolver pr)
+   {
+      throw new UnsupportedOperationException();
+   }
+
+   @Deprecated
+   private javax.faces.el.VariableResolver variableResolver = new javax.faces.el.VariableResolver() { 
+      @Override
+      public Object resolveVariable(FacesContext ctx, String name) throws javax.faces.el.EvaluationException
+      {
+         return null;
+      }
+   };
+
+   @Override
+   @Deprecated
+   public javax.faces.el.VariableResolver getVariableResolver()
+   {
+      return variableResolver;
+   }
+
+   @Override
+   @Deprecated
+   public void setVariableResolver(javax.faces.el.VariableResolver variableResolver)
+   {
+      this.variableResolver = variableResolver;
    }
    
 }

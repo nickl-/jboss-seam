@@ -103,7 +103,7 @@ public class Init
    
    private Map<String, String> converters = new HashMap<String, String>();
    private Map<String, String> validators = new HashMap<String, String>();
-   private Map<Class, String> convertersByClass = new HashMap<Class, String>();
+   private Map<Class<?>, String> convertersByClass = new HashMap<Class<?>, String>();
    
    private long timestamp;
    private long warTimestamp;
@@ -540,7 +540,7 @@ public class Init
       return converters;
    }
 
-   public Map<Class, String> getConvertersByClass()
+   public Map<Class<?>, String> getConvertersByClass()
    {
       return convertersByClass;
    }

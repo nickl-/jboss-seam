@@ -2,11 +2,9 @@ package org.jboss.seam.mock;
 
 import java.io.IOException;
 
-import javax.faces.application.StateManager.SerializedView;
 import javax.faces.context.FacesContext;
 import javax.faces.render.ResponseStateManager;
 
-@SuppressWarnings("deprecation")
 public class MockResponseStateManager extends ResponseStateManager 
 {
 
@@ -23,7 +21,8 @@ public class MockResponseStateManager extends ResponseStateManager
    }
 
    @Override
-   public void writeState(FacesContext ctx, SerializedView viewState) throws IOException 
+   @Deprecated
+   public void writeState(FacesContext ctx, javax.faces.application.StateManager.SerializedView viewState) throws IOException 
    {
       
    }
