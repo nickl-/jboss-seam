@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Filter;
 import org.hibernate.HibernateException;
 import org.hibernate.LockMode;
+import org.hibernate.LockOptions;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -71,9 +72,15 @@ public class HibernateEntityController extends PersistenceController<Session>
 
    protected <T> T get(Class<T> clazz, Serializable id, LockMode lockMode) throws HibernateException
    {
-      return (T) getSession().get(clazz, id, lockMode);
+      return get(clazz, id, new LockOptions(lockMode));
+   }
+   @SuppressWarnings("unchecked")
+   protected <T> T get(Class<T> clazz, Serializable id, LockOptions lockOptions) throws HibernateException
+   {
+      return (T) getSession().get(clazz, id, lockOptions);
    }
 
+   @SuppressWarnings("unchecked")
    protected <T> T get(Class<T> clazz, Serializable id) throws HibernateException
    {
       return (T) getSession().get(clazz, id);
@@ -85,24 +92,35 @@ public class HibernateEntityController extends PersistenceController<Session>
    }
 
 
+
    protected <T> T load(Class<T> clazz, Serializable id, LockMode lockMode) throws HibernateException
    {
-      return (T) getSession().load(clazz, id, lockMode);
+      return get(clazz, id, new LockOptions(lockMode));
+   }
+   @SuppressWarnings("unchecked")
+   protected <T> T load(Class<T> clazz, Serializable id, LockOptions lockOptions) throws HibernateException
+   {
+      return (T) getSession().load(clazz, id, lockOptions);
    }
 
+   @SuppressWarnings("unchecked")
    protected <T> T load(Class<T> clazz, Serializable id) throws HibernateException
    {
       return (T) getSession().load(clazz, id);
    }
 
 
+
    protected void lock(Object entity, LockMode lockMode) throws HibernateException
    {
-      getSession().lock(entity, lockMode);
+	   lock(entity, new LockOptions(lockMode));
+   }
+   protected void lock(Object entity, LockOptions lockOptions) throws HibernateException {
+	   getSession().buildLockRequest(lockOptions).lock(entity);
    }
 
    @SuppressWarnings("unchecked")
-protected <T> T merge(T entity) throws HibernateException
+   protected <T> T merge(T entity) throws HibernateException
    {
       return (T) getSession().merge(entity);
    }
@@ -115,7 +133,11 @@ protected <T> T merge(T entity) throws HibernateException
 
    protected void refresh(Object entity, LockMode lockMode) throws HibernateException
    {
-      getSession().refresh(entity, lockMode);
+      refresh(entity, new LockOptions(lockMode));
+   }
+   protected void refresh(Object entity, LockOptions lockOptions) throws HibernateException
+   {
+      getSession().refresh(entity, lockOptions);
    }
 
    protected void refresh(Object entity) throws HibernateException
