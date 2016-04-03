@@ -7,6 +7,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.el.ValueExpression;
 import javax.faces.FacesException;
@@ -19,7 +20,11 @@ import org.jboss.seam.framework.Query;
 import org.jboss.seam.ui.converter.ConverterChain;
 import org.jboss.seam.ui.converter.NoSelectionConverter;
 import org.jboss.seam.util.Strings;
-import org.richfaces.cdk.annotations.*;
+import org.richfaces.cdk.annotations.Alias;
+import org.richfaces.cdk.annotations.Attribute;
+import org.richfaces.cdk.annotations.Description;
+import org.richfaces.cdk.annotations.JsfComponent;
+import org.richfaces.cdk.annotations.Tag;
 
 
 /**
@@ -60,14 +65,15 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
       
       private Object varValue;
       
-      public ContextualSelectItem(Object varValue)
-      {
-         if (varValue == null)
-         {
-            throw new FacesException("var attribute must be set");
-         }
-         this.varValue = varValue;
-      }
+		public ContextualSelectItem(Object varValue) {
+			if (Strings.isEmpty(getVar())) {
+				throw new FacesException("var attribute must be set in this s:selectItems");
+			}
+			if (varValue == null) {
+				throw new FacesException("One item in the list to s:selectItems is null");
+			}
+			this.varValue = varValue;
+		}
       
       /**
        * @return the varValue
@@ -79,7 +85,11 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
       
       private void setup()
       {
-         getFacesContext().getExternalContext().getRequestMap().put(getVar(), varValue);
+    	  Map<String, Object> requestMap = getFacesContext().getExternalContext().getRequestMap();
+    	  if (requestMap.containsKey(getVar())) {
+    		  throw new FacesException ("var with name:[" + getVar() +"] is already in use");
+    	  }
+         requestMap.put(getVar(), varValue);
       }
       
       private void cleanup()
@@ -196,9 +206,6 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
    @Attribute(description = @Description("an EL expression specifying the data that backs the List&lt;SelectItem&gt;"))
    public Object getValue()
    {
-	   if (Strings.isEmpty(getVar())) {
-		   throw new FacesException("'var' attribute is mandatory in s:selectItems");
-	   }
       List<javax.faces.model.SelectItem> temporarySelectItems = new ArrayList<javax.faces.model.SelectItem>();
       javax.faces.model.SelectItem noSelectionLabel = noSelectionLabel();
       if (noSelectionLabel != null) 
