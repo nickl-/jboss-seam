@@ -19,6 +19,9 @@ Release Notase - Seam 2 - Version 2.3.5-SNAPSHOT
 	* [JBSEAM-4435] Exception in Seam Resource is Swallowed and Redirection to debug.seam Does not Work.
 	* [JBSEAM-4347] NullPointerException in UISelectItems when var attribute is not specified in s:selectItems
 	* [JBSEAM-4678] Stop the PhaseListener doing work on non-seam applications
+	* [JBSEAM-4395] Endless loop when an exception occurs during commit inside a long running conversation, and there is an <exception> clause to handle it in page.xml
+	* [JBSEAM-4528] static pages don't work at all with database down and XA datasource used
+	* [JBSEAM-4312] Exception while checking out transaction causing infinite loop trying to render error page
 	* [ ] Recover and improved Seam Debug page
 	* [ ] Only enable Sean Debug if facelets and JSF are in development mode
 	* [ ] FileDocumentData allow store documents on files instead of memory.
