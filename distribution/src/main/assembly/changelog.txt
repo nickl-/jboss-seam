@@ -7,12 +7,18 @@ Release Notase - Seam 2 - Version 2.3.5-SNAPSHOT
 	* [JBSEAM-5145] Captcha validation prints message key instead of message	
 	* [JBSEAM-2929] Externalize the CAPTCHA incorrect response message to a resource bundle*
 	* [JBSEAM-4651] s:button with image attribute doesn't add contextroot in src attribute	
+	* [JBSEAM-3345] Seam buttons don't render path in relative images (same of above)	
 	* [JBSEAM-4631] Fix posible NPE in s:validateEquality
 	* [JBSEAM-4313] EntityHome created/updated/deleted default messages should come from resource bundle instead of hard-coded messages
 	* [JBSEAM-2724] Internationalize Home default messages
 	* [JBSEAM-4502] pages.xml expires attribute : invalid Expires HTTP header with non-English JVM default locale
 	* [JBSEAM-4490] Messages: AbstractMap needs containsKey
 	* [JBSEAM-4384] Seam/Hibernate filter enabled --> ClassCastException	
+	* [JBSEAM-4063] MultipartRequestImpl implementation of getPerameterMap
+	* [JBSEAM-3897] MultipartRequest Error: 100% CPU or Missing data
+	* [JBSEAM-4435] Exception in Seam Resource is Swallowed and Redirection to debug.seam Does not Work.
+	* [JBSEAM-4347] NullPointerException in UISelectItems when var attribute is not specified in s:selectItems
+	* [JBSEAM-4678] Stop the PhaseListener doing work on non-seam applications
 	* [ ] Recover and improved Seam Debug page
 	* [ ] Only enable Sean Debug if facelets and JSF are in development mode
 	* [ ] FileDocumentData allow store documents on files instead of memory.
@@ -43,6 +49,8 @@ Release Notes - Seam 2 - Version 2.3.2.ayg
     * [JBSEAM-4806] - failed to load multiple apps with jboss-seam.jar in global classpath
     * [JBSEAM-4822] - MultipartRequestImpl incorrect parse filename with semicolon
     * [JBSEAM-4827] - FacesMessages may trigger NPE in JSF code
+    * [ ] Add additional features to RedirectFilter to delay sending a redirect url to the HttpServletResponse
+    * [ ] Better message when decorate template is not found
 
 ** Enhancement
     * [JBSEAM-4853] - Change DocumentStorePhaseListener to allow downloads of IE over SSL
