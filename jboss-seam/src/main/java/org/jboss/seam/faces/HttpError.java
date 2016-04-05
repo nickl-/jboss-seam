@@ -4,6 +4,7 @@ package org.jboss.seam.faces;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
@@ -24,53 +25,49 @@ import org.jboss.seam.contexts.Contexts;
 @Scope(ScopeType.APPLICATION)
 @BypassInterceptors
 @Name("org.jboss.seam.faces.httpError")
-@Install(precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
-public class HttpError
-{
-   /**
-    * Send a HTTP error as the response
-    */
-   public void send(int code)
-   {
-      try
-      {
-         getResponse().sendError(code);
-      }
-      catch (IOException ioe)
-      {
-         throw new IllegalStateException(ioe);
-      }
-      FacesContext.getCurrentInstance().responseComplete();
-   }
+@Install(precedence = BUILT_IN, classDependencies = "javax.faces.context.FacesContext")
+public class HttpError {
+	/**
+	 * Send a HTTP error as the response
+	 */
+	public void send(int code) {
+		try {
+			HttpServletResponse response = getResponse();
+			response.reset();
+			response.setContentType("text/plain; charset=" + StandardCharsets.UTF_8);
+			response.setStatus(code);
+			response.getWriter().println(code);
+		} catch (IOException ioe) {
+			throw new IllegalStateException(ioe);
+		}
+		FacesContext.getCurrentInstance().responseComplete();
+	}
 
-   /**
-    * Send a HTTP error as the response
-    */
-   public void send(int code, String message)
-   {
-      try
-      {
-         getResponse().sendError(code, message);
-      }
-      catch (IOException ioe)
-      {
-         throw new IllegalStateException(ioe);
-      }
-      FacesContext.getCurrentInstance().responseComplete();
-   }
+	/**
+	 * Send a HTTP error as the response
+	 */
+	public void send(int code, String message) {
+		try {
+			HttpServletResponse response = getResponse();
+			response.reset();
+			response.setContentType("text/plain; charset=" + StandardCharsets.UTF_8);
+			response.setStatus(code);
+			response.getOutputStream().write(message.getBytes(StandardCharsets.UTF_8));
+		} catch (IOException ioe) {
+			throw new IllegalStateException(ioe);
+		}
+		FacesContext.getCurrentInstance().responseComplete();
+	}
 
-   private static HttpServletResponse getResponse()
-   {
-      return (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-   }
+	private static HttpServletResponse getResponse() {
+		return (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+	}
 
-   public static HttpError instance()
-   {
-      if ( !Contexts.isApplicationContextActive() )
-      {
-         throw new IllegalStateException("No active application scope");
-      }
-      return (HttpError) Component.getInstance(HttpError.class, ScopeType.APPLICATION);
-   }
-   
+	public static HttpError instance() {
+		if (!Contexts.isApplicationContextActive()) {
+			throw new IllegalStateException("No active application scope");
+		}
+		return (HttpError) Component.getInstance(HttpError.class, ScopeType.APPLICATION);
+	}
+
 }
