@@ -27,6 +27,7 @@ public abstract class RedirectHandler extends ExceptionHandler
    protected abstract String getMessage(Exception e);
    protected abstract boolean isEnd(Exception e);
    protected abstract Severity getMessageSeverity(Exception e);
+   protected abstract boolean isEndBeforeRedirect(Exception e);
 
    @Override
 	public void handle(Exception e) throws Exception {
@@ -45,8 +46,13 @@ public abstract class RedirectHandler extends ExceptionHandler
 
 		addFacesMessage("#0", getMessageSeverity(e), null, getDisplayMessage(e, getMessage(e)));
 
-		if (Contexts.isConversationContextActive() && isEnd(e)) {
-			Conversation.instance().end();
+		if (Contexts.isConversationContextActive()) {
+			if (isEndBeforeRedirect(e)) {
+				Conversation.instance().endBeforeRedirect();				
+			}
+			else if (isEnd(e)) {
+				Conversation.instance().end();
+			}
 		}
 
 		try {

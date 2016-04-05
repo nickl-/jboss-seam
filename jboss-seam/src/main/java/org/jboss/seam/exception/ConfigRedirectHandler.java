@@ -18,16 +18,18 @@ public final class ConfigRedirectHandler extends RedirectHandler
    private final boolean conversation;
    private final String message;
    private final Severity messageSeverity;
+   private final boolean conversationBeforeRedirect;
 
    /**
     * Construct a ConfigRedirectHandler.
     * 
     */
-   public ConfigRedirectHandler(ValueExpression<String> id, Class<?> clazz, boolean conversation, String message, Severity messageSeverity)
+   public ConfigRedirectHandler(ValueExpression<String> id, Class clazz, boolean conversation, boolean conversationBeforeRedirect, String message, Severity messageSeverity)
    {
       this.id = id;
       this.clazz = clazz;
       this.conversation = conversation;
+      this.conversationBeforeRedirect = conversationBeforeRedirect;
       this.message = message;
       this.messageSeverity = messageSeverity;
    }
@@ -35,7 +37,7 @@ public final class ConfigRedirectHandler extends RedirectHandler
    @Deprecated
    public ConfigRedirectHandler(String id, Class<?> clazz, boolean conversation, String message, Severity messageSeverity)
    {
-      this(Expressions.instance().createValueExpression(id, String.class), clazz, conversation, message, messageSeverity);
+	   this(Expressions.instance().createValueExpression(id, String.class), clazz, conversation, false, message, messageSeverity);
    }
 
    @Override
@@ -68,6 +70,11 @@ public final class ConfigRedirectHandler extends RedirectHandler
    {
       return conversation;
    }
+   
+	@Override
+	protected boolean isEndBeforeRedirect(Exception e) {
+		return conversationBeforeRedirect;
+	}
 
    @Override
    public Severity getMessageSeverity(Exception e)
