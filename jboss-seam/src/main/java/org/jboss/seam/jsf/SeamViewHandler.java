@@ -57,7 +57,8 @@ public class SeamViewHandler extends ViewHandlerWrapper
    public Locale calculateLocale(FacesContext facesContext)
    {
       Locale jsfLocale = viewHandler.calculateLocale(facesContext);
-      if ( !Contexts.isSessionContextActive() )
+      // Skip non-seam applications    
+      if (!SeamApplication.isSeamApplication(facesContext) || !Contexts.isSessionContextActive() )
       {
          return jsfLocale;
       }
@@ -93,6 +94,10 @@ public class SeamViewHandler extends ViewHandlerWrapper
    @Override
    public String getActionURL(FacesContext facesContext, String viewId) {
        String actionUrl = super.getActionURL(facesContext, viewId);
+    	// Skip non-seam applications       
+       if (!SeamApplication.isSeamApplication(facesContext) || !Contexts.isConversationContextActive()) {
+           return actionUrl;
+       }
        Conversation conversation = Conversation.instance();
        Manager manager = Manager.instance();
        String conversationIdParameter = manager.getConversationIdParameter();
@@ -210,5 +215,6 @@ public class SeamViewHandler extends ViewHandlerWrapper
    {
       return viewHandler;
    }
+
 
 }

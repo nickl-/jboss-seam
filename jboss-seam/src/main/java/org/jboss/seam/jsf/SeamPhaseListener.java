@@ -114,9 +114,7 @@ public class SeamPhaseListener implements PhaseListener
    }
    
 	public void beforePhase(PhaseEvent event) {
-		// Skip non-seam applications
-		ServletContext servletContext = (ServletContext) event.getFacesContext().getExternalContext().getContext();
-		if (servletContext.getAttribute(Seam.VERSION) == null) {
+		if (!SeamApplication.isSeamApplication(event.getFacesContext())){
 			return;
 		}
       log.trace( "before phase: " + event.getPhaseId() );
@@ -198,8 +196,7 @@ public class SeamPhaseListener implements PhaseListener
 
 	public void afterPhase(PhaseEvent event) {
 		// Skip non-seam applications
-		ServletContext servletContext = (ServletContext) event.getFacesContext().getExternalContext().getContext();
-		if (servletContext.getAttribute(Seam.VERSION) == null) {
+		if (!SeamApplication.isSeamApplication(event.getFacesContext())){
 			return;
 		}
       log.trace( "after phase: " + event.getPhaseId() );
@@ -624,5 +621,7 @@ public class SeamPhaseListener implements PhaseListener
          throw new IllegalStateException("Could not commit transaction", e);
       }
    }
+   
+
    
 }

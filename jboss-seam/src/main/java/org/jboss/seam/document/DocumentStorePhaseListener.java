@@ -6,11 +6,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jboss.seam.Seam;
+import org.jboss.seam.jsf.SeamApplication;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.Pages;
@@ -35,8 +34,7 @@ public class DocumentStorePhaseListener implements PhaseListener
    public void beforePhase(PhaseEvent phaseEvent)
    {
 		// Skip non-seam applications
-		ServletContext servletContext = (ServletContext) phaseEvent.getFacesContext().getExternalContext().getContext();
-		if (servletContext.getAttribute(Seam.VERSION) == null) {
+		if (!SeamApplication.isSeamApplication(phaseEvent.getFacesContext())) {
 			return;
 		}
       String rootId = Pages.getViewId(phaseEvent.getFacesContext());
