@@ -3,6 +3,7 @@ package org.jboss.seam.exception;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Conversation;
@@ -28,34 +29,37 @@ public abstract class RedirectHandler extends ExceptionHandler
    protected abstract Severity getMessageSeverity(Exception e);
 
    @Override
-   public void handle(Exception e) throws Exception
-   {
-      String viewId = getViewId(e);
-      if (viewId==null)
-      {
-         //we want to perform a redirect straight back to the current page
-         //there is no ViewRoot available, so lets do it the hard way
-         String servletPath = ( (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest() ).getServletPath();
-         viewId = servletPath.substring(0, servletPath.lastIndexOf('.')) + Pages.getSuffix();
-      }
-      
-      addFacesMessage( "#0", getMessageSeverity(e), null, getDisplayMessage(e, getMessage(e)));
-      
-      if ( Contexts.isConversationContextActive() && isEnd(e) ) 
-      {
-         Conversation.instance().end();
-      }
-      
-      try
-      {
-         redirect(viewId, null);
-      }
-      catch (RedirectException re)
-      {
-         //do nothing
-         log.debug("could not redirect", re);
-      }
-   }
+	public void handle(Exception e) throws Exception {
+		String viewId = getViewId(e);
+
+		// we want to perform a redirect straight back to the current page
+		// there is no ViewRoot available, so lets do it the hard way
+		String servletPath = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getServletPath();
+		String currentView = servletPath + Pages.getSuffix();
+		if (servletPath.contains(".")) {
+			currentView = servletPath.substring(0, servletPath.lastIndexOf('.')) + Pages.getSuffix();
+		}
+		if (viewId == null) {
+			viewId = currentView;
+		}
+
+		addFacesMessage("#0", getMessageSeverity(e), null, getDisplayMessage(e, getMessage(e)));
+
+		if (Contexts.isConversationContextActive() && isEnd(e)) {
+			Conversation.instance().end();
+		}
+
+		try {
+			if (viewId != null && ("/error" + Pages.getSuffix()).equals(viewId) && viewId.equals(currentView)) {
+				error(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error!");
+				return;
+			}
+			redirect(viewId, null);
+		} catch (RedirectException re) {
+			// do nothing
+			log.debug("could not redirect", re);
+		}
+	}
 
    @Override
    public String toString()
