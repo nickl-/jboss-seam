@@ -1008,7 +1008,7 @@ public class Pages
    {
       String defaultSuffix = FacesContext.getCurrentInstance().getExternalContext()
             .getInitParameter(ViewHandler.DEFAULT_SUFFIX_PARAM_NAME);
-      return defaultSuffix == null ? ViewHandler.DEFAULT_SUFFIX : defaultSuffix;
+      return defaultSuffix == null ? ".xhtml" : defaultSuffix;
    }
    
    /**
