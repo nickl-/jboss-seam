@@ -21,7 +21,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.seam.Seam;
@@ -62,9 +61,7 @@ public class SeamPhaseListener implements PhaseListener
    private static final long serialVersionUID = -9127555729455066493L;
    
    private static final LogProvider log = Logging.getLogProvider(SeamPhaseListener.class);
-   
-   private static boolean exists = false;
-   
+     
    private static final Method SET_RENDER_PARAMETER;
    private static final Class<?> ACTION_RESPONSE;
    private static final Class<?> PORTLET_REQUEST;
@@ -99,14 +96,9 @@ public class SeamPhaseListener implements PhaseListener
       }
    }
 
-   public SeamPhaseListener()
-   {
-      if (exists) 
-      {
-         log.warn("There should only be one Seam phase listener per application");
-      }
-      exists=true;
-   }
+	public SeamPhaseListener() {
+		super();
+	}
    
    public PhaseId getPhaseId()
    {
