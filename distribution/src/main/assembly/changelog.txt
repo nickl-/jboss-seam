@@ -22,6 +22,9 @@ Release Notase - Seam 2 - Version 2.3.5-SNAPSHOT
 	* [JBSEAM-4395] Endless loop when an exception occurs during commit inside a long running conversation, and there is an <exception> clause to handle it in page.xml
 	* [JBSEAM-4528] static pages don't work at all with database down and XA datasource used
 	* [JBSEAM-4312] Exception while checking out transaction causing infinite loop trying to render error page
+	* [JBSEAM-4646] ConcurrentModificationException in RewriterFilter
+	* [JBSEAM-5078] Unsynchronized access to conversation entries map
+	* [JBSEAM-4832] Exception in the filter chain javax.servlet.ServletException: java.util.ConcurrentModificationException
 	* [ ] Recover and improved Seam Debug page
 	* [ ] Only enable Sean Debug if facelets and JSF are in development mode
 	* [ ] FileDocumentData allow store documents on files instead of memory.
