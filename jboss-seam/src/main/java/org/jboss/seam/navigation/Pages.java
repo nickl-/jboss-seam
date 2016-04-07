@@ -63,6 +63,7 @@ import org.jboss.seam.util.Resources;
 import org.jboss.seam.util.Strings;
 import org.jboss.seam.util.XML;
 import org.jboss.seam.web.Parameters;
+import org.jboss.seam.web.Pattern;
 
 /**
  * Holds metadata for pages defined in pages.xml, including
@@ -1744,5 +1745,23 @@ public class Pages
    public Collection<String> getKnownViewIds() {
        return pagesByViewId.keySet();
    }
+   
+	public List<Pattern> getAllRewritePatterns() {
+
+		Collection<String> ids = new ArrayList<String>();
+		Collection<String> keys = pagesByViewId.keySet();
+		synchronized (this.pagesByViewId) {
+			ids.addAll(keys);
+		}
+
+		List<Pattern> allRewritePatterns = new ArrayList<Pattern>();
+		for (String id : ids) {
+			Page page = getPage(id);
+			if (page != null) {
+				allRewritePatterns.addAll(page.getRewritePatterns());
+			}
+		}
+		return allRewritePatterns;
+	}
    
 }
