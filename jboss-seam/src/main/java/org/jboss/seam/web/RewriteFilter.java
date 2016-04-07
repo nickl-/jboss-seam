@@ -69,29 +69,14 @@ public class RewriteFilter
                ServletException 
     {
         String fullPath = request.getRequestURI();
-        //log.debug("incoming URL is " + fullPath);
-        //log.debug("known patterns are " + patterns);
 
         String localPath = strip(fullPath, request.getContextPath());
        
         Rewrite rewrite = matchPatterns(localPath, patterns);
         if (rewrite!=null) {
             String newPath = rewrite.rewrite();
-            
-            //log.debug("rewritten incoming path is " + newPath);
-            
             if (!fullPath.equals(request.getContextPath() + newPath)) {
                 RequestDispatcher dispatcher = request.getRequestDispatcher(newPath);
-                
-//                final String wrappedPath = newPath;
-//                HttpServletRequest wrapped = new HttpServletRequestWrapper(request) {
-//                    @Override
-//                    public String getServletPath() {
-//                        return wrappedPath;
-//
-//                    }
-//                };
-//                dispatcher.forward(wrapped, response);
                 dispatcher.forward(request, response);
                 return true;
             }
