@@ -14,7 +14,7 @@ import javax.validation.Constraint;
 @Constraint(validatedBy=CaptchaResponseValidator.class)
 public @interface CaptchaResponse 
 {
-   String message() default "incorrect response";
+   String message() default "#{messages['org.jboss.seam.captcha.error']}";
    
    Class<?>[] groups() default {};
    
