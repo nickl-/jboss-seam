@@ -73,7 +73,7 @@ public class ExcelExporter
     * @param dataTableId id of data table to export
     * @param type ExcelWorkbook implementation to use
     */
-   @SuppressWarnings("unchecked")
+   
    public void export(String dataTableId, String type)
    {
       excelWorkbook = ExcelFactory.instance().getExcelWorkbook(type);
