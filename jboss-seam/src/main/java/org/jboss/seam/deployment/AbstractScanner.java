@@ -28,11 +28,10 @@ import org.jboss.seam.log.Logging;
  */
 public abstract class AbstractScanner implements Scanner
 {
-	@Deprecated
-	public static final String KEY_OMIT_PACKAGES = OmitPackageHelper.KEY_OMIT_PACKAGES;
    
    protected ServletContext servletContext;
    protected OmitPackageHelper omitPackage;
+   protected ScanResultsCache scanCache;
    
    private static class Handler
    {
@@ -47,6 +46,7 @@ public abstract class AbstractScanner implements Scanner
       private String name;
       private ServletContext servletContext;
       private OmitPackageHelper omitPackage;
+      private ScanResultsCache scanCache;
       public Handler(String name, Set<Entry<String, DeploymentHandler>> deploymentHandlers, ClassLoader classLoader,ServletContext servletContext)
       {
          this.deploymentHandlers = deploymentHandlers;
@@ -54,6 +54,7 @@ public abstract class AbstractScanner implements Scanner
          this.classLoader = classLoader;
          this.servletContext=servletContext;
          this.omitPackage = OmitPackageHelper.getInstance(servletContext);
+         this.scanCache = ScanResultsCache.getInstance(servletContext);
       }
       
       /**
@@ -64,7 +65,7 @@ public abstract class AbstractScanner implements Scanner
 			if (deploymentHandler instanceof ClassDeploymentHandler) {
 				if (name.endsWith(".class") && omitPackage.acceptClass(name)) {
 					ClassDeploymentHandler classDeploymentHandler = (ClassDeploymentHandler) deploymentHandler;
-					if (hasAnnotations(getClassFile(), classDeploymentHandler.getMetadata().getClassAnnotatedWith())) {
+					if (this.scanCache.isHit(name) || hasAnnotations(getClassFile(), classDeploymentHandler.getMetadata().getClassAnnotatedWith())) {
 						if (getClassDescriptor().getClazz() != null) {
 							log.trace("adding class to deployable list " + name + " for deployment handler " + deploymentHandler.getName());
 							classDeploymentHandler.getClasses().add(getClassDescriptor());
@@ -144,6 +145,7 @@ public abstract class AbstractScanner implements Scanner
       this.deploymentStrategy = deploymentStrategy;
       this.servletContext=deploymentStrategy.getServletContext();
       this.omitPackage = OmitPackageHelper.getInstance(this.servletContext);
+      this.scanCache = ScanResultsCache.getInstance(this.servletContext);
       ClassFile.class.getPackage(); //to force loading of javassist, throwing an exception if it is missing
    }
    @Deprecated
@@ -151,12 +153,14 @@ public abstract class AbstractScanner implements Scanner
    {
       this.servletContext=ServletLifecycle.getCurrentServletContext();
       this.omitPackage = OmitPackageHelper.getInstance(this.servletContext);
+      this.scanCache = ScanResultsCache.getInstance(this.servletContext);
    }
    
    protected AbstractScanner(ServletContext servletContext)
    {
       this.servletContext=servletContext;
       this.omitPackage = OmitPackageHelper.getInstance(this.servletContext);
+      this.scanCache = ScanResultsCache.getInstance(this.servletContext);
    }
    
    protected static boolean hasAnnotations(ClassFile classFile, Set<Class<? extends Annotation>> annotationTypes)
@@ -221,10 +225,19 @@ public abstract class AbstractScanner implements Scanner
    }
    
    
-   protected boolean handle(String name)
-   {
-      return new Handler(name, deploymentStrategy.getDeploymentHandlers().entrySet(), deploymentStrategy.getClassLoader(),servletContext).handle();
-   }
+	protected boolean handle(String name) {
+		boolean handled = false;
+		if (!this.scanCache.isMiss(name)) {
+			handled = new Handler(name, deploymentStrategy.getDeploymentHandlers().entrySet(), deploymentStrategy.getClassLoader(),
+					servletContext).handle();
+			if (handled) {
+				this.scanCache.addHit(name);
+			} else {
+				this.scanCache.addMiss(name);
+			}
+		}
+		return handled;
+	}
    
    public void scanDirectories(File[] directories, File[] excludedDirectories)
    {
