@@ -324,6 +324,7 @@
 							</manifest>
 							<manifestEntries>
 								<Seam-Version>${project.version}</Seam-Version>
+								<Build-Time>${maven.build.timestamp}</Build-Time>
 							</manifestEntries>
 						</archive>
 					</configuration>
@@ -347,6 +348,7 @@
 						</manifest>
 						<manifestEntries>
 							<Seam-Version>${project.version}</Seam-Version>
+							<Build-Time>${maven.build.timestamp}</Build-Time>
 						</manifestEntries>
 					</archive>
 				</configuration>
@@ -373,6 +375,7 @@
                        </manifest>
                        <manifestEntries>
                          <Seam-Version>${project.version}</Seam-Version>
+                         <Build-Time>${maven.build.timestamp}</Build-Time>
                        </manifestEntries>
                    </archive>
                </configuration>
