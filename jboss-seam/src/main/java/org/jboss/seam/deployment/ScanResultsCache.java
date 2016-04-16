@@ -37,8 +37,8 @@ public class ScanResultsCache {
 	}
 	
 	
-	private Set<String> hits = new HashSet<String>();
-	private Set<String> misses = new HashSet<String>();
+	private HashSet<String> hits = new HashSet<String>();
+	private HashSet<String> misses = new HashSet<String>();
 	
 	private ScanResultsCache() {
 		super();
@@ -64,6 +64,21 @@ public class ScanResultsCache {
 	public void reset() {
 		this.hits.clear();
 		this.misses.clear();
+	}
+	
+	/**
+	 * Only for debug purposes
+	 */
+	@SuppressWarnings("unchecked")
+	public Set<String> getHits() {
+		return (Set<String>) this.hits.clone();
+	}
+	/**
+	 * Only for debug purposes
+	 */
+	@SuppressWarnings("unchecked")
+	public Set<String> getMisses() {
+		return (Set<String>) this.misses.clone();
 	}
 
 }
