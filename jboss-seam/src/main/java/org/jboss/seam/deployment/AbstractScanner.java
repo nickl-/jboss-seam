@@ -28,9 +28,11 @@ import org.jboss.seam.log.Logging;
  */
 public abstract class AbstractScanner implements Scanner
 {
-	public static final String KEY_OMIT_PACKAGES = "org.jboss.seam.deployment.OMIT_PACKAGES";
+	@Deprecated
+	public static final String KEY_OMIT_PACKAGES = OmitPackageHelper.KEY_OMIT_PACKAGES;
    
    protected ServletContext servletContext;
+   protected OmitPackageHelper omitPackage;
    
    private static class Handler
    {
@@ -44,24 +46,14 @@ public abstract class AbstractScanner implements Scanner
       private ClassLoader classLoader;
       private String name;
       private ServletContext servletContext;
-      private String[] omittedPackages;
+      private OmitPackageHelper omitPackage;
       public Handler(String name, Set<Entry<String, DeploymentHandler>> deploymentHandlers, ClassLoader classLoader,ServletContext servletContext)
       {
          this.deploymentHandlers = deploymentHandlers;
          this.name = name;
          this.classLoader = classLoader;
          this.servletContext=servletContext;
-         this.omittedPackages = (String []) this.servletContext.getAttribute(KEY_OMIT_PACKAGES);
-         if (this.omittedPackages == null) {
-	         String omittedPackageString = this.servletContext.getInitParameter(KEY_OMIT_PACKAGES);
-	         if (omittedPackageString != null && !"".equals(omittedPackageString)) {
-	        	 this.omittedPackages = omittedPackageString.split(",");
-	         }
-	         else {
-	        	 this.omittedPackages = new String[0];
-	         }
-	         this.servletContext.setAttribute(KEY_OMIT_PACKAGES, this.omittedPackages);
-         }
+         this.omitPackage = OmitPackageHelper.getInstance(servletContext);
       }
       
       /**
@@ -70,7 +62,7 @@ public abstract class AbstractScanner implements Scanner
 		protected boolean handle(DeploymentHandler deploymentHandler) {
 			boolean handled = false;
 			if (deploymentHandler instanceof ClassDeploymentHandler) {
-				if (name.endsWith(".class") && !isOmmitedPackage(name)) {
+				if (name.endsWith(".class") && omitPackage.acceptClass(name)) {
 					ClassDeploymentHandler classDeploymentHandler = (ClassDeploymentHandler) deploymentHandler;
 					if (hasAnnotations(getClassFile(), classDeploymentHandler.getMetadata().getClassAnnotatedWith())) {
 						if (getClassDescriptor().getClazz() != null) {
@@ -92,20 +84,7 @@ public abstract class AbstractScanner implements Scanner
 			return handled;
 		}
       
-      private boolean isOmmitedPackage(String fullClassFileName) {
-    	  if (omittedPackages.length == 0) {
-    		  return false;
-    	  }
-    	  String packageName = fullClassFileName.substring(0, fullClassFileName.lastIndexOf('/'));
-    	  packageName = packageName.replaceAll("/", ".");
-    	  for (String omittedPackage : omittedPackages) {
-    		  if (packageName.startsWith(omittedPackage)) {
-    			  return true;
-    		  }
-    	  }
-    	  
-		return false;
-	}
+
 
 	protected boolean handle()
       {
@@ -164,17 +143,20 @@ public abstract class AbstractScanner implements Scanner
    {
       this.deploymentStrategy = deploymentStrategy;
       this.servletContext=deploymentStrategy.getServletContext();
+      this.omitPackage = OmitPackageHelper.getInstance(this.servletContext);
       ClassFile.class.getPackage(); //to force loading of javassist, throwing an exception if it is missing
    }
    @Deprecated
    protected AbstractScanner()
    {
       this.servletContext=ServletLifecycle.getCurrentServletContext();
+      this.omitPackage = OmitPackageHelper.getInstance(this.servletContext);
    }
    
    protected AbstractScanner(ServletContext servletContext)
    {
       this.servletContext=servletContext;
+      this.omitPackage = OmitPackageHelper.getInstance(this.servletContext);
    }
    
    protected static boolean hasAnnotations(ClassFile classFile, Set<Class<? extends Annotation>> annotationTypes)
