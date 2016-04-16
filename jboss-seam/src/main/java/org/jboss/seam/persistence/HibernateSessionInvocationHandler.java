@@ -27,6 +27,7 @@ import org.hibernate.SQLQuery;
 import org.hibernate.ScrollMode;
 import org.hibernate.ScrollableResults;
 import org.hibernate.Session;
+import org.hibernate.SessionEventListener;
 import org.hibernate.SessionFactory;
 import org.hibernate.SharedSessionBuilder;
 import org.hibernate.SimpleNaturalIdLoadAccess;
@@ -40,9 +41,9 @@ import org.hibernate.engine.spi.ActionQueue;
 import org.hibernate.engine.spi.EntityEntry;
 import org.hibernate.engine.spi.EntityKey;
 import org.hibernate.engine.spi.LoadQueryInfluencers;
-import org.hibernate.engine.spi.NonFlushedChanges;
 import org.hibernate.engine.spi.PersistenceContext;
 import org.hibernate.engine.spi.QueryParameters;
+import org.hibernate.engine.spi.SessionEventListenerManager;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.engine.transaction.spi.TransactionCoordinator;
@@ -67,7 +68,7 @@ import org.hibernate.type.Type;
  * 
  */
 @SuppressWarnings("rawtypes")
-public class HibernateSessionInvocationHandler implements InvocationHandler, Serializable, EventSource
+public class HibernateSessionInvocationHandler<Hibernate> implements InvocationHandler, Serializable, EventSource
 {
      
    private static final long serialVersionUID = 4954720887288965536L;
@@ -745,16 +746,7 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
    {
       ((SessionImplementor) delegate).disableTransactionAutoJoin();
    }
-   @Override
-   public NonFlushedChanges getNonFlushedChanges() throws HibernateException
-   {
-      return ((SessionImplementor) delegate).getNonFlushedChanges();
-   }
-   @Override
-   public void applyNonFlushedChanges(NonFlushedChanges nonFlushedChanges) throws HibernateException
-   {
-      ((SessionImplementor) delegate).applyNonFlushedChanges(nonFlushedChanges);
-   }
+
    @Override
    public TransactionCoordinator getTransactionCoordinator()
    {
@@ -870,5 +862,19 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
    {
       return ((SessionImplementor) delegate).list(criteria);
    }
+   @Override
+   public void removeOrphanBeforeUpdates(String entityName, Object child) {
+	   ((EventSource) delegate).removeOrphanBeforeUpdates(entityName, child);
+   }
+
+	@Override
+	public SessionEventListenerManager getEventListenerManager() {
+		return ( (SessionImplementor) delegate).getEventListenerManager();
+	}
+
+	@Override
+	public void addEventListeners(SessionEventListener... listeners) {
+		delegate.addEventListeners(listeners);
+	}
 
 }
