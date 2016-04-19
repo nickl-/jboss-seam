@@ -1,5 +1,6 @@
 package org.jboss.seam.deployment;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,8 +38,8 @@ public class ScanResultsCache {
 	}
 	
 	
-	private HashSet<String> hits = new HashSet<String>();
-	private HashSet<String> misses = new HashSet<String>();
+	private Set<String> hits = Collections.synchronizedSet(new HashSet<String>());
+	private Set<String> misses = Collections.synchronizedSet(new HashSet<String>());
 	
 	private ScanResultsCache() {
 		super();
@@ -69,16 +70,22 @@ public class ScanResultsCache {
 	/**
 	 * Only for debug purposes
 	 */
-	@SuppressWarnings("unchecked")
 	public Set<String> getHits() {
-		return (Set<String>) this.hits.clone();
+		Set<String> results = new HashSet<String>();
+		synchronized(this.hits) { 
+			results.addAll(this.hits);
+		}
+		return results;
 	}
 	/**
 	 * Only for debug purposes
 	 */
-	@SuppressWarnings("unchecked")
 	public Set<String> getMisses() {
-		return (Set<String>) this.misses.clone();
+		Set<String> results = new HashSet<String>();
+		synchronized(this.misses) { 
+			results.addAll(this.misses);
+		}
+		return results;
 	}
 
 }
