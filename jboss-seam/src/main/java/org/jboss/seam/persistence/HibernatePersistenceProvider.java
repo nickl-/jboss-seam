@@ -348,7 +348,7 @@ public class HibernatePersistenceProvider extends PersistenceProvider
       VersionType versionType = (VersionType) classMetadata.getPropertyTypes()[ classMetadata.getVersionProperty() ];
       if ( !versionType.isEqual(oldVersion, version) )
       {
-         throw new StaleStateException("current database version number does not match passivated version number");
+         throw new StaleStateException("current database version number does not match passivated version number old:" + oldVersion + " version:" + version + " value:" + value.toString());
       }
    }
    
