@@ -25,8 +25,9 @@ Release Notase - Seam 2 - Version 2.3.5-SNAPSHOT
 	* [JBSEAM-4646] ConcurrentModificationException in RewriterFilter
 	* [JBSEAM-5078] Unsynchronized access to conversation entries map
 	* [JBSEAM-4832] Exception in the filter chain javax.servlet.ServletException: java.util.ConcurrentModificationException
+	* [JBSEAM-3464] better message for HibernatePersistenceProvider.checkVersion() exception
 	* [ ] Recover and improved Seam Debug page
-	* [ ] Only enable Sean Debug if facelets and JSF are in development mode
+	* [ ] Only enable Seam Debug if facelets and JSF are in development mode
 	* [ ] FileDocumentData allow store documents on files instead of memory.
 	
 
