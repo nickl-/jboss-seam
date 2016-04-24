@@ -26,7 +26,7 @@ public abstract class DeploymentStrategy
    
    private static final LogProvider log = Logging.getLogProvider(DeploymentStrategy.class);
 
-   private Scanner scanner;
+   protected Scanner scanner;
    
    private List<File> files = new ArrayList<File>();
    

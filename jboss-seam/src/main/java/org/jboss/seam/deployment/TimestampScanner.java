@@ -9,8 +9,22 @@ import javax.servlet.ServletContext;
  * 
  * @author Dan Allen
  */
-public abstract class TimestampScanner extends ForwardingAbstractScanner
+public class TimestampScanner extends ForwardingAbstractScanner
 {
+	private AbstractScanner delegate;
+	@Deprecated
+	public TimestampScanner() {
+		super();
+	}
+
+	
+	public TimestampScanner(ServletContext servletContext) {
+		super(servletContext);
+	}
+	public TimestampScanner(ServletContext servletContext, AbstractScanner delegate) {
+		super(servletContext);
+		this.delegate = delegate;
+	}
 
    @Override
    protected boolean handle(String name)
@@ -35,16 +49,10 @@ public abstract class TimestampScanner extends ForwardingAbstractScanner
       return false;
    }
    
-   @Deprecated
-   public TimestampScanner()
-   {
-      
+   @Override
+   protected AbstractScanner delegate() {
+	   return this.delegate;
    }
-   
-   
-   public TimestampScanner(ServletContext servletContext)
-   {
-      super(servletContext);
-   }
+
   
 }

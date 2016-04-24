@@ -32,7 +32,8 @@ public abstract class AbstractScanner implements Scanner
    protected ServletContext servletContext;
    protected OmitPackageHelper omitPackage;
    protected ScanResultsCache scanCache;
-   
+   private boolean timestampScan = false;
+
    private static class Handler
    {
       
@@ -138,7 +139,7 @@ public abstract class AbstractScanner implements Scanner
    
    private static final LogProvider log = Logging.getLogProvider(Scanner.class);
    
-   private DeploymentStrategy deploymentStrategy;
+   protected DeploymentStrategy deploymentStrategy;
    
    public AbstractScanner(DeploymentStrategy deploymentStrategy)
    {
@@ -226,6 +227,33 @@ public abstract class AbstractScanner implements Scanner
    
    
 	protected boolean handle(String name) {
+		if (!timestampScan) {
+			return defaultHandle(name);
+		}
+		return timestampHandle(name);
+			
+		
+	}
+   
+	private boolean timestampHandle(String name) {
+		if (this.scanCache.isMiss(name)) {
+			return false;
+		}
+		for (DeploymentHandler handler : getDeploymentStrategy().getDeploymentHandlers().values()) {
+			if (handler instanceof ClassDeploymentHandler) {
+				if (name.endsWith(".class")) {
+					return true;
+				}
+			} else {
+				if (name.endsWith(handler.getMetadata().getFileNameSuffix())) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	private boolean defaultHandle(String name) {
 		boolean handled = false;
 		if (!this.scanCache.isMiss(name)) {
 			handled = new Handler(name, deploymentStrategy.getDeploymentHandlers().entrySet(), deploymentStrategy.getClassLoader(),
@@ -238,10 +266,21 @@ public abstract class AbstractScanner implements Scanner
 		}
 		return handled;
 	}
+
+	public void scanDirectories(File[] directories, File[] excludedDirectories) {
+		scanDirectories(directories);
+	}
+
+	protected boolean isTimestampScan() {
+		return timestampScan;
+	}
+
+	protected void setTimestampScan(boolean timestampScan) {
+		this.timestampScan = timestampScan;
+	}
    
-   public void scanDirectories(File[] directories, File[] excludedDirectories)
-   {
-      scanDirectories(directories);
-   }
+   
+   
+   
 
 }

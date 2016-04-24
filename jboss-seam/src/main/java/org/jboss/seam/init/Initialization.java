@@ -50,7 +50,6 @@ import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.deployment.ClassDescriptor;
-import org.jboss.seam.deployment.DeploymentStrategy;
 import org.jboss.seam.deployment.FileDescriptor;
 import org.jboss.seam.deployment.HotDeploymentStrategy;
 import org.jboss.seam.deployment.SeamDeploymentProperties;
@@ -744,14 +743,7 @@ public class Initialization
             this.hotDeploymentStrategy =
                     createHotDeployment(Thread.currentThread().getContextClassLoader(), isHotDeployEnabled(init));
 
-            boolean changed = new TimestampCheckForwardingDeploymentStrategy() {
-                @SuppressWarnings("synthetic-access")
-                @Override
-                protected DeploymentStrategy delegate() {
-                    return Initialization.this.hotDeploymentStrategy;
-                }
-
-            }.changedSince(init.getTimestamp());
+            boolean changed = new TimestampCheckForwardingDeploymentStrategy(Initialization.this.hotDeploymentStrategy).changedSince(init.getTimestamp());
 
             if (this.hotDeploymentStrategy.available() && changed) {
                 ServletLifecycle.beginReinitialization(request, request.getSession().getServletContext());
@@ -791,13 +783,7 @@ public class Initialization
                     new WarRootDeploymentStrategy(Thread.currentThread().getContextClassLoader(), this.warRoot,
                             this.servletContext, new File[] { this.warClassesDirectory, this.warLibDirectory,
                                     this.hotDeployDirectory });
-            changed = new TimestampCheckForwardingDeploymentStrategy() {
-                @Override
-                protected DeploymentStrategy delegate() {
-                    return warRootDeploymentStrategy;
-                }
-
-            }.changedSince(init.getWarTimestamp());
+            changed = new TimestampCheckForwardingDeploymentStrategy(warRootDeploymentStrategy).changedSince(init.getWarTimestamp());
             if (changed) {
                 ServletLifecycle.beginRequest(request);
                 warRootDeploymentStrategy.scan();

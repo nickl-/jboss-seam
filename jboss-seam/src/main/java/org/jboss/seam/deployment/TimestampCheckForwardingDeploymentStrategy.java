@@ -6,34 +6,37 @@ package org.jboss.seam.deployment;
  * 
  * @author Dan Allen
  */
-public abstract class TimestampCheckForwardingDeploymentStrategy extends ForwardingDeploymentStrategy
-{
-   private Scanner scanner;
+public class TimestampCheckForwardingDeploymentStrategy extends ForwardingDeploymentStrategy {
+	
+	private DeploymentStrategy delegate;
+	private long timestamp;
+
+	public TimestampCheckForwardingDeploymentStrategy() {
+		super();
+	}
+	public TimestampCheckForwardingDeploymentStrategy(DeploymentStrategy delegate) {
+		this();
+		this.delegate = delegate;
+	}
 
    public boolean changedSince(long mark)
    {
       scan();
       return getTimestamp() > mark;
    }
-
+   
    @Override
-   protected void initScanner()
-   {
-      if (getScanner() instanceof AbstractScanner)
-      {
-         final AbstractScanner delegate = (AbstractScanner) getScanner();
-         this.scanner = new TimestampScanner(getServletContext())
-         {
-
-            @Override
-            protected AbstractScanner delegate()
-            {
-               return delegate;
-            }
-            
-         };
-      }
-      
+   public void scan() {
+	   if (getScanner() instanceof AbstractScanner) {
+		   AbstractScanner delegateScanner = (AbstractScanner) getScanner();
+		   delegateScanner.setTimestampScan(true);
+		   delegate().scan();
+		   this.timestamp = delegate().scanner.getTimestamp();
+		   delegateScanner.setTimestampScan(false);		   
+	   }
+	   else {
+		   delegate().scan();
+	   }
    }
    
    @Override
@@ -41,5 +44,14 @@ public abstract class TimestampCheckForwardingDeploymentStrategy extends Forward
    {
       // No-op
    }
+	@Override
+	protected DeploymentStrategy delegate() {
+		return this.delegate;
+	}
+	
+	@Override
+	public long getTimestamp() {
+		return this.timestamp;
+	}
 
 }
