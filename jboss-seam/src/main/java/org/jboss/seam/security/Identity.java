@@ -90,29 +90,43 @@ public class Identity implements Serializable
     * Flag that indicates we are in the process of authenticating
     */
    private boolean authenticating = false;
+   
+	private static final ThreadLocal<Integer> REENTRANT_COUNT = new ThreadLocal<Integer>() {
+		@Override
+		protected Integer initialValue() {
+			return 0;
+		}
+	};
          
-   @Create
-   public void create()
-   {     
-      subject = new Subject();
-      
-      if (Contexts.isApplicationContextActive())
-      {
-         permissionMapper = (PermissionMapper) Component.getInstance(PermissionMapper.class);                 
-      }    
-      
-      if (Contexts.isSessionContextActive())
-      {
-         rememberMe = (RememberMe) Component.getInstance(RememberMe.class, true);      
-         credentials = (Credentials) Component.getInstance(Credentials.class);         
-      }
-      
-      if (credentials == null)
-      {
-         // Must have credentials for unit tests
-         credentials = new Credentials();
-      }
-   }
+	@Create
+	public void create() {
+		Integer count = REENTRANT_COUNT.get();
+		if (count > 2) {
+			log.warn("Recursive call to create on Identity detected");
+			throw new IllegalStateException("Request cannot complete because user has already logged out.");
+		}
+		REENTRANT_COUNT.set(count + 1);
+
+		try {
+			subject = new Subject();
+			if (Contexts.isApplicationContextActive()) {
+				permissionMapper = (PermissionMapper) Component.getInstance(PermissionMapper.class);
+			}
+
+			if (Contexts.isSessionContextActive()) {
+				rememberMe = (RememberMe) Component.getInstance(RememberMe.class, true);
+				credentials = (Credentials) Component.getInstance(Credentials.class);
+			}
+
+			if (credentials == null) {
+				// Must have credentials for unit tests
+				credentials = new Credentials();
+			}
+		} finally {
+			REENTRANT_COUNT.set(count);
+		}
+
+	}
    
    public static boolean isSecurityEnabled()
    {
