@@ -29,9 +29,10 @@ Release Notase - Seam 2 - Version 2.3.5-SNAPSHOT
 	* [JBSEAM-4200] hot deploy re-reads the class files, not just timestamps, on every request
 	* [JBSEAM-4487] Concurrent requests; one invalidates the session, results in recursive loop of session creation
 	* [JBSEAM-2211] NPE in SeamELResolver
-	* [ ] Recover and improved Seam Debug page
+	* [ ] Recover and improve Seam Debug page
 	* [ ] Only enable Seam Debug if facelets and JSF are in development mode
 	* [ ] FileDocumentData allow store documents on files instead of memory.
+	* [ ] Fix posible NPE on locale calculation
 	
 
 Release Notes - Seam 2 - Version 2.3.4.ayg
