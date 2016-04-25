@@ -189,6 +189,9 @@ public class SeamELResolver extends ELResolver
 
         String key = (String) property;
         Init init = Init.instance();
+		if (init == null) {
+			throw new IllegalStateException("No Init exists");
+		}
 
         // look for a component in the root namespace
         Object result = init.getRootNamespace().getComponentInstance(key);
