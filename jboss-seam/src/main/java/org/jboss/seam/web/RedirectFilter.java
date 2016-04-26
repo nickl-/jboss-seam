@@ -22,6 +22,8 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.web.Filter;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.faces.FacesManager;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.Pages;
 
 /**
@@ -57,6 +59,7 @@ public class RedirectFilter extends AbstractFilter
      */
     public static class RedirectFilterHttpResponseWrapper extends HttpServletResponseWrapper
     {
+    	private static final LogProvider log = Logging.getLogProvider(RedirectFilter.class);
         private String savedUrl;
 
         public RedirectFilterHttpResponseWrapper( HttpServletResponse response )
@@ -89,9 +92,13 @@ public class RedirectFilter extends AbstractFilter
 
         public void completeRedirect() throws IOException
         {
-            if(savedUrl != null)
-            {
-                super.sendRedirect( savedUrl );
+            if(savedUrl != null) {
+            	if (!super.isCommitted()) {
+            		super.sendRedirect( savedUrl );
+            	}
+            	else {
+            		log.warn("Cannot redirect because response is already commited");
+            	}
             }
         }
 
@@ -145,10 +152,11 @@ public class RedirectFilter extends AbstractFilter
       }
    }
 
-   private static int getParamLoc(String url)
-   {
-      int loc = url.indexOf('?');
-      if (loc<0) loc = url.length();
-      return loc;
-   }
+	private static int getParamLoc(String url) {
+		int loc = url.indexOf('?');
+		if (loc < 0) {
+			loc = url.length();
+		}
+		return loc;
+	}
 }
