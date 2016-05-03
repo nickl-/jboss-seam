@@ -38,7 +38,7 @@ Release Notes - Seam 2 - Version 2.3.5.ayg
 	* [ ] Only enable Seam Debug if facelets and JSF are in development mode
 	* [ ] FileDocumentData allow store documents on files instead of memory.
 	* [ ] Fix posible NPE on locale calculation
-	* [ ] Cache scan results for improved startup time on shared classpath (via org.jboss.seam.deployment.CACHE_SCAN_RESULTS initial paraameter)
+	* [ ] Cache scan results for improved startup time on shared classpath (via org.jboss.seam.deployment.CACHE_SCAN_RESULTS initial parameter)
 	
 
 Release Notes - Seam 2 - Version 2.3.4.ayg
