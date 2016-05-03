@@ -1,7 +1,12 @@
 JBoss Seam Changelog
 ====================
 
-Release Notase - Seam 2 - Version 2.3.5.ayg
+Release Notes - Seam 2 - Version 2.3.6-SNAPSHOT
+
+	* 
+
+
+Release Notes - Seam 2 - Version 2.3.5.ayg
 
 	* [JBSEAM-4853] Complete the fix for JBSEAM-4853 (SSL downloads in IE)
 	* [JBSEAM-5145] Captcha validation prints message key instead of message	
