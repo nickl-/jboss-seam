@@ -1,11 +1,11 @@
 JBoss Seam Changelog
 ====================
 
-Release Notase - Seam 2 - Version 2.3.5-SNAPSHOT
+Release Notase - Seam 2 - Version 2.3.5.ayg
 
 	* [JBSEAM-4853] Complete the fix for JBSEAM-4853 (SSL downloads in IE)
 	* [JBSEAM-5145] Captcha validation prints message key instead of message	
-	* [JBSEAM-2929] Externalize the CAPTCHA incorrect response message to a resource bundle*
+	* [JBSEAM-2929] Externalize the CAPTCHA incorrect response message to a resource bundle
 	* [JBSEAM-4651] s:button with image attribute doesn't add contextroot in src attribute	
 	* [JBSEAM-3345] Seam buttons don't render path in relative images (same of above)	
 	* [JBSEAM-4631] Fix posible NPE in s:validateEquality
