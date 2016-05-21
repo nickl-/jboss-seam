@@ -11,6 +11,7 @@ import org.jboss.seam.faces.RedirectException;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.Pages;
+import org.jboss.seam.util.Strings;
 
 /**
  * Base implementation of redirection exception handlers.
@@ -56,8 +57,8 @@ public abstract class RedirectHandler extends ExceptionHandler
 		}
 
 		try {
-			if (viewId != null && ("/error" + Pages.getSuffix()).equals(viewId) && viewId.equals(currentView)) {
-				error(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error!");
+			if (isErrorOrDebugPage(viewId) && isErrorOrDebugPage(currentView)) {
+				error(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error! Something bad happened :-(");
 				return;
 			}
 			redirect(viewId, null);
@@ -67,9 +68,15 @@ public abstract class RedirectHandler extends ExceptionHandler
 		}
 	}
 
-   @Override
-   public String toString()
-   {
-      return "RedirectHandler";
-   }
+	private boolean isErrorOrDebugPage(String viewId) {
+		if (Strings.isEmpty(viewId)) {
+			return false;
+		}
+		return viewId.equals("/error" + Pages.getSuffix()) || viewId.equals("/debug" + Pages.getSuffix());
+	}
+
+	@Override
+	public String toString() {
+		return "RedirectHandler";
+	}
 }
