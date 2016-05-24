@@ -183,7 +183,12 @@ public class ConversationPropagation
       }
       else
       {
-         propagationType = PropagationType.valueOf(value.toUpperCase());
+    	  try {
+    		  propagationType = PropagationType.valueOf(value.toUpperCase());
+    	  }
+    	  catch (IllegalArgumentException iae) {
+    		  log.warn("Invalid conversation propagation parameter received, assuming none, received:" + value);
+    	  }
       }
    }
 
