@@ -4,6 +4,7 @@ JBoss Seam Changelog
 Release Notes - Seam 2 - Version 2.3.6-SNAPSHOT
 
 	* [ ] Really ensure not entering in a redirection loop on error/debug/login pages
+	* [JBSEAM-4678] Stop the PhaseListener doing work on non-seam applications
 
 
 Release Notes - Seam 2 - Version 2.3.5.ayg

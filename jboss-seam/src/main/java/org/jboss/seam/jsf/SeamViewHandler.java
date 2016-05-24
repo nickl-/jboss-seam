@@ -198,15 +198,13 @@ public class SeamViewHandler extends ViewHandlerWrapper
    }
 
    @Override
-   public UIViewRoot restoreView(FacesContext ctx, String viewId)
-   {
-      UIViewRoot viewRoot =viewHandler.restoreView(ctx, viewId);
-      if (viewRoot != null)
-      {
-         viewRoot.setViewId(viewHandler.deriveViewId(ctx,viewId));
-      }
-      return viewRoot;
-   }
+	public UIViewRoot restoreView(FacesContext ctx, String viewId) {
+		UIViewRoot viewRoot = viewHandler.restoreView(ctx, viewId);
+		if (viewRoot != null && SeamApplication.isSeamApplication(ctx)) {
+			viewRoot.setViewId(viewHandler.deriveViewId(ctx, viewId));
+		}
+		return viewRoot;
+	}
 
    @Override
    public void writeState(FacesContext ctx) throws IOException
