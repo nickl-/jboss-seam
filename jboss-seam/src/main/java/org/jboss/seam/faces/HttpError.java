@@ -15,6 +15,8 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 
 /**
  * Convenient HTTP errors
@@ -26,6 +28,8 @@ import org.jboss.seam.contexts.Contexts;
 @Name("org.jboss.seam.faces.httpError")
 @Install(precedence = BUILT_IN, classDependencies = "javax.faces.context.FacesContext")
 public class HttpError {
+	
+	private static final LogProvider log = Logging.getLogProvider(HttpError.class);
 	/**
 	 * Send a HTTP error as the response
 	 */
@@ -45,8 +49,11 @@ public class HttpError {
 				response.setStatus(code);
 				response.getOutputStream().write(message.getBytes(StandardCharsets.UTF_8));
 			}
-		} catch (Exception ioe) {
-			// ignore
+			else {
+				log.warn("Cannot send error because response is already commited");
+			}
+		} catch (Exception e) {
+			log.warn("Cannot send error because and exception ocurred:" + e.getMessage());
 		}
 		FacesContext.getCurrentInstance().responseComplete();
 	}
