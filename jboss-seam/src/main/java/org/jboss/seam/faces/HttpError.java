@@ -3,7 +3,6 @@ package org.jboss.seam.faces;
 
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 import javax.faces.context.FacesContext;
@@ -31,16 +30,7 @@ public class HttpError {
 	 * Send a HTTP error as the response
 	 */
 	public void send(int code) {
-		try {
-			HttpServletResponse response = getResponse();
-			response.reset();
-			response.setContentType("text/plain; charset=" + StandardCharsets.UTF_8);
-			response.setStatus(code);
-			response.getWriter().println(code);
-		} catch (IOException ioe) {
-			throw new IllegalStateException(ioe);
-		}
-		FacesContext.getCurrentInstance().responseComplete();
+		send(code, Integer.toString(code));		
 	}
 
 	/**
@@ -49,12 +39,14 @@ public class HttpError {
 	public void send(int code, String message) {
 		try {
 			HttpServletResponse response = getResponse();
-			response.reset();
-			response.setContentType("text/plain; charset=" + StandardCharsets.UTF_8);
-			response.setStatus(code);
-			response.getOutputStream().write(message.getBytes(StandardCharsets.UTF_8));
-		} catch (IOException ioe) {
-			throw new IllegalStateException(ioe);
+			if (!response.isCommitted()) {
+				response.reset();
+				response.setContentType("text/plain; charset=" + StandardCharsets.UTF_8);
+				response.setStatus(code);
+				response.getOutputStream().write(message.getBytes(StandardCharsets.UTF_8));
+			}
+		} catch (Exception ioe) {
+			// ignore
 		}
 		FacesContext.getCurrentInstance().responseComplete();
 	}
