@@ -1,7 +1,7 @@
 JBoss Seam Changelog
 ====================
 
-Release Notes - Seam 2 - Version 2.3.6-SNAPSHOT
+Release Notes - Seam 2 - Version 2.3.6.ayg
 
 	* [JBSEAM-4678] Stop the PhaseListener doing work on non-seam applications
 	* [JBSEAM-2703] Avoid exceptions for invalid system request parameters
