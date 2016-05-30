@@ -1,7 +1,7 @@
 JBoss Seam Changelog
 ====================
 
-Release Notes - Seam 2 - Version 2.3.7-SNAPSHOT
+Release Notes - Seam 2 - Version 2.3.8.ayg
 
 	* [ ] Only depends on EHCache 2 (removes dependency with EHCache 1)
 	* [ ] Update jboss-cache to 1.4.1.SP14
