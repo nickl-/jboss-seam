@@ -381,8 +381,8 @@
 
 			<dependency>
 				<groupId>net.sf.ehcache</groupId>
-				<artifactId>ehcache</artifactId>
-				<version>1.2.3</version>
+				<artifactId>ehcache-core</artifactId>
+				<version>2.4.3</version>
 				<exclusions>
 					<exclusion>
 						<groupId>commons-collections</groupId>

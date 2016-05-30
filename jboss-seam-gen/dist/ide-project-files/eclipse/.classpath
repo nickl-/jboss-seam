@@ -39,7 +39,6 @@
     <classpathentry kind="lib" path="lib/drools-templates.jar"/>
     <classpathentry kind="lib" path="lib/ecj.jar"/>
     <classpathentry kind="lib" path="lib/ehcache-core.jar"/>
-    <classpathentry kind="lib" path="lib/ehcache.jar"/>
     <classpathentry kind="lib" path="lib/el-api.jar"/>
     <classpathentry kind="lib" path="lib/fontbox.jar"/>
     <classpathentry kind="lib" path="lib/groovy-all.jar"/>
