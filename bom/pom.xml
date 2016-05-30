@@ -376,7 +376,7 @@
 			<dependency>
 				<groupId>jboss</groupId>
 				<artifactId>jboss-cache</artifactId>
-				<version>1.4.1.SP9</version>
+				<version>1.4.1.SP14</version>
 			</dependency>
 
 			<dependency>
