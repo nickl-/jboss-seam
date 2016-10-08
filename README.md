@@ -1,5 +1,11 @@
 #JBoss Seam - Contextual Component framework for Java EE
 
+## Important
+
+Seam 2 is not maintained anymore, you should have migrated to CDI (Standard Java EE technology) long ago ;). See https://github.com/seam/migration or more details here https://developer.jboss.org/en/seam/seam2/blog/2015/07/20/migration-from-seam-2-to-cdideltaspike
+
+
+## License
 
 This software is distributed under the terms of the FSF Lesser GNU
 Public License (see http://www.gnu.org/licenses/lgpl-3.0.txt). 
