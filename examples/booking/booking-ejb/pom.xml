@@ -235,13 +235,33 @@
             <activation>
                 <property>
                     <name>arquillian</name>
-                    <value>wildfly-remote-8</value>
+                    <value>wildfly-8-remote</value>
                 </property>
             </activation>
             <dependencies>
+                <!-- http://repo1.maven.org/maven2/org/wildfly/wildfly-arquillian-container-remote/ -->
                 <dependency>
                     <groupId>org.wildfly</groupId>
                     <artifactId>wildfly-arquillian-container-remote</artifactId>
+                    <version>8.2.1.Final</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>arq-wildfly-10-remote</id>
+            <activation>
+                <property>
+                    <name>arquillian</name>
+                    <value>wildfly-10-remote</value>
+                </property>
+            </activation>
+            <dependencies>
+                <!-- http://repo1.maven.org/maven2/org/wildfly/arquillian/wildfly-arquillian-container-remote/ -->
+                <dependency>
+                    <groupId>org.wildfly.arquillian</groupId>
+                    <artifactId>wildfly-arquillian-container-remote</artifactId>
+                    <version>1.1.0.Final</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>

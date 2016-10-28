@@ -33,9 +33,9 @@ import org.hibernate.SharedSessionBuilder;
 import org.hibernate.SimpleNaturalIdLoadAccess;
 import org.hibernate.Transaction;
 import org.hibernate.TypeHelper;
-import org.hibernate.cache.spi.CacheKey;
 import org.hibernate.collection.spi.PersistentCollection;
-import org.hibernate.engine.jdbc.spi.JdbcConnectionAccess;
+import org.hibernate.engine.jdbc.connections.spi.JdbcConnectionAccess;
+import org.hibernate.engine.jdbc.spi.JdbcCoordinator;
 import org.hibernate.engine.query.spi.sql.NativeSQLQuerySpecification;
 import org.hibernate.engine.spi.ActionQueue;
 import org.hibernate.engine.spi.EntityEntry;
@@ -48,7 +48,6 @@ import org.hibernate.engine.spi.QueryParameters;
 import org.hibernate.engine.spi.SessionEventListenerManager;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.engine.spi.SessionImplementor;
-import org.hibernate.engine.transaction.spi.TransactionCoordinator;
 import org.hibernate.event.spi.EventSource;
 import org.hibernate.internal.CriteriaImpl;
 import org.hibernate.jdbc.ReturningWork;
@@ -56,8 +55,8 @@ import org.hibernate.jdbc.Work;
 import org.hibernate.loader.custom.CustomQuery;
 import org.hibernate.persister.entity.EntityPersister;
 import org.hibernate.procedure.ProcedureCall;
+import org.hibernate.resource.transaction.TransactionCoordinator;
 import org.hibernate.stat.SessionStatistics;
-import org.hibernate.type.Type;
 
 /**
  * InvocationHandler that proxies the Session, and implements EL interpolation
@@ -259,20 +258,20 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
       return ((SessionImplementor) delegate).scroll(paramNativeSQLQuerySpecification, paramQueryParameters);
    }
 
-   public Object getFilterParameterValue(String paramString)
-   {
-      return ((SessionImplementor) delegate).getFilterParameterValue(paramString);
-   }
+//   public Object getFilterParameterValue(String paramString)
+//   {
+//      return ((SessionImplementor) delegate).getFilterParameterValue(paramString);
+//   }
 
-   public Type getFilterParameterType(String paramString)
-   {
-      return ((SessionImplementor) delegate).getFilterParameterType(paramString);
-   }
+//   public Type getFilterParameterType(String paramString)
+//   {
+//      return ((SessionImplementor) delegate).getFilterParameterType(paramString);
+//   }
 
-   public Map getEnabledFilters()
-   {
-      return ((SessionImplementor) delegate).getEnabledFilters();
-   }
+//   public Map getEnabledFilters()
+//   {
+//      return ((SessionImplementor) delegate).getEnabledFilters();
+//   }
 
    public int getDontFlushFromFind()
    {
@@ -354,19 +353,33 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
       ((SessionImplementor) delegate).afterScrollOperation();
    }
 
-   public String getFetchProfile()
-   {
-      return ((SessionImplementor) delegate).getFetchProfile();
-   }
-
-   public void setFetchProfile(String paramString)
-   {
-      ((SessionImplementor) delegate).setFetchProfile(paramString);
-   }
+//   public String getFetchProfile()
+//   {
+//       LoadQueryInfluencers loadQueryInfluencers = ((SessionImplementor) delegate).getLoadQueryInfluencers();
+//       Set<String> fetchProfiles = loadQueryInfluencers.getEnabledFetchProfileNames();
+//      return ((SessionImplementor) delegate).getFetchProfile();
+//   }
+//
+//   public void setFetchProfile(String paramString)
+//   {
+//
+//      ((SessionImplementor) delegate).setFetchProfile(paramString);
+//   }
 
    public boolean isClosed()
    {
       return ((SessionImplementor) delegate).isClosed();
+   }
+
+   @Override
+   public boolean isAutoCloseSessionEnabled() {
+       return ((SessionImplementor) delegate).isAutoCloseSessionEnabled();
+   }
+
+   @Override
+   public boolean shouldAutoClose()
+   {
+       return ((SessionImplementor) delegate).shouldAutoClose();
    }
 
    public SessionFactory getSessionFactory()
@@ -374,9 +387,9 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
       return delegate.getSessionFactory();
    }
 
-   public Connection close() throws HibernateException
+   public void close() throws HibernateException
    {
-      return delegate.close();
+      delegate.close();
    }
 
    public void cancelQuery() throws HibernateException
@@ -736,10 +749,10 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
       return ((SessionImplementor) delegate).generateEntityKey(id, persister);
    }
 
-   public CacheKey generateCacheKey(Serializable id, Type type, String entityOrRoleName)
-   {
-      return ((SessionImplementor) delegate).generateCacheKey(id, type, entityOrRoleName);
-   }
+//   public CacheKey generateCacheKey(Serializable id, Type type, String entityOrRoleName)
+//   {
+//      return ((SessionImplementor) delegate).generateCacheKey(id, type, entityOrRoleName);
+//   }
 
    public void disableTransactionAutoJoin()
    {
@@ -759,6 +772,12 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
    public TransactionCoordinator getTransactionCoordinator()
    {
       return ((SessionImplementor) delegate).getTransactionCoordinator();
+   }
+
+   @Override
+   public JdbcCoordinator getJdbcCoordinator()
+   {
+       return ((SessionImplementor) delegate).getJdbcCoordinator();
    }
 
    public LoadQueryInfluencers getLoadQueryInfluencers()
@@ -918,5 +937,6 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
     {
         ((EventSource)delegate).removeOrphanBeforeUpdates( entityName, child );
     }
+
 
 }

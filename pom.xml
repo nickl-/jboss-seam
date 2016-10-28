@@ -47,7 +47,7 @@
         <!-- Version string properties -->
         <version.seam>2.3.2-1-wildfly_10_1_0_Final-SNAPSHOT</version.seam>
         <version.jbossas7>7.2.0.Final</version.jbossas7>
-        <Version.wildfly>8.1.0.Final</Version.wildfly>
+        <version.wildfly>10.1.0.Final</version.wildfly>
         <version.emma>2.0.5312</version.emma>
         <version.richfaces.cdk>4.5.0.Final</version.richfaces.cdk>
         <version.richfaces>4.5.0.Final</version.richfaces>
@@ -83,7 +83,6 @@
                 <artifactId>antlr</artifactId>
                 <version>2.7.6</version>
             </dependency>
-
 
             <dependency>
                 <groupId>org.apache.ant</groupId>
@@ -261,18 +260,6 @@
             </dependency>
 
             <dependency>
-                <groupId>org.jboss.as</groupId>
-                <artifactId>jboss-as-arquillian-container-managed</artifactId>
-                <version>${version.jbossas7}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.jboss.as</groupId>
-                <artifactId>jboss-as-arquillian-container-remote</artifactId>
-                <version>${version.jbossas7}</version>
-            </dependency>
-
-            <dependency>
                 <groupId>com.sun.faces</groupId>
                 <artifactId>jsf-impl</artifactId>
                 <optional>true</optional>
@@ -347,6 +334,14 @@
         <finalName>${project.artifactId}</finalName>
         <pluginManagement>
             <plugins>
+               <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <configuration>
+                        <additionalparam>-Xdoclint:none</additionalparam>
+                    </configuration>
+                </plugin>
+
                 <!-- just for jboss-seam core as it is EJB type not jar -->
                 <plugin>
                     <artifactId>maven-ejb-plugin</artifactId>

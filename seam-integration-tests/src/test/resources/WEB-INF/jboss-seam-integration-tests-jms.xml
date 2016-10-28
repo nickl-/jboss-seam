@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<messaging-deployment xmlns="urn:jboss:messaging-activemq-deployment:1.0">
+   <server name="default">
+      <jms-destinations>
+            <jms-topic name="seamTestTopic">
+                <entry name="jms/topic/seamTest"/>
+            </jms-topic>
+            <jms-queue name="seamTestQueue">
+                <entry name="jms/queue/seamTest"/>
+            </jms-queue>
+       </jms-destinations>
+   </server>
+</messaging-deployment>

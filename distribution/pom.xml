@@ -33,7 +33,7 @@
                          <exportAntProperties>true</exportAntProperties>
                          <target>
                             <property name="test.lib.dir" location="target/arquillian/" />
-                            <property name="version.jboss-as7" value="${version.jbossas7}" />
+                            <property name="version.wildfly" value="${version.wildfly}" />
                             <ant antfile="get-arquillian-libs.xml" target="copyarq" />
                         </target>
                     </configuration>
