@@ -14,35 +14,18 @@ Seam 2 is a powerful open source development platform for building rich Internet
 
 Seam has been designed from the ground up to eliminate complexity at both architecture and API levels. It enables developers to assemble complex web applications using simple annotated Java classes, a rich set of UI components, and very little XML. Seam's unique support for conversations and declarative state management can introduce a more sophisticated user experience while at the same time eliminating common bugs found in traditional web applications. 
 
-Get Up And Running Quick
-~~~~~~~~~~~~~~~~~~~~~~~~ 
-1. Install JBoss AS 7.1.1.Final  
-
-2. Start JBoss AS by typing `bin/standalone.sh` in the JBoss AS home directory
-
-3. In the link:examples/booking[] directory, type `mvn clean package` and check 
-   for any error messages.
-
-4. In the booking-ear directory run:
-
-    `mvn jboss-as:deploy`
-   
-5. Point your browser to http://localhost:8080/seam-booking/
-      
-6. Register an account, search for hotels, book a room...
-
 Learn more
 
 ~~~~~~~~~~
 * Read the documentation in the link:seam-reference-guide/src/docbook/en-US[reference documentation] directory
 * Read the online FAQ http://www.seamframework.org/Documentation/FAQs
 
+
 Notes for this release
 ~~~~~~~~~~~~~~~~~~~~~~
 Be warned that JBoss Embedded is *LEGACY runtime* and is not in Seam 2.3 distribution *anymore*
 
 
-
-*Wildfly*
-This branch attempts to update seam 2.3 to support jee7, jsf 2.2,  servlet 3.1, resteasy (latest) and run properly
-on Wildfly 8.1.  (8.0 will not work with seam)
+Wildfly Support
+~~~~~~~~~~
+This branch attempts to update Seam 2.3 to support JEE 7, JSF 2.2, Servlet 3.1, RESTEasy 3.0.19 and run properly on Wildfly 10.1.0.Final.
