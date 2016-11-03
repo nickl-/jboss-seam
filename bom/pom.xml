@@ -81,9 +81,16 @@
             <dependency>
                 <groupId>org.jboss.spec</groupId>
                 <artifactId>jboss-javaee-7.0</artifactId>
-                <version>1.0.0.Final</version>
+                <version>1.0.3.Final</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.spec.javax.faces</groupId>
+                <artifactId>jboss-jsf-api_2.2_spec</artifactId>
+                <version>2.2.13</version>
+                <scope>provided</scope>
             </dependency>
 
             <!-- Hibernate ORM sub-modules -->

@@ -3,10 +3,16 @@
    <server name="default">
       <jms-destinations>
             <jms-topic name="seamTestTopic">
-                <entry name="jms/topic/seamTest"/>
+                <entry name="topic/seamTest"/>
             </jms-topic>
             <jms-queue name="seamTestQueue">
-                <entry name="jms/queue/seamTest"/>
+                <entry name="queue/seamTest"/>
+            </jms-queue>
+            <jms-topic name="testTopic">
+                <entry name="topic/testTopic"/>
+            </jms-topic>
+            <jms-queue name="testQueue">
+                <entry name="queue/testQueue"/>
             </jms-queue>
        </jms-destinations>
    </server>
