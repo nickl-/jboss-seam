@@ -15,7 +15,6 @@ Seam 2 is a powerful open source development platform for building rich Internet
 Seam has been designed from the ground up to eliminate complexity at both architecture and API levels. It enables developers to assemble complex web applications using simple annotated Java classes, a rich set of UI components, and very little XML. Seam's unique support for conversations and declarative state management can introduce a more sophisticated user experience while at the same time eliminating common bugs found in traditional web applications. 
 
 Learn more
-
 ~~~~~~~~~~
 * Read the documentation in the link:seam-reference-guide/src/docbook/en-US[reference documentation] directory
 * Read the online FAQ http://www.seamframework.org/Documentation/FAQs
@@ -27,5 +26,5 @@ Be warned that JBoss Embedded is *LEGACY runtime* and is not in Seam 2.3 distrib
 
 
 Wildfly Support
-~~~~~~~~~~
+~~~~~~~~~~~~~~~
 This branch attempts to update Seam 2.3 to support JEE 7, JSF 2.2, Servlet 3.1, RESTEasy 3.0.19 and run properly on Wildfly 10.1.0.Final.
