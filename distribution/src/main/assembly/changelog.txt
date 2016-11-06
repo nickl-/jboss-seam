@@ -4,6 +4,8 @@ JBoss Seam Changelog
 Release Notes - Seam 2 - Version 2.3.20-SNAPSHOT
 	* [ ] Supports JEE7
 	* [ ] Compiler set to java 7
+	* [ ] Package richfaces and related jars (cssparser, sac, etc)
+	* [ ] Package primefaces 6.0
 
 Release Notes - Seam 2 - Version 2.3.9-SNAPSHOT
 
