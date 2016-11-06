@@ -278,27 +278,15 @@
             </dependency>
 
             <dependency>
-               <groupId>org.richfaces</groupId>
-               <artifactId>richfaces-distribution</artifactId>
-               <version>${version.richfaces}</version>
-               <type>pom</type>
-           </dependency>
-          <dependency>
-                <groupId>org.richfaces.core</groupId>
-                <artifactId>richfaces-core-impl</artifactId>
-                <version>${version.richfaces}</version>
+                <groupId>org.richfaces</groupId>
+                <artifactId>richfaces-core</artifactId>
+                <version>${version.richfaces}</version>                
             </dependency>
-            <dependency>
-                <groupId>org.richfaces.ui</groupId>
-                <artifactId>richfaces-components-api</artifactId>
-                <version>${version.richfaces}</version>
+			<dependency>
+                <groupId>org.richfaces</groupId>
+                <artifactId>richfaces-a4j</artifactId>
+                <version>${version.richfaces}</version>                
             </dependency>
-            <dependency>
-                <groupId>org.richfaces.ui</groupId>
-                <artifactId>richfaces-components-ui</artifactId>
-                <version>${version.richfaces}</version>
-            </dependency>
-
 
         </dependencies>
     </dependencyManagement>

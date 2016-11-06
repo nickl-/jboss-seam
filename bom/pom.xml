@@ -279,9 +279,13 @@
           
             <dependency>
                 <groupId>org.richfaces</groupId>
-                <artifactId>richfaces-distribution</artifactId>
-                <version>${version.richfaces}</version>
-                <type>pom</type>
+                <artifactId>richfaces-core</artifactId>
+                <version>${version.richfaces}</version>                
+            </dependency>
+			<dependency>
+                <groupId>org.richfaces</groupId>
+                <artifactId>richfaces-a4j</artifactId>
+                <version>${version.richfaces}</version>                
             </dependency>
 
             <dependency>
