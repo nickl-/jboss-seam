@@ -46,4 +46,10 @@ public class AnnotationRedirectHandler extends RedirectHandler
       return e.getClass().getAnnotation(Redirect.class).end();
    }
    
+   @Override
+   protected boolean isEndBeforeRedirect(Exception e)
+   {
+      return false;
+   }
+   
 }

@@ -1,28 +1,67 @@
 JBoss Seam Changelog
 ====================
 
-Release Notase - Seam 2 - Version 2.3.5-SNAPSHOT
+Release Notes - Seam 2 - Version 2.3.20-SNAPSHOT
+	* [ ] Supports JEE7
+	* [ ] Compiler set to java 7
+
+Release Notes - Seam 2 - Version 2.3.9-SNAPSHOT
+
+Release Notes - Seam 2 - Version 2.3.8.ayg
+
+	* [ ] Only depends on EHCache 2 (removes dependency with EHCache 1)
+	* [ ] Update jboss-cache to 1.4.1.SP14
+	
+Release Notes - Seam 2 - Version 2.3.7.ayg (not released)
+
+Release Notes - Seam 2 - Version 2.3.6.ayg
+
+	* [JBSEAM-4678] Stop the PhaseListener doing work on non-seam applications
+	* [JBSEAM-2703] Avoid exceptions for invalid system request parameters
+	* [ ] Really ensure not entering in a redirection loop on error/debug/login pages
+	* [ ] RendererRequest with utf-8 character encoding
+
+
+Release Notes - Seam 2 - Version 2.3.5.ayg
 
 	* [JBSEAM-4853] Complete the fix for JBSEAM-4853 (SSL downloads in IE)
 	* [JBSEAM-5145] Captcha validation prints message key instead of message	
-	* [JBSEAM-2929] Externalize the CAPTCHA incorrect response message to a resource bundle*
+	* [JBSEAM-2929] Externalize the CAPTCHA incorrect response message to a resource bundle
 	* [JBSEAM-4651] s:button with image attribute doesn't add contextroot in src attribute	
+	* [JBSEAM-3345] Seam buttons don't render path in relative images (same of above)	
 	* [JBSEAM-4631] Fix posible NPE in s:validateEquality
 	* [JBSEAM-4313] EntityHome created/updated/deleted default messages should come from resource bundle instead of hard-coded messages
 	* [JBSEAM-2724] Internationalize Home default messages
 	* [JBSEAM-4502] pages.xml expires attribute : invalid Expires HTTP header with non-English JVM default locale
 	* [JBSEAM-4490] Messages: AbstractMap needs containsKey
 	* [JBSEAM-4384] Seam/Hibernate filter enabled --> ClassCastException	
-	* [ ] Recover and improved Seam Debug page
-	* [ ] Only enable Sean Debug if facelets and JSF are in development mode
+	* [JBSEAM-4063] MultipartRequestImpl implementation of getPerameterMap
+	* [JBSEAM-3897] MultipartRequest Error: 100% CPU or Missing data
+	* [JBSEAM-4435] Exception in Seam Resource is Swallowed and Redirection to debug.seam Does not Work.
+	* [JBSEAM-4347] NullPointerException in UISelectItems when var attribute is not specified in s:selectItems
+	* [JBSEAM-4678] Stop the PhaseListener doing work on non-seam applications
+	* [JBSEAM-4395] Endless loop when an exception occurs during commit inside a long running conversation, and there is an <exception> clause to handle it in page.xml
+	* [JBSEAM-4528] static pages don't work at all with database down and XA datasource used
+	* [JBSEAM-4312] Exception while checking out transaction causing infinite loop trying to render error page
+	* [JBSEAM-4646] ConcurrentModificationException in RewriterFilter
+	* [JBSEAM-5078] Unsynchronized access to conversation entries map
+	* [JBSEAM-4832] Exception in the filter chain javax.servlet.ServletException: java.util.ConcurrentModificationException
+	* [JBSEAM-3464] better message for HibernatePersistenceProvider.checkVersion() exception
+	* [JBSEAM-4200] hot deploy re-reads the class files, not just timestamps, on every request
+	* [JBSEAM-4487] Concurrent requests; one invalidates the session, results in recursive loop of session creation
+	* [JBSEAM-2211] NPE in SeamELResolver
+	* [ ] Recover and improve Seam Debug page
+	* [ ] Only enable Seam Debug if facelets and JSF are in development mode
 	* [ ] FileDocumentData allow store documents on files instead of memory.
+	* [ ] Fix posible NPE on locale calculation
+	* [ ] Cache scan results for improved startup time on shared classpath (via org.jboss.seam.deployment.CACHE_SCAN_RESULTS initial parameter)
 	
 
 Release Notes - Seam 2 - Version 2.3.4.ayg
 	 
 	 * [ ] Allow to exclude packages from scanning (initial parameter org.jboss.seam.deployment.OMIT_PACKAGES)
 	 * [ ] Don't scan for annotations if we have no annotations to search for
-	 * [ ] Log on startup times
+	 * [ ] Log startup times
 	 * [ ] Fix posible concurrency issues on UserTokens.java
 	 * [ ] Escape xml data before putting it in a stream (MarshalUtils.java)
 	 * [ ] Seam pdf now generates full compressed PDF version 1.7 
@@ -43,6 +82,8 @@ Release Notes - Seam 2 - Version 2.3.2.ayg
     * [JBSEAM-4806] - failed to load multiple apps with jboss-seam.jar in global classpath
     * [JBSEAM-4822] - MultipartRequestImpl incorrect parse filename with semicolon
     * [JBSEAM-4827] - FacesMessages may trigger NPE in JSF code
+    * [ ] Add additional features to RedirectFilter to delay sending a redirect url to the HttpServletResponse
+    * [ ] Better message when decorate template is not found
 
 ** Enhancement
     * [JBSEAM-4853] - Change DocumentStorePhaseListener to allow downloads of IE over SSL

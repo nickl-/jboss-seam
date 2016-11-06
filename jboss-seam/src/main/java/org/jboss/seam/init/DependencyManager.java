@@ -152,13 +152,13 @@ public class DependencyManager
     
     private boolean checkGenericDependencies(ComponentDescriptor descriptor) 
     {
-        Class[] dependencies = descriptor.getGenericDependencies();
+        Class<?>[] dependencies = descriptor.getGenericDependencies();
         if (dependencies == null) 
         {
             return true;
         }
         
-        for (Class dependency: dependencies) 
+        for (Class<?> dependency: dependencies) 
         {
             if (!isInInstallSet(dependency)) 
             {                                
@@ -175,7 +175,7 @@ public class DependencyManager
     }
     
     
-    private boolean tryToSatisfyDependencyUsing(Class dependency, Set<String> searchList) 
+    private boolean tryToSatisfyDependencyUsing(Class<?> dependency, Set<String> searchList) 
     {
         for (String componentName:searchList) 
         {
@@ -196,7 +196,7 @@ public class DependencyManager
     }
 
 
-    private Set<String> findPotentialComponents(Class dependency) 
+    private Set<String> findPotentialComponents(Class<?> dependency) 
     {
         Set<String> keys = new HashSet<String>();
         
@@ -211,7 +211,7 @@ public class DependencyManager
         return keys;
     }
 
-    private boolean componentMightSatisfy(String candidateKey, Class dependency) 
+    private boolean componentMightSatisfy(String candidateKey, Class<?> dependency) 
     {
         for (ComponentDescriptor descriptor: componentDescriptors.get(candidateKey)) 
         {            
@@ -224,7 +224,7 @@ public class DependencyManager
     }
 
 
-    private boolean isInInstallSet(Class dependency) 
+    private boolean isInInstallSet(Class<?> dependency) 
     {
         for (ComponentDescriptor descriptor: currentTestSet) 
         {

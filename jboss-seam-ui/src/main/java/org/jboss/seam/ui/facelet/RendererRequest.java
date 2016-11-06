@@ -7,6 +7,7 @@ import java.net.URL;
 
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
+import javax.faces.view.facelets.Facelet;
 import javax.servlet.ServletContext;
 
 import org.jboss.seam.core.ResourceLoader;
@@ -14,11 +15,10 @@ import org.jboss.seam.jsf.DelegatingFacesContext;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.mock.MockHttpServletRequest;
-import org.jboss.seam.mock.MockHttpServletResponse;
+import org.jboss.seam.mock.EnhancedMockHttpServletResponse;
 import org.jboss.seam.ui.util.JSF;
 
 import com.sun.faces.application.ApplicationAssociate;
-import com.sun.faces.facelets.Facelet;
 
 public class RendererRequest
 {
@@ -28,7 +28,7 @@ public class RendererRequest
    private FacesContext facesContext;
 
    private MockHttpServletRequest request;
-   private MockHttpServletResponse response;
+   private EnhancedMockHttpServletResponse response;
 
    private StringWriter writer;
 
@@ -44,12 +44,13 @@ public class RendererRequest
    private void init()
    {
       if (FacesContext.getCurrentInstance() != null) {
-         request = new MockHttpServletRequest(HttpSessionManager.instance(), FacesContext.getCurrentInstance().getExternalContext());  
+         request = new MockHttpServletRequest(HttpSessionManager.instance(), FacesContext.getCurrentInstance().getExternalContext());
       } else {
          request = new MockHttpServletRequest(HttpSessionManager.instance());
       }
-      response = new MockHttpServletResponse();
-
+      response = new EnhancedMockHttpServletResponse();
+      response.setCharacterEncoding("UTF-8");
+      
       setContextClassLoader();
 
       // Generate the FacesContext from the JSF FacesContextFactory
@@ -63,8 +64,7 @@ public class RendererRequest
 
       // Set the responseWriter to write to a buffer
       writer = new StringWriter();
-      facesContext.setResponseWriter(facesContext.getRenderKit().createResponseWriter(writer,
-      null, null));
+      facesContext.setResponseWriter(facesContext.getRenderKit().createResponseWriter(writer, null, "UTF-8"));
    }
 
    private void cleanup()
@@ -88,7 +88,7 @@ public class RendererRequest
            log.warn("Failed to bootstrap context classloader. Facelets may not work properly from MDBs");
        } else {
            Thread.currentThread().setContextClassLoader(ref.get());
-       }    
+       }
    }
 
    protected void resetContextClassLoader() {
@@ -98,7 +98,7 @@ public class RendererRequest
            originalClassLoader = null;
        }
    }
-   
+
    public void run() throws IOException
    {
       try {
@@ -107,7 +107,7 @@ public class RendererRequest
       } finally {
           cleanup();
           resetContextClassLoader();
-      }      
+      }
    }
 
    public String getOutput()
@@ -125,7 +125,7 @@ public class RendererRequest
       {
          throw new IllegalArgumentException("resource doesn't exist: " + viewId);
       }
-      return ApplicationAssociate.getCurrentInstance().getFaceletFactory().getFacelet(url);
+      return ApplicationAssociate.getCurrentInstance().getFaceletFactory().getFacelet(facesContext, viewId);
    }
 
    /**
@@ -135,6 +135,6 @@ public class RendererRequest
    {
       UIViewRoot root = facesContext.getViewRoot();
       facelet.apply(facesContext, root);
-      JSF.renderChildren(facesContext, root);  
+      JSF.renderChildren(facesContext, root);
    }
 }

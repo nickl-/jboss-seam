@@ -45,8 +45,8 @@ import org.jboss.seam.web.Session;
  */
 public class Seam
 {
-   private static final Map<Class, String> COMPONENT_NAME_CACHE = new ConcurrentHashMap<Class, String>();
-   private static final Map<Class, EjbDescriptor> EJB_DESCRIPTOR_CACHE = new ConcurrentHashMap<Class, EjbDescriptor>();
+   private static final Map<Class<?>, String> COMPONENT_NAME_CACHE = new ConcurrentHashMap<Class<?>, String>();
+   private static final Map<Class<?>, EjbDescriptor> EJB_DESCRIPTOR_CACHE = new ConcurrentHashMap<Class<?>, EjbDescriptor>();
    private static final Set<ClassLoader> CLASSLOADERS_LOADED = new HashSet<ClassLoader>(); 
 
    // application-scoped property in which the Seam version is stored
@@ -55,7 +55,7 @@ public class Seam
 
    private static String versionString;
 
-   public static EjbDescriptor getEjbDescriptor(Class clazz)
+   public static EjbDescriptor getEjbDescriptor(Class<?> clazz)
    {
       EjbDescriptor info = EJB_DESCRIPTOR_CACHE.get(clazz);
       if (info != null) 
@@ -71,11 +71,11 @@ public class Seam
       return null;
    }
    
-   private synchronized static void cacheEjbDescriptors(Class clazz)
+   private synchronized static void cacheEjbDescriptors(Class<?> clazz)
    {
       if (!CLASSLOADERS_LOADED.contains(clazz.getClassLoader()))
       {         
-         Map<Class, EjbDescriptor> ejbDescriptors = new DeploymentDescriptor(clazz).getEjbDescriptors();
+         Map<Class<?>, EjbDescriptor> ejbDescriptors = new DeploymentDescriptor(clazz).getEjbDescriptors();
          EJB_DESCRIPTOR_CACHE.putAll(ejbDescriptors);
          CLASSLOADERS_LOADED.add(clazz.getClassLoader());         
       }
@@ -336,52 +336,49 @@ public class Seam
    
    public static String getVersion()
    {
-      Package pkg = Seam.class.getPackage();
-      if (pkg.getImplementationVersion() != null)
-      {
-         return pkg.getImplementationVersion();
-      }
 
-      // new way of getting Manifest version string
-      // in case of module classloading for instance in JBoss AS7
-      if (versionString == null)
-      {
-         final Enumeration<URL> resources;
-         try
-         {
-            resources = Seam.class.getClassLoader().getResources("META-INF/MANIFEST.MF");
-            while (resources.hasMoreElements() && versionString == null)
-            {
-               final URL url = resources.nextElement();
-               final InputStream stream = url.openStream();
-               if (stream != null)
-                  try
-                  {
-                     final Manifest manifest = new Manifest(stream);
-                     final Attributes mainAttributes = manifest.getMainAttributes();
-                     if (mainAttributes != null && "Seam Core".equals(mainAttributes.getValue("Specification-Title")))
-                     {
-                        versionString = mainAttributes.getValue("Specification-Version");
-                     }
-                  }
-                  finally
-                  {
-                     try
-                     {
-                        stream.close();
-                     }
-                     catch (Throwable ignored)
-                     {
-                     }
-                  }
-            }
-         }
-         catch (IOException ignored)
-         {
-         }
-      }
-      return versionString;
-   }
+		if (versionString == null) {
+			// default: read from package metadata
+	      Package pkg = Seam.class.getPackage();
+	      if (pkg.getImplementationVersion() != null)
+	      {
+	         versionString =  pkg.getImplementationVersion();
+	         return versionString;
+	      }
+
+	      // new way of getting Manifest version string
+	      // in case of module classloading for instance in JBoss AS7
+			final Enumeration<URL> resources;
+			try {
+				resources = Seam.class.getClassLoader().getResources("META-INF/MANIFEST.MF");
+				while (resources.hasMoreElements() && versionString == null) {
+					final URL url = resources.nextElement();
+					final InputStream stream = url.openStream();
+					if (stream != null)
+						try {
+							final Manifest manifest = new Manifest(stream);
+							final Attributes mainAttributes = manifest.getMainAttributes();
+							if (mainAttributes != null && "Seam Core".equals(mainAttributes.getValue("Specification-Title"))) {
+								versionString = mainAttributes.getValue("Specification-Version");
+								if (versionString != null && versionString.endsWith("-SNAPSHOT")){
+									versionString += "-" + mainAttributes.getValue("Build-Time");
+								}
+							}
+						} finally {
+							try {
+								stream.close();
+							} catch (Throwable ignored) {
+							}
+						}
+				}
+			} catch (IOException ignored) {
+			}
+			if (versionString == null) {
+				versionString = "";
+			}
+		}
+		return versionString;
+	}
    
    public static void clearComponentNameCache()
    {

@@ -59,7 +59,7 @@ public class ComponentDescriptor implements Comparable<ComponentDescriptor>
     /**
      * For a scanned default role
      */
-    public ComponentDescriptor(Class componentClass)
+    public ComponentDescriptor(Class<?> componentClass)
     {
         this.componentClass = componentClass;
     }
@@ -67,7 +67,7 @@ public class ComponentDescriptor implements Comparable<ComponentDescriptor>
     /**
      * For built-ins with special rules
      */
-    public ComponentDescriptor(Class componentClass, Boolean installed)
+    public ComponentDescriptor(Class<?> componentClass, Boolean installed)
     {
         this.componentClass = componentClass;
         this.installed = installed;
@@ -84,7 +84,7 @@ public class ComponentDescriptor implements Comparable<ComponentDescriptor>
         return scope == null ? Seam.getComponentScope(componentClass) : scope;
     }
 
-    public Class getComponentClass()
+    public Class<?> getComponentClass()
     {
         return componentClass;
     }
@@ -137,7 +137,7 @@ public class ComponentDescriptor implements Comparable<ComponentDescriptor>
         return install.dependencies();
     }
 
-    public Class[] getGenericDependencies()
+    public Class<?>[] getGenericDependencies()
     {
         
         Install install = componentClass.getAnnotation(Install.class);
@@ -195,7 +195,7 @@ public class ComponentDescriptor implements Comparable<ComponentDescriptor>
     {
         if (javax.servlet.Filter.class.isAssignableFrom(componentClass))
         {
-           for (Class clazz = componentClass; !Object.class.equals(clazz); clazz = clazz.getSuperclass())
+           for (Class<?> clazz = componentClass; !Object.class.equals(clazz); clazz = clazz.getSuperclass())
            {
               if (clazz.isAnnotationPresent(org.jboss.seam.annotations.web.Filter.class))
               {

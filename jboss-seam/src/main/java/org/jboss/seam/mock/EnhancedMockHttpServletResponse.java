@@ -49,128 +49,128 @@ import java.util.Set;
  */
 public class EnhancedMockHttpServletResponse implements HttpServletResponse {
 
-	public static final int DEFAULT_SERVER_PORT = 80;
+    public static final int DEFAULT_SERVER_PORT = 80;
 
-	private static final String CHARSET_PREFIX = "charset=";
-
-
-	//---------------------------------------------------------------------
-	// ServletResponse properties
-	//---------------------------------------------------------------------
-
-	private boolean outputStreamAccessAllowed = true;
-
-	private boolean writerAccessAllowed = true;
-
-	private String characterEncoding = "ISO-8859-1";
-
-	private final ByteArrayOutputStream content = new ByteArrayOutputStream();
-
-	private final ServletOutputStream outputStream = new ResponseServletOutputStream(this.content);
-
-	private PrintWriter writer;
-
-	private int contentLength = 0;
-
-	private String contentType;
-
-	private int bufferSize = 4096;
-
-	private boolean committed;
-
-	private Locale locale = Locale.getDefault();
+    private static final String CHARSET_PREFIX = "charset=";
 
 
-	//---------------------------------------------------------------------
-	// HttpServletResponse properties
-	//---------------------------------------------------------------------
+    //---------------------------------------------------------------------
+    // ServletResponse properties
+    //---------------------------------------------------------------------
 
-	private final List cookies = new ArrayList();
+    private boolean outputStreamAccessAllowed = true;
 
-	/**
-	 * The key is the lowercase header name; the value is a {@link org.jboss.seam.mock.HeaderValueHolder} object.
-	 */
-	private final Map headers = new HashMap();
+    private boolean writerAccessAllowed = true;
 
-	private int status = HttpServletResponse.SC_OK;
+    private String characterEncoding = "ISO-8859-1";
 
-	private String statusMessage;
+    private final ByteArrayOutputStream content = new ByteArrayOutputStream();
 
-	private String redirectedUrl;
+    private final ServletOutputStream outputStream = new ResponseServletOutputStream(this.content);
 
-	private String forwardedUrl;
+    private PrintWriter writer;
 
-	private String includedUrl;
+    private int contentLength = 0;
+
+    private String contentType;
+
+    private int bufferSize = 4096;
+
+    private boolean committed;
+
+    private Locale locale = Locale.getDefault();
+
+
+    //---------------------------------------------------------------------
+    // HttpServletResponse properties
+    //---------------------------------------------------------------------
+
+    private final List cookies = new ArrayList();
+
+    /**
+     * The key is the lowercase header name; the value is a {@link org.jboss.seam.mock.HeaderValueHolder} object.
+     */
+    private final Map headers = new HashMap();
+
+    private int status = HttpServletResponse.SC_OK;
+
+    private String statusMessage;
+
+    private String redirectedUrl;
+
+    private String forwardedUrl;
+
+    private String includedUrl;
 
 
    //---------------------------------------------------------------------
-	// ServletResponse interface
-	//---------------------------------------------------------------------
+    // ServletResponse interface
+    //---------------------------------------------------------------------
 
-	/**
-	 * Set whether {@link #getOutputStream()} access is allowed.
-	 * <p>Default is <code>true</code>.
-	 */
-	public void setOutputStreamAccessAllowed(boolean outputStreamAccessAllowed) {
-		this.outputStreamAccessAllowed = outputStreamAccessAllowed;
-	}
+    /**
+     * Set whether {@link #getOutputStream()} access is allowed.
+     * <p>Default is <code>true</code>.
+     */
+    public void setOutputStreamAccessAllowed(boolean outputStreamAccessAllowed) {
+        this.outputStreamAccessAllowed = outputStreamAccessAllowed;
+    }
 
-	/**
-	 * Return whether {@link #getOutputStream()} access is allowed.
-	 */
-	public boolean isOutputStreamAccessAllowed() {
-		return this.outputStreamAccessAllowed;
-	}
+    /**
+     * Return whether {@link #getOutputStream()} access is allowed.
+     */
+    public boolean isOutputStreamAccessAllowed() {
+        return this.outputStreamAccessAllowed;
+    }
 
-	/**
-	 * Set whether {@link #getWriter()} access is allowed.
-	 * <p>Default is <code>true</code>.
-	 */
-	public void setWriterAccessAllowed(boolean writerAccessAllowed) {
-		this.writerAccessAllowed = writerAccessAllowed;
-	}
+    /**
+     * Set whether {@link #getWriter()} access is allowed.
+     * <p>Default is <code>true</code>.
+     */
+    public void setWriterAccessAllowed(boolean writerAccessAllowed) {
+        this.writerAccessAllowed = writerAccessAllowed;
+    }
 
-	/**
-	 * Return whether {@link #getOutputStream()} access is allowed.
-	 */
-	public boolean isWriterAccessAllowed() {
-		return this.writerAccessAllowed;
-	}
+    /**
+     * Return whether {@link #getOutputStream()} access is allowed.
+     */
+    public boolean isWriterAccessAllowed() {
+        return this.writerAccessAllowed;
+    }
 
-	public void setCharacterEncoding(String characterEncoding) {
-		this.characterEncoding = characterEncoding;
-	}
+    public void setCharacterEncoding(String characterEncoding) {
+        this.characterEncoding = characterEncoding;
+    }
 
-	public String getCharacterEncoding() {
-		return this.characterEncoding;
-	}
+    public String getCharacterEncoding() {
+        return this.characterEncoding;
+    }
 
-	public ServletOutputStream getOutputStream() {
-		if (!this.outputStreamAccessAllowed) {
-			throw new IllegalStateException("OutputStream access not allowed");
-		}
-		return this.outputStream;
-	}
+    public ServletOutputStream getOutputStream() {
+        if (!this.outputStreamAccessAllowed) {
+            throw new IllegalStateException("OutputStream access not allowed");
+        }
+        return this.outputStream;
+    }
 
-	public PrintWriter getWriter() throws UnsupportedEncodingException {
-		if (!this.writerAccessAllowed) {
-			throw new IllegalStateException("Writer access not allowed");
-		}
-		if (this.writer == null) {
-			Writer targetWriter = (this.characterEncoding != null ?
-					new OutputStreamWriter(this.content, this.characterEncoding) : new OutputStreamWriter(this.content));
-			this.writer = new ResponsePrintWriter(targetWriter);
-		}
-		return this.writer;
-	}
+    public PrintWriter getWriter() throws UnsupportedEncodingException {
+        if (!this.writerAccessAllowed) {
+            throw new IllegalStateException("Writer access not allowed");
+        }
+        if (this.writer == null) {
+            Writer targetWriter = (this.characterEncoding != null ?
+                    new OutputStreamWriter(this.content, this.characterEncoding) : new OutputStreamWriter(this.content));
+            this.writer = new ResponsePrintWriter(targetWriter);
+        }
+        return this.writer;
+    }
 
-	public byte[] getContentAsByteArray() {
-		flushBuffer();
-		return this.content.toByteArray();
-	}
+    public byte[] getContentAsByteArray() {
+        flushBuffer();
+        return this.content.toByteArray();
+    }
 
-	public String getContentAsString() {
-		flushBuffer();
+    public String getContentAsString() {
+        flushBuffer();
       try {
          return (this.characterEncoding != null) ?
                this.content.toString(this.characterEncoding) : this.content.toString();
@@ -454,62 +454,74 @@ public class EnhancedMockHttpServletResponse implements HttpServletResponse {
 	}
 
 
+
+
    /**
-	 * Inner class that adapts the ServletOutputStream to mark the
-	 * response as committed once the buffer size is exceeded.
-	 */
-	private class ResponseServletOutputStream extends DelegatingServletOutputStream
+     * Inner class that adapts the ServletOutputStream to mark the
+     * response as committed once the buffer size is exceeded.
+     */
+    private class ResponseServletOutputStream extends DelegatingServletOutputStream
    {
 
-		public ResponseServletOutputStream(OutputStream out) {
-			super(out);
-		}
+        public ResponseServletOutputStream(OutputStream out) {
+            super(out);
+        }
 
-		public void write(int b) throws IOException {
-			super.write(b);
-			super.flush();
-			setCommittedIfBufferSizeExceeded();
-		}
+        public void write(int b) throws IOException {
+            super.write(b);
+            super.flush();
+            setCommittedIfBufferSizeExceeded();
+        }
 
-		public void flush() throws IOException {
-			super.flush();
-			setCommitted(true);
-		}
-	}
+        public void flush() throws IOException {
+            super.flush();
+            setCommitted(true);
+        }
+    }
 
 
-	/**
-	 * Inner class that adapts the PrintWriter to mark the
-	 * response as committed once the buffer size is exceeded.
-	 */
-	private class ResponsePrintWriter extends PrintWriter {
+    /**
+     * Inner class that adapts the PrintWriter to mark the
+     * response as committed once the buffer size is exceeded.
+     */
+    private class ResponsePrintWriter extends PrintWriter {
 
-		public ResponsePrintWriter(Writer out) {
-			super(out, true);
-		}
+        public ResponsePrintWriter(Writer out) {
+            super(out, true);
+        }
 
-		public void write(char buf[], int off, int len) {
-			super.write(buf, off, len);
-			super.flush();
-			setCommittedIfBufferSizeExceeded();
-		}
+        public void write(char buf[], int off, int len) {
+            super.write(buf, off, len);
+            super.flush();
+            setCommittedIfBufferSizeExceeded();
+        }
 
-		public void write(String s, int off, int len) {
-			super.write(s, off, len);
-			super.flush();
-			setCommittedIfBufferSizeExceeded();
-		}
+        public void write(String s, int off, int len) {
+            super.write(s, off, len);
+            super.flush();
+            setCommittedIfBufferSizeExceeded();
+        }
 
-		public void write(int c) {
-			super.write(c);
-			super.flush();
-			setCommittedIfBufferSizeExceeded();
-		}
+        public void write(int c) {
+            super.write(c);
+            super.flush();
+            setCommittedIfBufferSizeExceeded();
+        }
 
-		public void flush() {
-			super.flush();
-			setCommitted(true);
-		}
-	}
+        public void flush() {
+            super.flush();
+            setCommitted(true);
+        }
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setContentLengthLong( long len )
+    {
+        setContentLength( (int)len );
+    }
 
 }

@@ -20,6 +20,7 @@ import java.util.Map.Entry;
 
 import javax.servlet.AsyncContext;
 import javax.servlet.DispatcherType;
+import javax.servlet.ReadListener;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -30,6 +31,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpUpgradeHandler;
 import javax.servlet.http.Part;
 
 import org.apache.log4j.Logger;
@@ -161,6 +163,24 @@ public class MultipartRequestImplTest
                
                return stream.read();
             }
+
+			@Override
+			public boolean isFinished() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public boolean isReady() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public void setReadListener(ReadListener arg0) {
+				// TODO Auto-generated method stub
+				
+			}
          }, "----WebKitFormBoundaryBtaQkmLRzQZtv7qT");
          
          MultipartRequestImpl r = new MultipartRequestImpl(req, false, 0);
@@ -248,6 +268,24 @@ public class MultipartRequestImplTest
 				@Override
 				public int read() throws IOException {
 					return stream.read();
+				}
+
+				@Override
+				public boolean isFinished() {
+					// TODO Auto-generated method stub
+					return false;
+				}
+
+				@Override
+				public boolean isReady() {
+					// TODO Auto-generated method stub
+					return false;
+				}
+
+				@Override
+				public void setReadListener(ReadListener arg0) {
+					// TODO Auto-generated method stub
+					
 				}
 			}, "----WebKitFormBoundaryBtaQkmLRzQZtv7qT");
 
@@ -781,6 +819,24 @@ public Collection<Part> getParts() throws IOException, ServletException {
 
 @Override
 public Part getPart(String name) throws IOException, ServletException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public long getContentLengthLong() {
+	// TODO Auto-generated method stub
+	return 0;
+}
+
+@Override
+public String changeSessionId() {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public <T extends HttpUpgradeHandler> T upgrade(Class<T> arg0) throws IOException, ServletException {
 	// TODO Auto-generated method stub
 	return null;
 }

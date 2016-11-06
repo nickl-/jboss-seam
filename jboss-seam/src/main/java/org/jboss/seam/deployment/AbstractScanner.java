@@ -28,10 +28,12 @@ import org.jboss.seam.log.Logging;
  */
 public abstract class AbstractScanner implements Scanner
 {
-	public static final String KEY_OMIT_PACKAGES = "org.jboss.seam.deployment.OMIT_PACKAGES";
    
    protected ServletContext servletContext;
-   
+   protected OmitPackageHelper omitPackage;
+   protected ScanResultsCache scanCache;
+   private boolean timestampScan = false;
+
    private static class Handler
    {
       
@@ -44,24 +46,16 @@ public abstract class AbstractScanner implements Scanner
       private ClassLoader classLoader;
       private String name;
       private ServletContext servletContext;
-      private String[] omittedPackages;
+      private OmitPackageHelper omitPackage;
+      private ScanResultsCache scanCache;
       public Handler(String name, Set<Entry<String, DeploymentHandler>> deploymentHandlers, ClassLoader classLoader,ServletContext servletContext)
       {
          this.deploymentHandlers = deploymentHandlers;
          this.name = name;
          this.classLoader = classLoader;
          this.servletContext=servletContext;
-         this.omittedPackages = (String []) this.servletContext.getAttribute(KEY_OMIT_PACKAGES);
-         if (this.omittedPackages == null) {
-	         String omittedPackageString = this.servletContext.getInitParameter(KEY_OMIT_PACKAGES);
-	         if (omittedPackageString != null && !"".equals(omittedPackageString)) {
-	        	 this.omittedPackages = omittedPackageString.split(",");
-	         }
-	         else {
-	        	 this.omittedPackages = new String[0];
-	         }
-	         this.servletContext.setAttribute(KEY_OMIT_PACKAGES, this.omittedPackages);
-         }
+         this.omitPackage = OmitPackageHelper.getInstance(servletContext);
+         this.scanCache = ScanResultsCache.getInstance(servletContext);
       }
       
       /**
@@ -70,9 +64,9 @@ public abstract class AbstractScanner implements Scanner
 		protected boolean handle(DeploymentHandler deploymentHandler) {
 			boolean handled = false;
 			if (deploymentHandler instanceof ClassDeploymentHandler) {
-				if (name.endsWith(".class") && !isOmmitedPackage(name)) {
+				if (name.endsWith(".class") && omitPackage.acceptClass(name)) {
 					ClassDeploymentHandler classDeploymentHandler = (ClassDeploymentHandler) deploymentHandler;
-					if (hasAnnotations(getClassFile(), classDeploymentHandler.getMetadata().getClassAnnotatedWith())) {
+					if (this.scanCache.isHit(name) || hasAnnotations(getClassFile(), classDeploymentHandler.getMetadata().getClassAnnotatedWith())) {
 						if (getClassDescriptor().getClazz() != null) {
 							log.trace("adding class to deployable list " + name + " for deployment handler " + deploymentHandler.getName());
 							classDeploymentHandler.getClasses().add(getClassDescriptor());
@@ -92,20 +86,7 @@ public abstract class AbstractScanner implements Scanner
 			return handled;
 		}
       
-      private boolean isOmmitedPackage(String fullClassFileName) {
-    	  if (omittedPackages.length == 0) {
-    		  return false;
-    	  }
-    	  String packageName = fullClassFileName.substring(0, fullClassFileName.lastIndexOf('/'));
-    	  packageName = packageName.replaceAll("/", ".");
-    	  for (String omittedPackage : omittedPackages) {
-    		  if (packageName.startsWith(omittedPackage)) {
-    			  return true;
-    		  }
-    	  }
-    	  
-		return false;
-	}
+
 
 	protected boolean handle()
       {
@@ -158,23 +139,29 @@ public abstract class AbstractScanner implements Scanner
    
    private static final LogProvider log = Logging.getLogProvider(Scanner.class);
    
-   private DeploymentStrategy deploymentStrategy;
+   protected DeploymentStrategy deploymentStrategy;
    
    public AbstractScanner(DeploymentStrategy deploymentStrategy)
    {
       this.deploymentStrategy = deploymentStrategy;
       this.servletContext=deploymentStrategy.getServletContext();
+      this.omitPackage = OmitPackageHelper.getInstance(this.servletContext);
+      this.scanCache = ScanResultsCache.getInstance(this.servletContext);
       ClassFile.class.getPackage(); //to force loading of javassist, throwing an exception if it is missing
    }
    @Deprecated
    protected AbstractScanner()
    {
       this.servletContext=ServletLifecycle.getCurrentServletContext();
+      this.omitPackage = OmitPackageHelper.getInstance(this.servletContext);
+      this.scanCache = ScanResultsCache.getInstance(this.servletContext);
    }
    
    protected AbstractScanner(ServletContext servletContext)
    {
       this.servletContext=servletContext;
+      this.omitPackage = OmitPackageHelper.getInstance(this.servletContext);
+      this.scanCache = ScanResultsCache.getInstance(this.servletContext);
    }
    
    protected static boolean hasAnnotations(ClassFile classFile, Set<Class<? extends Annotation>> annotationTypes)
@@ -239,14 +226,61 @@ public abstract class AbstractScanner implements Scanner
    }
    
    
-   protected boolean handle(String name)
-   {
-      return new Handler(name, deploymentStrategy.getDeploymentHandlers().entrySet(), deploymentStrategy.getClassLoader(),servletContext).handle();
-   }
+	protected boolean handle(String name) {
+		if (!timestampScan) {
+			return defaultHandle(name);
+		}
+		return timestampHandle(name);
+			
+		
+	}
    
-   public void scanDirectories(File[] directories, File[] excludedDirectories)
-   {
-      scanDirectories(directories);
-   }
+	private boolean timestampHandle(String name) {
+		if (this.scanCache.isMiss(name)) {
+			return false;
+		}
+		for (DeploymentHandler handler : getDeploymentStrategy().getDeploymentHandlers().values()) {
+			if (handler instanceof ClassDeploymentHandler) {
+				if (name.endsWith(".class")) {
+					return true;
+				}
+			} else {
+				if (name.endsWith(handler.getMetadata().getFileNameSuffix())) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	private boolean defaultHandle(String name) {
+		boolean handled = false;
+		if (!this.scanCache.isMiss(name)) {
+			handled = new Handler(name, deploymentStrategy.getDeploymentHandlers().entrySet(), deploymentStrategy.getClassLoader(),
+					servletContext).handle();
+			if (handled) {
+				this.scanCache.addHit(name);
+			} else {
+				this.scanCache.addMiss(name);
+			}
+		}
+		return handled;
+	}
+
+	public void scanDirectories(File[] directories, File[] excludedDirectories) {
+		scanDirectories(directories);
+	}
+
+	protected boolean isTimestampScan() {
+		return timestampScan;
+	}
+
+	protected void setTimestampScan(boolean timestampScan) {
+		this.timestampScan = timestampScan;
+	}
+   
+   
+   
+   
 
 }

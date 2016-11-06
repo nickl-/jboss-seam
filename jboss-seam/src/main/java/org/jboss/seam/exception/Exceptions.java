@@ -216,8 +216,15 @@ private ExceptionHandler parse(String fileName) throws DocumentException, ClassN
 
    private ExceptionHandler createHandler(Element exception, final Class<?> clazz)
    {
-      final boolean endConversation = exception.elementIterator("end-conversation").hasNext();
-      
+	   boolean endConversation = false;
+	   boolean endConversationBeforeRedirect = false;
+	   Element conversationElement = exception.element("end-conversation");
+	   if (conversationElement != null) {
+		   endConversation = true;
+		   String beforeRedirect = conversationElement.attributeValue("before-redirect");
+		   endConversationBeforeRedirect = Strings.isEmpty(beforeRedirect) ? false : Boolean.valueOf(beforeRedirect);
+	   }
+	   
       Element redirect = exception.element("redirect");
       if (redirect!=null)
       {
@@ -229,7 +236,7 @@ private ExceptionHandler parse(String fileName) throws DocumentException, ClassN
                   FacesMessage.SEVERITY_INFO : 
                   Pages.getFacesMessageValuesMap().get( severityName.toUpperCase() );
          return new ConfigRedirectHandler(viewId == null ? null : Expressions.instance().createValueExpression(
-               viewId, String.class), clazz, endConversation, message, severity);
+        		 viewId, String.class), clazz, endConversation, endConversationBeforeRedirect, message, severity);
       }
       
       Element error = exception.element("http-error");

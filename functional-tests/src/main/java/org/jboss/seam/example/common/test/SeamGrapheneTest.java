@@ -95,7 +95,7 @@ public abstract class SeamGrapheneTest {
             }
         }
     };
-    
+
     private static String PROPERTY_FILE = "/ftest.properties";
     private static boolean propertiesLoaded = false;
     private static boolean propertiesExist = false;
@@ -222,7 +222,7 @@ public abstract class SeamGrapheneTest {
     public void selectByText(By by, Object value) {
         new Select(browser.findElement(by)).selectByVisibleText(String.valueOf(value));
     }
-    
+
     public void selectByIndex(By by, int index) {
        new Select(browser.findElement(by)).selectByIndex(index);
     }

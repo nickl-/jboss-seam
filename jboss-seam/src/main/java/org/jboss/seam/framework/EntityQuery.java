@@ -73,14 +73,13 @@ public class EntityQuery<E> extends Query<EntityManager, E>
       return truncResultList(resultList);
    }
 
-   private void initResultList()
-   {
-      if (resultList==null)
-      {
-         javax.persistence.Query query = createQuery();
-         resultList = query==null ? null : query.getResultList();
-      }
-   }
+	@SuppressWarnings("unchecked")
+	private void initResultList() {
+		if (resultList == null) {
+			javax.persistence.Query query = createQuery();
+			resultList = query == null ? null : query.getResultList();
+		}
+	}
    
    /**
     * Get a single result from the query
@@ -101,15 +100,13 @@ public class EntityQuery<E> extends Query<EntityManager, E>
       return singleResult;
    }
 
-   private void initSingleResult()
-   {
-      if ( singleResult==null)
-      {
-         javax.persistence.Query query = createQuery();
-         singleResult = (E) (query==null ? 
-               null : query.getSingleResult());
-      }
-   }
+	@SuppressWarnings("unchecked")
+	private void initSingleResult() {
+		if (singleResult == null) {
+			javax.persistence.Query query = createQuery();
+			singleResult = (E) (query == null ? null : query.getSingleResult());
+		}
+	}
 
    /**
     * Get the number of results this query returns

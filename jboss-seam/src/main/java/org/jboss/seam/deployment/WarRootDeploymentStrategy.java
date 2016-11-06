@@ -79,7 +79,13 @@ public class WarRootDeploymentStrategy extends DeploymentStrategy
    @Override
    public void scan()
    {
-      getScanner().scanDirectories(warRoot, excludedDirectories);
+	  Scanner scanner = getScanner();
+      scanner.scanDirectories(warRoot, excludedDirectories);
+      if (scanner instanceof AbstractScanner) {
+    	  if (((AbstractScanner) scanner).isTimestampScan()) {
+    		  return;
+    	  }
+      }
       postScan();
    }
    

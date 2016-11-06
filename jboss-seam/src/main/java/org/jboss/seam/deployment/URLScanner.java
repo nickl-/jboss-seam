@@ -139,7 +139,9 @@ public class URLScanner extends AbstractScanner
 			while (entries.hasMoreElements()) {
 				ZipEntry entry = entries.nextElement();
 				String name = entry.getName();
-				handle(name);
+				if (omitPackage.acceptClass(name)){
+					handle(name);
+				}
 			}
 
 		} catch (ZipException e) {
@@ -176,8 +178,10 @@ public class URLScanner extends AbstractScanner
       {
          String newPath = path==null ? child.getName() : path + '/' + child.getName();
          if ( child.isDirectory() )
-         {
-            handleDirectory(child, newPath, excludedDirectories);
+         {        	 
+        	 if (omitPackage.acceptPackage(newPath)){
+        		 handleDirectory(child, newPath, excludedDirectories);
+        	 }
          }
          else
          {

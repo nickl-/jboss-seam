@@ -3,9 +3,11 @@ package org.jboss.seam.core;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,7 +37,8 @@ public class ConversationEntries extends AbstractMutable implements Serializable
    
    public synchronized Collection<ConversationEntry> getConversationEntries()
    {
-      return Collections.unmodifiableCollection( conversationIdEntryMap.values() );
+		Collection<ConversationEntry> values = new ArrayList<ConversationEntry>(conversationIdEntryMap.values());
+		return Collections.unmodifiableCollection(values);
    }
    
    public synchronized int size()
@@ -45,7 +48,8 @@ public class ConversationEntries extends AbstractMutable implements Serializable
    
    public synchronized Set<String> getConversationIds()
    {
-      return Collections.unmodifiableSet( conversationIdEntryMap.keySet() );
+		Set<String> ids = new HashSet<String>(conversationIdEntryMap.keySet());
+		return Collections.unmodifiableSet(ids);
    }
    
    public synchronized ConversationEntry createConversationEntry(String id, List<String> stack)

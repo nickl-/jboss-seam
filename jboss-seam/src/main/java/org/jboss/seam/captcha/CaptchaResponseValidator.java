@@ -16,15 +16,25 @@ import org.jboss.seam.core.Interpolator;
 public class CaptchaResponseValidator implements ConstraintValidator<CaptchaResponse,String>
 {
 
-   public void initialize(CaptchaResponse constraintAnnotation)   {   }
+	private CaptchaResponse annotation = null;
+	
+	public CaptchaResponseValidator() {
+		super();
+	}
+
+   public void initialize(CaptchaResponse constraintAnnotation)   {
+	   annotation = constraintAnnotation; 
+   }
 
    public boolean isValid(String value, ConstraintValidatorContext context)
    {
       boolean result = Captcha.instance().validateResponse(value);
       if (!result)
       {
+    	  
          context.disableDefaultConstraintViolation();
-         String template = Interpolator.instance().interpolate("#{messages['org.jboss.seam.captcha.error']}");
+         System.out.println("annotation.message=" + annotation.message());
+         String template = Interpolator.instance().interpolate(annotation.message());
          context.buildConstraintViolationWithTemplate(template).addConstraintViolation();
       }
       return result;

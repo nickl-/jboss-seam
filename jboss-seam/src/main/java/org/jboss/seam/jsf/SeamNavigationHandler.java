@@ -38,8 +38,8 @@ public class SeamNavigationHandler extends ConfigurableNavigationHandler
    public void handleNavigation(FacesContext context, String fromAction, String outcome) 
    {
 		// Skip non-seam applications
-		ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
-		if (servletContext.getAttribute(Seam.VERSION) == null) {
+		
+		if (!SeamApplication.isSeamApplication(context)) {
 			return;
 		}
       if ( !context.getResponseComplete() ) //workaround for a bug in MyFaces

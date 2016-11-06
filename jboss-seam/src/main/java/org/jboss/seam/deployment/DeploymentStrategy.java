@@ -26,7 +26,7 @@ public abstract class DeploymentStrategy
    
    private static final LogProvider log = Logging.getLogProvider(DeploymentStrategy.class);
 
-   private Scanner scanner;
+   protected Scanner scanner;
    
    private List<File> files = new ArrayList<File>();
    
@@ -105,12 +105,14 @@ public abstract class DeploymentStrategy
          Scanner scanner = instantiateScanner(className);
          if (scanner != null)
          {
-            log.info("Using " + className);
+        	 if (log.isDebugEnabled()) {
+        		 log.debug("Using " + className);
+        	 }
             this.scanner = scanner;
             return;
          }        
       }
-      log.info("Using default org.jboss.seam.deployment.URLScanner");
+      log.debug("Using default org.jboss.seam.deployment.URLScanner");
       this.scanner = new URLScanner(this);
    }
    
@@ -175,7 +177,9 @@ public abstract class DeploymentStrategy
       DeploymentHandler deploymentHandler = instantiateDeploymentHandler(className);
       if (deploymentHandler != null)
       {
-         log.trace("Adding " + deploymentHandler + " as a deployment handler");
+    	  if (log.isTraceEnabled()) {
+    		  log.trace("Adding " + deploymentHandler + " as a deployment handler");
+    	  }
          deploymentHandlers.put(deploymentHandler.getName(), deploymentHandler);
       }
    }
@@ -224,7 +228,9 @@ public abstract class DeploymentStrategy
    
 	protected void postScan() {
 		for (Entry<String, DeploymentHandler> entry : getDeploymentHandlers().entrySet()) {
-			log.info("postScan:" + entry.getValue().getName());
+			if (log.isDebugEnabled()) {
+				log.debug("postScan:" + entry.getValue().getName());
+			}
 			entry.getValue().postProcess(getClassLoader());
 		}
 	}

@@ -60,7 +60,7 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
     */
    public StandardDeploymentStrategy(ClassLoader classLoader,ServletContext servletContext) {
       this.classLoader = Thread.currentThread().getContextClassLoader();
-      this.servletContext=servletContext;
+      this.servletContext = servletContext;
       componentDeploymentHandler = new ComponentDeploymentHandler();
       getDeploymentHandlers().put(ComponentDeploymentHandler.NAME, componentDeploymentHandler);
       componentsXmlDeploymentHandler = new ComponentsXmlDeploymentHandler();

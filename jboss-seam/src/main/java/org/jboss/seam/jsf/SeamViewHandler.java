@@ -57,13 +57,18 @@ public class SeamViewHandler extends ViewHandlerWrapper
    public Locale calculateLocale(FacesContext facesContext)
    {
       Locale jsfLocale = viewHandler.calculateLocale(facesContext);
-      if ( !Contexts.isSessionContextActive() )
+      // Skip non-seam applications    
+      if (!SeamApplication.isSeamApplication(facesContext) || !Contexts.isSessionContextActive() )
       {
          return jsfLocale;
       }
       else
       {
-         return LocaleSelector.instance().calculateLocale(jsfLocale);
+    	  LocaleSelector localeSelectorInstance = LocaleSelector.instance();
+    	  if (localeSelectorInstance != null) {
+    		  return localeSelectorInstance.calculateLocale(jsfLocale);
+    	  }
+    	  return jsfLocale;
       }
    }
 
@@ -93,6 +98,10 @@ public class SeamViewHandler extends ViewHandlerWrapper
    @Override
    public String getActionURL(FacesContext facesContext, String viewId) {
        String actionUrl = super.getActionURL(facesContext, viewId);
+    	// Skip non-seam applications       
+       if (!SeamApplication.isSeamApplication(facesContext) || !Contexts.isConversationContextActive()) {
+           return actionUrl;
+       }
        Conversation conversation = Conversation.instance();
        Manager manager = Manager.instance();
        String conversationIdParameter = manager.getConversationIdParameter();
@@ -189,15 +198,13 @@ public class SeamViewHandler extends ViewHandlerWrapper
    }
 
    @Override
-   public UIViewRoot restoreView(FacesContext ctx, String viewId)
-   {
-      UIViewRoot viewRoot =viewHandler.restoreView(ctx, viewId);
-      if (viewRoot != null)
-      {
-         viewRoot.setViewId(viewHandler.deriveViewId(ctx,viewId));
-      }
-      return viewRoot;
-   }
+	public UIViewRoot restoreView(FacesContext ctx, String viewId) {
+		UIViewRoot viewRoot = viewHandler.restoreView(ctx, viewId);
+		if (viewRoot != null && SeamApplication.isSeamApplication(ctx)) {
+			viewRoot.setViewId(viewHandler.deriveViewId(ctx, viewId));
+		}
+		return viewRoot;
+	}
 
    @Override
    public void writeState(FacesContext ctx) throws IOException
@@ -210,5 +217,6 @@ public class SeamViewHandler extends ViewHandlerWrapper
    {
       return viewHandler;
    }
+
 
 }

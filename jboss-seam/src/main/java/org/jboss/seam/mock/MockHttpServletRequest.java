@@ -35,6 +35,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpUpgradeHandler;
 import javax.servlet.http.Part;
 
 import org.jboss.seam.util.IteratorEnumeration;
@@ -45,7 +46,7 @@ import org.jboss.seam.util.IteratorEnumeration;
  */
 public class MockHttpServletRequest implements HttpServletRequest
 {
-   
+
    private Map<String, String[]> parameters = new HashMap<String, String[]>();
    private Map<String, Object> attributes = new HashMap<String, Object>();
    private HttpSession session;
@@ -84,19 +85,19 @@ public class MockHttpServletRequest implements HttpServletRequest
    private String localAddr;
    private int localPort;
 
-   
-   
+
+
    public MockHttpServletRequest(HttpSession session)
    {
       this(session, null, new HashSet<String>());
    }
    
    @SuppressWarnings("unchecked")
-public MockHttpServletRequest(HttpSession session, ExternalContext externalContext) 
+	public MockHttpServletRequest(HttpSession session, ExternalContext externalContext) 
    {
       this(session, null, new HashSet<String>());
       Object request = externalContext.getRequest();
-      if(externalContext != null && (request instanceof HttpServletRequest)) 
+      if(externalContext != null && (request instanceof HttpServletRequest))
       {
          httpServletRequest = (HttpServletRequest)request;
          authType = httpServletRequest.getAuthType();
@@ -124,8 +125,8 @@ public MockHttpServletRequest(HttpSession session, ExternalContext externalConte
          localName = httpServletRequest.getLocalName();
          localAddr = httpServletRequest.getLocalAddr();
          localPort = httpServletRequest.getLocalPort();
-         
-      } else if(externalContext != null && (request instanceof PortletRequest)) 
+
+      } else if(externalContext != null && (request instanceof PortletRequest))
       {
          portletRequest = (PortletRequest)request;
          authType = portletRequest.getAuthType();
@@ -153,7 +154,7 @@ public MockHttpServletRequest(HttpSession session, ExternalContext externalConte
       this.principalRoles = principalRoles;
       this.cookies = cookies;
       this.method = method;
-      // The 1.2 RI NPEs if this header isn't present 
+      // The 1.2 RI NPEs if this header isn't present
       headers.put("Accept", new String[0]);
       List<Locale> list = Collections.emptyList();
       locales = new IteratorEnumeration<Locale>(list.iterator());
@@ -168,7 +169,7 @@ public MockHttpServletRequest(HttpSession session, ExternalContext externalConte
    {
       return attributes;
    }
-   
+
    public String getAuthType()
    {
       return authType;
@@ -243,8 +244,8 @@ public MockHttpServletRequest(HttpSession session, ExternalContext externalConte
 
    public Principal getUserPrincipal()
    {
-      return principalName==null ? null : 
-         new Principal() 
+      return principalName==null ? null :
+         new Principal()
          {
             public String getName()
             {
@@ -265,7 +266,7 @@ public MockHttpServletRequest(HttpSession session, ExternalContext externalConte
 
    public StringBuffer getRequestURL()
    {
-      return (requestURL != null ? requestURL : new StringBuffer(getRequestURI())); 
+      return (requestURL != null ? requestURL : new StringBuffer(getRequestURI()));
    }
 
    public String getServletPath()
@@ -426,9 +427,19 @@ public MockHttpServletRequest(HttpSession session, ExternalContext externalConte
 
    public RequestDispatcher getRequestDispatcher(String path)
    {
-      if(httpServletRequest != null) 
+      if(httpServletRequest != null)
       {
          return httpServletRequest.getRequestDispatcher(path);
+      }
+      return null;
+   }
+
+   @Deprecated
+   public String getRealPath(String path)
+   {
+      if(httpServletRequest != null)
+      {
+         return httpServletRequest.getRealPath(path);
       }
       return null;
    }
@@ -519,14 +530,14 @@ public MockHttpServletRequest(HttpSession session, ExternalContext externalConte
    public void login(String username, String password) throws ServletException
    {
       // TODO Auto-generated method stub
-      
+
    }
 
    @Override
    public void logout() throws ServletException
    {
       // TODO Auto-generated method stub
-      
+
    }
 
    @Override
@@ -542,21 +553,34 @@ public MockHttpServletRequest(HttpSession session, ExternalContext externalConte
       // TODO Auto-generated method stub
       return null;
    }
-   
-   
-   @Deprecated
-   public boolean isRequestedSessionIdFromUrl()
-   {
-      return false;
-   }
-   @Deprecated
-   public String getRealPath(String path)
-   {
-      if(httpServletRequest != null) 
-      {
-         return httpServletRequest.getRealPath(path);
-      }
-      return null;
-   }
+
+
+    @Override
+    public long getContentLengthLong()
+    {
+        return getContentLength();
+    }
+
+
+    @Override
+    public String changeSessionId()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    @Override
+    public <T extends HttpUpgradeHandler> T upgrade( Class<T> handlerClass ) throws IOException, ServletException
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+	@Override
+	public boolean isRequestedSessionIdFromUrl() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

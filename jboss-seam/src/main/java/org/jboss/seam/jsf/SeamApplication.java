@@ -27,8 +27,10 @@ import javax.faces.event.ActionListener;
 import javax.faces.event.SystemEvent;
 import javax.faces.event.SystemEventListener;
 import javax.faces.validator.Validator;
+import javax.servlet.ServletContext;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.el.SeamExpressionFactory;
@@ -580,5 +582,10 @@ public class SeamApplication extends Application
          FacesContext context, String componentType) throws FacesException
    {
       return application.createComponent(componentBinding, context, componentType);
+   }
+   
+   public static boolean isSeamApplication (FacesContext facesContext) {
+	   ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+	   return servletContext.getAttribute(Seam.VERSION) != null;
    }
 }

@@ -6,6 +6,8 @@
 .idea
 *.iws
 *.iml
+*.tern-project
+*.jsfdia
 
 # maven build results
 target

@@ -47,11 +47,11 @@ public class MockExternalContext extends ExternalContext
    private HttpServletRequest request;
 
    private HttpServletResponse response;
-   
+
 
    public MockExternalContext()
    {
-	   this.context = new MockServletContext();
+       this.context = new MockServletContext();
       this.request = new MockHttpServletRequest(new MockHttpSession(context));
       this.response = new MockHttpServletResponse();
    }
@@ -84,7 +84,7 @@ public class MockExternalContext extends ExternalContext
       this.request = request;
       this.response = response;
    }
-   
+
    public MockExternalContext(HttpServletRequest request)
    {
       this.request = request;
@@ -142,7 +142,7 @@ public class MockExternalContext extends ExternalContext
          {
             context.setAttribute(key, value);
          }
-         
+
          @Override
          public void removeAttribute(String key)
          {
@@ -161,6 +161,11 @@ public class MockExternalContext extends ExternalContext
    public Object getContext()
    {
       return context;
+   }
+
+   @Override
+   public String getMimeType(String file) {
+       return context.getMimeType(file);
    }
 
    @Override
@@ -210,8 +215,9 @@ public class MockExternalContext extends ExternalContext
    @Override
    public Map<String, Object> getRequestCookieMap()
    {
+
       Map<String, Object> cookieMap = new HashMap<String, Object>();
-      
+
       if (request != null && request.getCookies() != null)
       {
          for (Cookie cookie : request.getCookies())
@@ -219,7 +225,7 @@ public class MockExternalContext extends ExternalContext
             cookieMap.put(cookie.getName(), cookie);
          }
       }
-      
+
       return cookieMap;
    }
 
@@ -289,7 +295,7 @@ public class MockExternalContext extends ExternalContext
          {
             request.setAttribute(key, value);
          }
-         
+
          @Override
          public void removeAttribute(String key)
          {
@@ -560,13 +566,13 @@ public class MockExternalContext extends ExternalContext
          this.response.getWriter().flush();
       }
       else
-      {         
+      {
          this.response.sendRedirect(url);
       }
 
       FacesContext.getCurrentInstance().responseComplete();
    }
-   
+
    @Override
    public void setRequest(Object myrequest)
    {
@@ -593,7 +599,7 @@ public class MockExternalContext extends ExternalContext
    protected String encodeURL(String url)
    {
       if (response != null) {
-         String encodedUrl = response.encodeURL(url); 
+         String encodedUrl = response.encodeURL(url);
          url = (encodedUrl != null ? encodedUrl : url);
       }
       return url;

@@ -4,7 +4,7 @@
 	<groupId>org.jboss.seam</groupId>
 	<artifactId>bom</artifactId>
 	<name>Seam 2 Bill Of Materials </name>
-	<version>2.3.5-SNAPSHOT</version>
+	<version>2.3.9-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<licenses>
@@ -31,35 +31,39 @@
 
 	<properties>
 		<!-- Version string properties for integrations-->
-        <version.seam>2.3.5-SNAPSHOT</version.seam>
+        <version.seam>2.3.9-SNAPSHOT</version.seam>
 		<version.wicket>1.4.14</version.wicket>
-		<version.drools>5.3.3.Final</version.drools>
-		<version.resteasy>2.3.4.Final</version.resteasy>
+		<version.drools>5.3.3.Final</version.drools><!-- Needed for Seam2 compatibility -->
+		<version.mvel2>2.1.9.Final</version.mvel2> <!-- needed for drools 5.3.3 (do not use 2.2) -->
+		<version.janino>2.5.15</version.janino> <!--  Needed for drools 5.3.3 which is needed for seam2 -->
+		<version.resteasy>3.0.19.Final</version.resteasy>
 		<version.spring>3.1.4.RELEASE</version.spring>
-        <version.richfaces>4.3.7.Final</version.richfaces>
+        <version.richfaces>4.5.17.Final</version.richfaces>
+		<version.org.jboss.spec.javax.faces>2.2.13</version.org.jboss.spec.javax.faces>
 
         <!-- Version of Hibernate projects -->
-        <version.org.hibernate>4.2.0.Final</version.org.hibernate>
-        <version.org.hibernate.validator>4.3.2.Final</version.org.hibernate.validator>
-        <version.org.hibernate.search>4.4.0.Final</version.org.hibernate.search>
+        <version.org.hibernate>5.0.10.Final</version.org.hibernate>
+        <version.org.hibernate.validator>5.2.4.Final</version.org.hibernate.validator>
+        <version.org.hibernate.search>5.5.4.Final</version.org.hibernate.search>
         <version.org.hibernate.javax.persistence>1.0.1.Final</version.org.hibernate.javax.persistence>
         <version.org.hibernate-jpamodelgen>1.2.0.Final</version.org.hibernate-jpamodelgen>
         
         <!-- ??? -->
-		<version.jbossas7>7.2.0.Final</version.jbossas7>		
-        <version.org.jboss.spec.jboss.javaee.6.0>3.0.2.Final</version.org.jboss.spec.jboss.javaee.6.0>
+        <version.wildfly>10.1.0.Final</version.wildfly>
 
-        <version.infinispan>5.2.7.Final</version.infinispan>
+        <version.infinispan>8.2.4.Final</version.infinispan>
 
         <!-- Test frameworks -->
-        <version.junit>4.11</version.junit>
-        <version.org.testng>5.14.10</version.org.testng>
+
+        <version.junit>4.12</version.junit>
+        <version.org.testng>6.9.10</version.org.testng>
         
         <!-- Versions of Arquillian and Shrinkwrap -->
-        <version.org.jboss.arquillian>1.1.4.Final</version.org.jboss.arquillian>
-        <version.org.jboss.arquillian.extension.drone>1.3.1.Final</version.org.jboss.arquillian.extension.drone>
-        <version.org.jboss.arquillian.graphene>2.0.3.Final</version.org.jboss.arquillian.graphene>
+        <version.org.jboss.arquillian>1.1.11.Final</version.org.jboss.arquillian>
+        <version.org.jboss.arquillian.graphene>2.1.0.Final</version.org.jboss.arquillian.graphene>
         <version.org.jboss.as.arquillian.container>7.2.0.Final</version.org.jboss.as.arquillian.container>
+        <version.org.jboss.arquillian.selenium>2.53.1</version.org.jboss.arquillian.selenium>
+        <version.org.jboss.arquillian.extension.drone>2.0.1.Final</version.org.jboss.arquillian.extension.drone>
         <version.org.jboss.shrinkwrap.resolver>2.1.1</version.org.jboss.shrinkwrap.resolver>
             
 		<!-- ***************** -->
@@ -75,6 +79,20 @@
 			that versions are only specified here, not in sub project poms. All dependencies 
 			for all modules should be listed out here -->
 		<dependencies>
+		    <dependency>
+                <groupId>org.jboss.spec</groupId>
+                <artifactId>jboss-javaee-7.0</artifactId>
+                <version>1.0.3.Final</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+			<dependency>
+                <groupId>org.jboss.spec.javax.faces</groupId>
+                <artifactId>jboss-jsf-api_2.2_spec</artifactId>
+                <version>2.2.13</version>
+                <scope>provided</scope>
+            </dependency>
+
             <!-- Hibernate ORM sub-modules -->
             <dependency>
                 <groupId>org.hibernate</groupId>
@@ -92,7 +110,6 @@
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-entitymanager</artifactId>
                 <version>${version.org.hibernate}</version>
-                
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
@@ -172,16 +189,8 @@
                 <artifactId>hibernate-jpamodelgen</artifactId>
                 <version>${version.org.hibernate-jpamodelgen}</version>
             </dependency>
-			
-            <dependency>
-                <groupId>org.jboss.spec</groupId>
-                <artifactId>jboss-javaee-6.0</artifactId>
-                <version>${version.org.jboss.spec.jboss.javaee.6.0}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
             
-             <!-- Shrinkwrap resolver -->
+            <!-- Shrinkwrap resolver -->
             <dependency>
                 <groupId>org.jboss.shrinkwrap.resolver</groupId>
                 <artifactId>shrinkwrap-resolver-bom</artifactId>
@@ -267,94 +276,95 @@
                 <version>${version.org.testng}</version>
             </dependency>
 
-			<dependency>
-			  <groupId>org.richfaces</groupId>
-			  <artifactId>richfaces-bom</artifactId>
-			  <version>${version.richfaces}</version>
-			  <type>pom</type>
-			  <scope>import</scope>
-			</dependency>
+          
+            <dependency>
+                <groupId>org.richfaces</groupId>
+                <artifactId>richfaces-distribution</artifactId>
+                <version>${version.richfaces}</version>
+                <type>pom</type>
+            </dependency>
 
-			<dependency>
-				<groupId>org.jboss.seam</groupId>
-				<artifactId>jboss-seam</artifactId>
-				<version>${version.seam}</version>
-				<type>ejb</type>
-			</dependency>
+            <dependency>
+                <groupId>org.jboss.seam</groupId>
+                <artifactId>jboss-seam</artifactId>
+                <version>${version.seam}</version>
+                <type>ejb</type>
+            </dependency>
 
-			<dependency>
-				<groupId>org.jboss.seam</groupId>
-				<artifactId>jboss-seam-gen</artifactId>
-				<version>${version.seam}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.jboss.seam</groupId>
+                <artifactId>jboss-seam-gen</artifactId>
+                <version>${version.seam}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.jboss.seam</groupId>
-				<artifactId>jboss-seam-ioc</artifactId>
-				<version>${version.seam}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.jboss.seam</groupId>
+                <artifactId>jboss-seam-ioc</artifactId>
+                <version>${version.seam}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.jboss.seam</groupId>
-				<artifactId>jboss-seam-mail</artifactId>
-				<version>${version.seam}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.jboss.seam</groupId>
+                <artifactId>jboss-seam-mail</artifactId>
+                <version>${version.seam}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.jboss.seam</groupId>
-				<artifactId>jboss-seam-pdf</artifactId>
-				<version>${version.seam}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.jboss.seam</groupId>
+                <artifactId>jboss-seam-pdf</artifactId>
+                <version>${version.seam}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.jboss.seam</groupId>
-				<artifactId>jboss-seam-remoting</artifactId>
-				<version>${version.seam}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.jboss.seam</groupId>
+                <artifactId>jboss-seam-remoting</artifactId>
+                <version>${version.seam}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.jboss.seam</groupId>
-				<artifactId>jboss-seam-resteasy</artifactId>
-				<version>${version.seam}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.jboss.seam</groupId>
+                <artifactId>jboss-seam-resteasy</artifactId>
+                <version>${version.seam}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.jboss.seam</groupId>
-				<artifactId>jboss-seam-ui</artifactId>
-				<version>${version.seam}</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.jboss.seam</groupId>
-				<artifactId>jboss-seam-debug</artifactId>
-				<version>${version.seam}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.jboss.seam</groupId>
+                <artifactId>jboss-seam-ui</artifactId>
+                <version>${version.seam}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.jboss.seam</groupId>
-				<artifactId>jboss-seam-flex</artifactId>
-				<version>${version.seam}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.jboss.seam</groupId>
+                <artifactId>jboss-seam-debug</artifactId>
+                <version>${version.seam}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.jboss.seam</groupId>
-				<artifactId>jboss-seam-excel</artifactId>
-				<version>${version.seam}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.jboss.seam</groupId>
+                <artifactId>jboss-seam-flex</artifactId>
+                <version>${version.seam}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.jboss.seam</groupId>
-				<artifactId>jboss-seam-rss</artifactId>
-				<version>${version.seam}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.jboss.seam</groupId>
+                <artifactId>jboss-seam-excel</artifactId>
+                <version>${version.seam}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.jboss.seam</groupId>
-				<artifactId>jboss-seam-wicket</artifactId>
-				<version>${version.seam}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.jboss.seam</groupId>
+                <artifactId>jboss-seam-rss</artifactId>
+                <version>${version.seam}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.seam</groupId>
+                <artifactId>jboss-seam-wicket</artifactId>
+                <version>${version.seam}</version>
+            </dependency>
 
             <!-- thirdparty dependencies -->
+
 			<dependency>
 				<groupId>antlr</groupId>
 				<artifactId>antlr</artifactId>
@@ -364,7 +374,7 @@
 			<dependency>
 				<groupId>org.jbpm.jbpm3</groupId>
 				<artifactId>jbpm-jpdl</artifactId>
-				<version>3.2.10.SP3_seam2</version>
+				<version>3.2.10.SP3_seam2_hibernate5</version>
 				<exclusions>
 					<exclusion>
 						<groupId>org.hibernate</groupId>
@@ -376,13 +386,13 @@
 			<dependency>
 				<groupId>jboss</groupId>
 				<artifactId>jboss-cache</artifactId>
-				<version>1.4.1.SP9</version>
+				<version>1.4.1.SP14</version>
 			</dependency>
 
 			<dependency>
 				<groupId>net.sf.ehcache</groupId>
-				<artifactId>ehcache</artifactId>
-				<version>1.2.3</version>
+				<artifactId>ehcache-core</artifactId>
+				<version>2.4.3</version>
 				<exclusions>
 					<exclusion>
 						<groupId>commons-collections</groupId>
@@ -605,7 +615,7 @@
 			<dependency>
 				<groupId>org.javassist</groupId>
 				<artifactId>javassist</artifactId>
-				<version>3.15.0-GA</version>
+				<version>3.18.2-GA</version>
 			</dependency>
 
 			<dependency>
@@ -617,7 +627,7 @@
 			<dependency>
 				<groupId>javax.mail</groupId>
 				<artifactId>mail</artifactId>
-				<version>1.4</version>
+				<version>1.5.1</version>
 			</dependency>
 
 			<dependency>
@@ -730,78 +740,89 @@
 				<version>1.2.14</version>
 			</dependency>
 
-			<dependency>
-				<groupId>org.drools</groupId>
-				<artifactId>drools-core</artifactId>
-				<version>${version.drools}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>junit</groupId>
-						<artifactId>junit</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>xpp3</groupId>
-						<artifactId>xpp3</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>com.thoughtworks.xstream</groupId>
-						<artifactId>xstream</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
+            <dependency>
+                <groupId>org.drools</groupId>
+                <artifactId>drools-core</artifactId>
+                <version>${version.drools}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>xpp3</groupId>
+                        <artifactId>xpp3</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.thoughtworks.xstream</groupId>
+                        <artifactId>xstream</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
 
-			<dependency>
-				<groupId>org.drools</groupId>
-				<artifactId>drools-decisiontables</artifactId>
-				<version>${version.drools}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>jexcelapi</groupId>
-						<artifactId>jxl</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.drools</groupId>
-				<artifactId>knowledge-api</artifactId>
-				<version>${version.drools}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.drools</groupId>
+                <artifactId>drools-decisiontables</artifactId>
+                <version>${version.drools}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>jexcelapi</groupId>
+                        <artifactId>jxl</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
 
-			<dependency>
-				<groupId>org.drools</groupId>
-				<artifactId>drools-templates</artifactId>
-				<version>${version.drools}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.drools</groupId>
+                <artifactId>knowledge-api</artifactId>
+                <version>${version.drools}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.drools</groupId>
-				<artifactId>drools-compiler</artifactId>
-				<version>${version.drools}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>junit</groupId>
-						<artifactId>junit</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>xpp3</groupId>
-						<artifactId>xpp3</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>com.thoughtworks.xstream</groupId>
-						<artifactId>xstream</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>xerces</groupId>
-						<artifactId>xercesImpl</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>xml-apis</groupId>
-						<artifactId>xml-apis</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
+            <dependency>
+                <groupId>org.drools</groupId>
+                <artifactId>drools-templates</artifactId>
+                <version>${version.drools}</version>
+            </dependency>
 
+            <dependency>
+                <groupId>org.drools</groupId>
+                <artifactId>drools-compiler</artifactId>
+                <version>${version.drools}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>xpp3</groupId>
+                        <artifactId>xpp3</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.thoughtworks.xstream</groupId>
+                        <artifactId>xstream</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>xerces</groupId>
+                        <artifactId>xercesImpl</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>xml-apis</groupId>
+                        <artifactId>xml-apis</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mvel</groupId>
+                <artifactId>mvel2</artifactId>
+                <version>${version.mvel2}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>janino</groupId>
+                <artifactId>janino</artifactId>
+                <version>${version.janino}</version>
+            </dependency>
 			<dependency>
 				<groupId>org.jboss.el</groupId>
 				<artifactId>jboss-el</artifactId>
@@ -813,6 +834,7 @@
 				<artifactId>quartz</artifactId>
 				<version>1.6.5</version>
 			</dependency>
+
 
                    <dependency>
                                <groupId>org.springframework</groupId>
@@ -879,312 +901,318 @@
                                <artifactId>spring-webmvc</artifactId>
                                <version>${version.spring}</version>
                        </dependency>
-			<dependency>
-				<groupId>com.google.code.guice</groupId>
-				<artifactId>guice</artifactId>
-				<version>1.0</version>
-			</dependency>
-
-			<dependency>
-				<groupId>cglib</groupId>
-				<artifactId>cglib-nodep</artifactId>
-				<version>2.2</version>
-			</dependency>
-
-			<dependency>
-				<groupId>com.adobe.blazeds</groupId>
-				<artifactId>blazeds-common</artifactId>
-				<version>3.2.0.3978</version>
-			</dependency>
-
-			<dependency>
-				<groupId>com.adobe.blazeds</groupId>
-				<artifactId>blazeds-proxy</artifactId>
-				<version>3.2.0.3978</version>
-			</dependency>
-
-			<dependency>
-				<groupId>com.adobe.blazeds</groupId>
-				<artifactId>blazeds-core</artifactId>
-				<version>3.2.0.3978</version>
-			</dependency>
-
-			<dependency>
-				<groupId>com.adobe.blazeds</groupId>
-				<artifactId>blazeds-remoting</artifactId>
-				<version>3.2.0.3978</version>
-			</dependency>
-
-			<dependency>
-				<groupId>com.lowagie</groupId>
-				<artifactId>itext</artifactId>
-				<version>2.1.7</version>
-				<exclusions>
-					<exclusion>
-						<groupId>junit</groupId>
-						<artifactId>junit</artifactId>
-					</exclusion>
-
-					<exclusion>
-						<groupId>bouncycastle</groupId>
-						<artifactId>bcmail-jdk14</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>bouncycastle</groupId>
-						<artifactId>bcprov-jdk14</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-
-			<dependency>
-				<groupId>com.lowagie</groupId>
-				<artifactId>itext-rtf</artifactId>
-				<version>2.1.7</version>
-				<exclusions>
-					<exclusion>
-						<groupId>junit</groupId>
-						<artifactId>junit</artifactId>
-					</exclusion>
-
-					<exclusion>
-						<groupId>bouncycastle</groupId>
-						<artifactId>bcmail-jdk14</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>bouncycastle</groupId>
-						<artifactId>bcprov-jdk14</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-
-			<dependency>
-				<groupId>jfree</groupId>
-				<artifactId>jfreechart</artifactId>
-				<version>1.0.13</version>
-				<exclusions>
-					<exclusion>
-						<groupId>junit</groupId>
-						<artifactId>junit</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-
-			<dependency>
-				<groupId>org.openid4java</groupId>
-				<artifactId>openid4java-consumer</artifactId>
-				<version>0.9.6</version>
-				<type>pom</type>
-			</dependency>
-			
-			<dependency>
-				<groupId>com.google.gwt</groupId>
-				<artifactId>gwt-servlet</artifactId>
-				<version>1.5.2</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>com.google.gwt</groupId>
-				<artifactId>gwt-user</artifactId>
-				<version>1.5.2</version>
-			</dependency>
-
-			<dependency>
-				<groupId>dom4j</groupId>
-				<artifactId>dom4j</artifactId>
-				<version>1.6.1-brew</version>
-				<exclusions>
-					<exclusion>
-						<groupId>xml-apis</groupId>
-						<artifactId>xml-apis</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-
-			<dependency>
-				<groupId>org.beanshell</groupId>
-				<artifactId>bsh</artifactId>
-				<version>2.0b4</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.tuckey</groupId>
-				<artifactId>urlrewritefilter</artifactId>
-				<version>3.0.4</version>
-				<exclusions>
-					<exclusion>
-						<groupId>junit</groupId>
-						<artifactId>junit</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>ant</groupId>
-						<artifactId>ant</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-
-			<dependency>
-				<groupId>org.dbunit</groupId>
-				<artifactId>dbunit</artifactId>
-				<version>2.2</version>
-				<exclusions>
-					<exclusion>
-						<groupId>junit</groupId>
-						<artifactId>junit</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>junit-addons</groupId>
-						<artifactId>junit-addons</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>poi</groupId>
-						<artifactId>poi</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>junit</groupId>
-						<artifactId>junit</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>commons-collections</groupId>
-						<artifactId>commons-collections</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>commons-lang</groupId>
-						<artifactId>commons-lang</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-
-			<dependency>
-				<groupId>org.apache.wicket</groupId>
-				<artifactId>wicket</artifactId>
-				<version>${version.wicket}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>cglib</groupId>
-						<artifactId>cglib-nodep</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>asm</groupId>
-						<artifactId>asm</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-
-			<dependency>
-				<groupId>org.apache.wicket</groupId>
-				<artifactId>wicket-ioc</artifactId>
-				<version>${version.wicket}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>cglib</groupId>
-						<artifactId>cglib-nodep</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>asm</groupId>
-						<artifactId>asm</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>commons-collections</groupId>
-						<artifactId>commons-collections</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-
-			<dependency>
-				<groupId>org.apache.wicket</groupId>
-				<artifactId>wicket-extensions</artifactId>
-				<version>${version.wicket}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>cglib</groupId>
-						<artifactId>cglib-nodep</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>asm</groupId>
-						<artifactId>asm</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>commons-collections</groupId>
-						<artifactId>commons-collections</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-
-			<dependency>
-				<groupId>org.apache.wicket</groupId>
-				<artifactId>wicket-datetime</artifactId>
-				<version>${version.wicket}</version>
-			</dependency>
-			 
-			<dependency>
-				<groupId>org.jboss.seam</groupId>
-				<artifactId>functional-tests</artifactId>
-				<version>${version.seam}</version>
-				<scope>test</scope>
-			</dependency>			
-			
-			<dependency>
-				<groupId>commons-digester</groupId>
-				<artifactId>commons-digester</artifactId>
-				<version>2.1</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.eclipse.jdt</groupId>
-				<artifactId>core</artifactId>
-				<version>3.4.2.v_883_R34x</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>commons-fileupload</groupId>
-				<artifactId>commons-fileupload</artifactId>
-				<version>1.2.1</version>
-			</dependency>			
-
-			<dependency>
-				<groupId>org.codehaus.jettison</groupId>
-				<artifactId>jettison</artifactId>
-				<version>1.1</version>
-				<exclusions>
-					<exclusion>
-						<groupId>stax</groupId>
-						<artifactId>stax-api</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>			
+            <dependency>
+                <groupId>com.google.code.guice</groupId>
+                <artifactId>guice</artifactId>
+                <version>1.0</version>
+            </dependency>
 
             <dependency>
-		         <groupId>org.infinispan</groupId>
-		         <artifactId>infinispan-core</artifactId>
-		         <version>${version.infinispan}</version>
-	        </dependency>
-		    <dependency>
+                <groupId>cglib</groupId>
+                <artifactId>cglib-nodep</artifactId>
+                <version>2.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.adobe.blazeds</groupId>
+                <artifactId>blazeds-common</artifactId>
+                <version>3.2.0.3978</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.adobe.blazeds</groupId>
+                <artifactId>blazeds-proxy</artifactId>
+                <version>3.2.0.3978</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.adobe.blazeds</groupId>
+                <artifactId>blazeds-core</artifactId>
+                <version>3.2.0.3978</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.adobe.blazeds</groupId>
+                <artifactId>blazeds-remoting</artifactId>
+                <version>3.2.0.3978</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lowagie</groupId>
+                <artifactId>itext</artifactId>
+                <version>2.1.7</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
+                    </exclusion>
+
+                    <exclusion>
+                        <groupId>bouncycastle</groupId>
+                        <artifactId>bcmail-jdk14</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>bouncycastle</groupId>
+                        <artifactId>bcprov-jdk14</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lowagie</groupId>
+                <artifactId>itext-rtf</artifactId>
+                <version>2.1.7</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
+                    </exclusion>
+
+                    <exclusion>
+                        <groupId>bouncycastle</groupId>
+                        <artifactId>bcmail-jdk14</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>bouncycastle</groupId>
+                        <artifactId>bcprov-jdk14</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>jfree</groupId>
+                <artifactId>jfreechart</artifactId>
+                <version>1.0.13</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.openid4java</groupId>
+                <artifactId>openid4java-consumer</artifactId>
+                <version>0.9.6</version>
+                <type>pom</type>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.gwt</groupId>
+                <artifactId>gwt-servlet</artifactId>
+                <version>1.5.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.gwt</groupId>
+                <artifactId>gwt-user</artifactId>
+                <version>1.5.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>dom4j</groupId>
+                <artifactId>dom4j</artifactId>
+                <version>1.6.1-brew</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>xml-apis</groupId>
+                        <artifactId>xml-apis</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.beanshell</groupId>
+                <artifactId>bsh</artifactId>
+                <version>2.0b4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.tuckey</groupId>
+                <artifactId>urlrewritefilter</artifactId>
+                <version>3.0.4</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>ant</groupId>
+                        <artifactId>ant</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.dbunit</groupId>
+                <artifactId>dbunit</artifactId>
+                <version>2.2</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>junit-addons</groupId>
+                        <artifactId>junit-addons</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>poi</groupId>
+                        <artifactId>poi</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-collections</groupId>
+                        <artifactId>commons-collections</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-lang</groupId>
+                        <artifactId>commons-lang</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket</artifactId>
+                <version>${version.wicket}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cglib</groupId>
+                        <artifactId>cglib-nodep</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>asm</groupId>
+                        <artifactId>asm</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket-ioc</artifactId>
+                <version>${version.wicket}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cglib</groupId>
+                        <artifactId>cglib-nodep</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>asm</groupId>
+                        <artifactId>asm</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-collections</groupId>
+                        <artifactId>commons-collections</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket-extensions</artifactId>
+                <version>${version.wicket}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cglib</groupId>
+                        <artifactId>cglib-nodep</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>asm</groupId>
+                        <artifactId>asm</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-collections</groupId>
+                        <artifactId>commons-collections</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket-datetime</artifactId>
+                <version>${version.wicket}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.seam</groupId>
+                <artifactId>functional-tests</artifactId>
+                <version>${version.seam}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-digester</groupId>
+                <artifactId>commons-digester</artifactId>
+                <version>2.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.jdt</groupId>
+                <artifactId>core</artifactId>
+                <version>3.4.2.v_883_R34x</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>1.2.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.codehaus.jettison</groupId>
+                <artifactId>jettison</artifactId>
+                <version>1.1</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>stax</groupId>
+                        <artifactId>stax-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                 <groupId>org.infinispan</groupId>
+                 <artifactId>infinispan-core</artifactId>
+                 <version>${version.infinispan}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.infinispan</groupId>
                 <artifactId>infinispan-tree</artifactId>
                 <version>${version.infinispan}</version>
             </dependency>
-		</dependencies>
-	</dependencyManagement>
+            <dependency>
+                <groupId>org.glassfish</groupId>
+                <artifactId>javax.el</artifactId>
+                <version>3.0.0</version>
+            </dependency>
 
-	<issueManagement>
-		<system>JIRA</system>
-		<url>http://issues.jboss.org/browse/JBSEAM</url>
-	</issueManagement>
+        </dependencies>
+    </dependencyManagement>
 
-	<ciManagement>
-		<system>Hudson</system>
-		<url>http://hudson.jboss.org/hudson/view/Seam/</url>
-	</ciManagement>
+    <issueManagement>
+        <system>JIRA</system>
+        <url>http://issues.jboss.org/browse/JBSEAM</url>
+    </issueManagement>
 
-	<scm>
-		<connection>scm:svn:https://svn.jboss.org/repos/seam/branches/community/Seam_2_3</connection>
-		<developerConnection>scm:svn:https://svn.jboss.org/repos/seam/branches/community/Seam_2_3</developerConnection>
-		<url>scm:svn:https://svn.jboss.org/repos/seam/branches/community/Seam_2_3</url>
-	  <tag>HEAD</tag>
+    <ciManagement>
+        <system>Hudson</system>
+        <url>http://hudson.jboss.org/hudson/view/Seam/</url>
+    </ciManagement>
+
+    <scm>
+        <connection>scm:svn:https://svn.jboss.org/repos/seam/branches/community/Seam_2_3</connection>
+        <developerConnection>scm:svn:https://svn.jboss.org/repos/seam/branches/community/Seam_2_3</developerConnection>
+        <url>scm:svn:https://svn.jboss.org/repos/seam/branches/community/Seam_2_3</url>
+      <tag>HEAD</tag>
   </scm>
 
 	<organization>
@@ -1205,6 +1233,7 @@
 			<url>${jboss.snapshots.repo.url}</url>
 		</snapshotRepository>
 	</distributionManagement>
+
 
 
       <repositories>

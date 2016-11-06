@@ -4,7 +4,6 @@ import static org.jboss.seam.ScopeType.APPLICATION;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.FilterChain;
@@ -23,7 +22,6 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.web.Filter;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.navigation.Page;
 import org.jboss.seam.navigation.Pages;
 
 @Scope(APPLICATION)
@@ -65,36 +63,20 @@ public class RewriteFilter
     }
     
     
-    @SuppressWarnings("unchecked")
     public boolean process(HttpServletRequest request, 
                         HttpServletResponse response, List<Pattern> patterns)
         throws IOException, 
                ServletException 
     {
         String fullPath = request.getRequestURI();
-        //log.debug("incoming URL is " + fullPath);
-        //log.debug("known patterns are " + patterns);
 
         String localPath = strip(fullPath, request.getContextPath());
        
         Rewrite rewrite = matchPatterns(localPath, patterns);
         if (rewrite!=null) {
             String newPath = rewrite.rewrite();
-            
-            //log.debug("rewritten incoming path is " + newPath);
-            
             if (!fullPath.equals(request.getContextPath() + newPath)) {
                 RequestDispatcher dispatcher = request.getRequestDispatcher(newPath);
-                
-//                final String wrappedPath = newPath;
-//                HttpServletRequest wrapped = new HttpServletRequestWrapper(request) {
-//                    @Override
-//                    public String getServletPath() {
-//                        return wrappedPath;
-//
-//                    }
-//                };
-//                dispatcher.forward(wrapped, response);
                 dispatcher.forward(request, response);
                 return true;
             }
@@ -128,12 +110,7 @@ public class RewriteFilter
         
         Pages pages = (Pages) getServletContext().getAttribute(Seam.getComponentName(Pages.class));
         if (pages != null) {
-            Collection<String> ids = pages.getKnownViewIds();
-
-            for (String id: ids) {
-                 Page page = pages.getPage(id);
-                 allPatterns.addAll(page.getRewritePatterns());
-            }
+            allPatterns = pages.getAllRewritePatterns();
         } else {
             log.warn("Pages is null for incoming request!");
         }
