@@ -81,6 +81,7 @@ public abstract class AbstractResource<T>
     *
     * @return entity class
     */
+   @SuppressWarnings({ "unchecked", "rawtypes" })
    public Class<T> getEntityClass()
    {
       if (entityClass == null)
