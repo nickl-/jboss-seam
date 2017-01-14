@@ -57,7 +57,7 @@
                     <stylesheetfile>jdstyle.css</stylesheetfile>
                     <doctitle>JBoss Seam ${project.name} API ${project.version}</doctitle> <!-- Used by javadoc:javadoc goal -->
                     <detectOfflineLinks>false</detectOfflineLinks>
-                     <additionalparam>-Xdoclint:none</additionalparam>
+                    <!--  <additionalparam>-Xdoclint:none</additionalparam> -->
                 </configuration>
                 <executions>
                     <execution>
