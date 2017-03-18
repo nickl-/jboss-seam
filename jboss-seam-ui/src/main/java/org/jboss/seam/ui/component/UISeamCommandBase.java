@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.el.MethodExpression;
 import javax.el.ValueExpression;
 import javax.faces.component.ActionSource2;
 import javax.faces.component.UIComponent;
@@ -13,7 +12,6 @@ import javax.faces.component.UIData;
 import javax.faces.component.UIOutput;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
-import javax.faces.el.MethodBinding;
 import javax.faces.event.ActionListener;
 import javax.faces.model.DataModel;
 
@@ -30,16 +28,6 @@ import org.jboss.seam.ui.util.ViewUrlBuilder;
 public abstract class UISeamCommandBase extends UIOutput implements ActionSource2
 {
 
-   private static Class PORTLET_REQUEST;
-   
-   static
-   {
-      try
-      {
-         PORTLET_REQUEST = Class.forName("javax.portlet.PortletRequest");
-      }
-      catch (Exception e) {}
-   }
    
    public abstract String getView();
 
@@ -227,46 +215,8 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
       //throw new UnsupportedOperationException("Action listeners not supported by s:link/s:button");
    }
  
-   @Deprecated
-   public void setAction(javax.faces.el.MethodBinding methodBinding)
-   {
-     // setActionExpression(new MethodBindingToMethodExpression(methodBinding));
-      
-      com.sun.faces.application.MethodExpressionMethodBindingAdapter adapter;
-      if (null != methodBinding) {
-          adapter = new com.sun.faces.application.MethodExpressionMethodBindingAdapter(methodBinding);
-          setActionExpression(adapter);
-      } else {
-          setActionExpression(null);
-      }
-   }
-   
-   @Deprecated
-   public javax.faces.el.MethodBinding getAction()
-   {
-      //return new org.jboss.seam.ui.util.cdk.MethodExpressionToMethodBinding(getActionExpression());
-      
-      MethodBinding result = null;
-      MethodExpression me;
 
-      if (null != (me = getActionExpression())) {
-          // if the MethodExpression is an instance of our private
-          // wrapper class.
-          if (me.getClass().equals(com.sun.faces.application.MethodExpressionMethodBindingAdapter.class)) {
-              result = ((com.sun.faces.application.MethodExpressionMethodBindingAdapter) me).getWrapped();
-          } else {
-              // otherwise, this is a real MethodExpression.  Wrap it
-              // in a MethodBinding.
-              result = new com.sun.faces.application.MethodBindingMethodExpressionAdapter(me);
-          }
-      }
-      return result;
-   }
-   
-   private static boolean isPortletRequest(FacesContext facesContext)
-   {
-      return PORTLET_REQUEST !=null && 
-            PORTLET_REQUEST.isInstance( facesContext.getExternalContext().getRequest() );
-   }
+
+
    
 }

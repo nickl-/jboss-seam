@@ -20,7 +20,7 @@ import com.sun.faces.facelets.compiler.SAXCompiler;
 @Scope(APPLICATION)
 @BypassInterceptors
 @AutoCreate
-@Install(value = true, precedence = Install.BUILT_IN, classDependencies="com.sun.faces.facelets.Facelet")
+@Install(value = true, precedence = Install.BUILT_IN, classDependencies="com.sun.faces.application.ApplicationAssociate")
 public class FaceletCompiler
 {
    

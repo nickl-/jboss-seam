@@ -125,7 +125,7 @@ public class RendererRequest
       {
          throw new IllegalArgumentException("resource doesn't exist: " + viewId);
       }
-      return ApplicationAssociate.getCurrentInstance().getFaceletFactory().getFacelet(facesContext, viewId);
+      return ApplicationAssociate.getCurrentInstance().getFaceletFactory().getFacelet(facesContext, url);
    }
 
    /**
