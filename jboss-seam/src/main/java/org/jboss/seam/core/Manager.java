@@ -31,7 +31,6 @@ import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.ConversationIdParameter;
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.pageflow.Pageflow;
-import org.jboss.seam.util.Id;
 import org.jboss.seam.web.Session;
 
 /**
@@ -664,6 +663,11 @@ public class Manager
 
    private ConversationEntry createConversationEntry()
    {
+	   if (getCurrentConversationIdStack() == null) {
+	       // this hopefully fixes rare and random java.lang.IllegalArgumentException: Stack must not be null exceptions
+	       initializeTemporaryConversation();
+	   }
+	   
       ConversationEntry entry = ConversationEntries.instance()
             .createConversationEntry( getCurrentConversationId(), getCurrentConversationIdStack() );
       if ( !entry.isNested() ) 
