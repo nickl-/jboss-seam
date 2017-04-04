@@ -7,7 +7,7 @@ Release Notes - Seam 2 - Version 2.3.20-SNAPSHOT
 	* [ ] Package richfaces and related jars (cssparser, sac, etc)
 	* [ ] Package primefaces 6.0
 
-Release Notes - Seam 2 - Version 2.3.9-SNAPSHOT
+Release Notes - Seam 2 - Version 2.3.9.ayg
 
 Release Notes - Seam 2 - Version 2.3.8.ayg
 

@@ -4,7 +4,7 @@
 	<groupId>org.jboss.seam</groupId>
 	<artifactId>bom</artifactId>
 	<name>Seam 2 Bill Of Materials </name>
-	<version>2.3.9-SNAPSHOT</version>
+	<version>2.3.9.ayg</version>
 	<packaging>pom</packaging>
 
 	<licenses>
@@ -31,7 +31,7 @@
 
 	<properties>
 		<!-- Version string properties for integrations-->
-        <version.seam>2.3.9-SNAPSHOT</version.seam>
+        <version.seam>2.3.9.ayg</version.seam>
 		<version.wicket>1.4.14</version.wicket>
 		<version.drools>5.3.3.Final</version.drools><!-- Needed for Seam2 compatibility -->
 		<version.mvel2>2.1.9.Final</version.mvel2> <!-- needed for drools 5.3.3 (do not use 2.2) -->
@@ -47,6 +47,8 @@
         <version.org.hibernate.search>5.5.4.Final</version.org.hibernate.search>
         <version.org.hibernate.javax.persistence>1.0.1.Final</version.org.hibernate.javax.persistence>
         <version.org.hibernate-jpamodelgen>1.2.0.Final</version.org.hibernate-jpamodelgen>
+        
+        <version.jboss-el>1.0_02.CR6</version.jboss-el>
         
         <!-- ??? -->
         <version.wildfly>10.1.0.Final</version.wildfly>
@@ -830,7 +832,7 @@
 			<dependency>
 				<groupId>org.jboss.el</groupId>
 				<artifactId>jboss-el</artifactId>
-				<version>1.0_02.CR6</version>
+				<version>${version.jboss-el}</version>
 			</dependency>
 
 			<dependency>
@@ -1272,5 +1274,5 @@
           </snapshots>
         </pluginRepository>
       </pluginRepositories>
-
+      
 </project>

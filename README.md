@@ -1,4 +1,4 @@
-#JBoss Seam - Contextual Component framework for Java EE
+# JBoss Seam - Contextual Component framework for Java EE
 
 ## Important
 
@@ -58,3 +58,27 @@ If you are making changes to source code and want to test quickly without making
     mvn clean package
 
 Resulting jar files will be in each sub-project target directory.
+
+### Advanced
+
+To build from github with custom  richfaces and jboss-el (from https://github.com/albfernandez)
+You first must download and install richfaces and jboss-el
+
+```bash
+
+	git clone https://github.com/albfernandez/richfaces.git
+	cd richfaces
+	git checkout tags/4.5.18.ayg
+	mvn clean package install
+	cd ..
+	git clone https://github.com/albfernandez/jboss-el.git
+	cd jboss-el
+	git checkout tags/1.0_02.CR8.ayg
+	mvn clean package install
+	cd ..
+	git clone https://github.com/albfernandez/jboss-seam.git
+	cd jboss-seam
+	mvn -Pdistribution -Dversion.jboss-el=1.0_02.CR8.ayg -Dversion.richfaces=4.5.18.ayg clean package
+	
+``` 
+
