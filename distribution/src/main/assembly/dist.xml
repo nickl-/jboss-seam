@@ -141,6 +141,7 @@
          <includes>
             <include>org.richfaces:richfaces-core</include>
             <include>org.richfaces:richfaces-a4j</include>
+            <include>org.richfaces:richfaces-rich</include>
             <include>org.primefaces:primefaces</include>
             <include>net.sourceforge.cssparser:cssparser</include>
             <include>org.w3c.css:sac</include>
