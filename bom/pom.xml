@@ -30,6 +30,7 @@
 	<url>http://seamframework.org/Seam2</url>
 
 	<properties>
+	
 		<!-- Version string properties for integrations-->
         <version.seam>2.3.10-SNAPSHOT</version.seam>
 		<version.wicket>1.4.14</version.wicket>

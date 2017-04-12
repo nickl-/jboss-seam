@@ -34,7 +34,7 @@
         <!-- Plugin versions -->
         <version.clean.plugin>2.5</version.clean.plugin>
         <version.resources.plugin>2.6</version.resources.plugin>
-        <version.dependency.plugin>2.5.1</version.dependency.plugin>
+        <version.dependency.plugin>2.10</version.dependency.plugin>
         <version.compiler.plugin>2.3.1</version.compiler.plugin>
         <version.surefire.plugin>2.10</version.surefire.plugin>
         <version.ear.plugin>2.6</version.ear.plugin>

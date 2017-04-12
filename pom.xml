@@ -36,6 +36,7 @@
 	<url>http://seamframework.org/Seam2</url>
 
 	<properties>
+		<version.dependency.plugin>2.10</version.dependency.plugin>
 		<!-- General properties -->
         <project.short.version>2.3</project.short.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
