@@ -42,9 +42,9 @@
 		<version.org.jboss.spec.javax.faces>2.2.13</version.org.jboss.spec.javax.faces>
 
         <!-- Version of Hibernate projects -->
-        <version.org.hibernate>5.0.10.Final</version.org.hibernate>
-        <version.org.hibernate.validator>5.2.4.Final</version.org.hibernate.validator>
-        <version.org.hibernate.search>5.5.4.Final</version.org.hibernate.search>
+        <version.org.hibernate>5.0.12.Final</version.org.hibernate>
+        <version.org.hibernate.validator>5.2.5.Final</version.org.hibernate.validator>
+        <version.org.hibernate.search>5.5.6.Final</version.org.hibernate.search>
         <version.org.hibernate.javax.persistence>1.0.1.Final</version.org.hibernate.javax.persistence>
         <version.org.hibernate-jpamodelgen>1.2.0.Final</version.org.hibernate-jpamodelgen>
         
@@ -287,6 +287,11 @@
 			<dependency>
                 <groupId>org.richfaces</groupId>
                 <artifactId>richfaces-a4j</artifactId>
+                <version>${version.richfaces}</version>                
+            </dependency>
+            <dependency>
+                <groupId>org.richfaces</groupId>
+                <artifactId>richfaces</artifactId>
                 <version>${version.richfaces}</version>                
             </dependency>
 

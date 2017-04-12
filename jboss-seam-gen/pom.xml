@@ -109,6 +109,11 @@
                 <artifactId>richfaces-a4j</artifactId>
                 <scope>runtime</scope>                
             </dependency>
+            <dependency>
+                <groupId>org.richfaces</groupId>
+                <artifactId>richfaces</artifactId>
+                <scope>runtime</scope>                
+            </dependency>
 	<dependency>
 		<groupId>org.primefaces</groupId>
 		<artifactId>primefaces</artifactId>

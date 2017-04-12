@@ -2,7 +2,7 @@ JBoss Seam Changelog
 ====================
 
 Release Notes - Seam 2 - Version 2.3.10-SNAPSHOT
-
+	* [ ] Includes full Richfaces distribution (main jar)
 
 Release Notes - Seam 2 - Version 2.3.9.ayg
 	* [ ] Preliminary (incomplete) support for JEE7
