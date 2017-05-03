@@ -4,15 +4,16 @@ JBoss Seam Changelog
 Release Notes - Seam 2 - Version 2.3.10-SNAPSHOT
 
 	* [ ] Includes full Richfaces distribution (main jar)
-	* [ ] Upgrade jexcelapi to 2.6.12
+	* [ ] Upgrade JExcelapi to 2.6.12
+	* [ ] Upgrade Primefaces to 6.1
 
 
 Release Notes - Seam 2 - Version 2.3.9.ayg
 
 	* [ ] Preliminary (incomplete) support for JEE7
 	* [ ] Compiler set to java 7
-	* [ ] Package richfaces and related jars (cssparser, sac, etc)
-	* [ ] Package primefaces 6.0
+	* [ ] Package Richfaces and related jars (cssparser, sac, etc)
+	* [ ] Package Primefaces 6.0
 
 
 Release Notes - Seam 2 - Version 2.3.8.ayg
