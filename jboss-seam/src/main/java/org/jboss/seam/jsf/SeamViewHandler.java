@@ -64,9 +64,15 @@ public class SeamViewHandler extends ViewHandlerWrapper
       }
       else
       {
-    	  LocaleSelector localeSelectorInstance = LocaleSelector.instance();
-    	  if (localeSelectorInstance != null) {
-    		  return localeSelectorInstance.calculateLocale(jsfLocale);
+    	  try {
+	    	  LocaleSelector localeSelectorInstance = LocaleSelector.instance();
+	    	  if (localeSelectorInstance != null) {
+	    		  return localeSelectorInstance.calculateLocale(jsfLocale);
+	    	  }
+    	  }
+    	  catch (Exception e) {
+    		  // Don't fail, return default value
+    		  return jsfLocale;
     	  }
     	  return jsfLocale;
       }
