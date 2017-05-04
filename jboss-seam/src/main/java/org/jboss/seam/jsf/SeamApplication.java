@@ -586,6 +586,7 @@ public class SeamApplication extends Application
    
    public static boolean isSeamApplication (FacesContext facesContext) {
 	   ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
-	   return servletContext.getAttribute(Seam.VERSION) != null;
+	   Object attributeVersion = servletContext.getAttribute(Seam.VERSION);
+	   return attributeVersion != null;
    }
 }
