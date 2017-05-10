@@ -6,6 +6,7 @@ Release Notes - Seam 2 - Version 2.3.10-SNAPSHOT
 	* [ ] Includes full Richfaces distribution (main jar)
 	* [ ] Upgrade JExcelapi to 2.6.12
 	* [ ] Upgrade Primefaces to 6.1
+	* [ ] Parametrize logging output (Fix CVE-2014-0248)
 
 
 Release Notes - Seam 2 - Version 2.3.9.ayg

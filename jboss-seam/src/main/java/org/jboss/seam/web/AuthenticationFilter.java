@@ -170,7 +170,7 @@ public class AuthenticationFilter extends AbstractFilter
             }         
             catch (Exception ex)
             {
-               log.warn("Error authenticating: " + ex.getMessage());
+            	log.warn("Error authenticating: #0", ex.getMessage());
                requireAuth = true;
             }  
          }
@@ -250,15 +250,14 @@ public class AuthenticationFilter extends AbstractFilter
          }
          catch (DigestValidationException ex)
          {
-            log.warn(String.format("Digest validation failed, header [%s]: %s",
-                     section212response, ex.getMessage()));
+        	log.warn("Digest validation failed, header [#0]: #1", section212response, ex.getMessage());
             requireAuth = true;
             
             if (ex.isNonceExpired()) nonceExpired = true;
          }            
          catch (Exception ex)
          {
-            log.warn("Error authenticating: " + ex.getMessage());
+        	 log.warn("Error authenticating: #0", ex.getMessage());
             requireAuth = true;
          }
       }   
