@@ -2,7 +2,8 @@
 
 ## Important
 
-Seam 2 is not maintained anymore, you should have migrated to CDI (Standard Java EE technology) long ago ;). See https://github.com/seam/migration or more details here https://developer.jboss.org/en/seam/seam2/blog/2015/07/20/migration-from-seam-2-to-cdideltaspike
+Seam 2 is not maintained anymore, you should have migrated to CDI (Standard Java EE technology) long ago ;). 
+See https://github.com/seam/migration or more details here https://developer.jboss.org/en/seam/seam2/blog/2015/07/20/migration-from-seam-2-to-cdideltaspike
 
 
 ## License
@@ -10,12 +11,12 @@ Seam 2 is not maintained anymore, you should have migrated to CDI (Standard Java
 This software is distributed under the terms of the FSF Lesser GNU
 Public License (see http://www.gnu.org/licenses/lgpl-3.0.txt). 
 
-##Seam 2: Next generation enterprise Java development
+## Seam 2: Next generation enterprise Java development
 
 This is a modified fork of https://github.com/seam2/jboss-seam.
 
-Seam 2.3 targets Java EE 6 capabilities such as JSF2 and JPA2 on the JBoss Enterprise Application Platform 6 (JBoss AS 7) 
-Seam 2.3 also supports RichFaces 4
+Seam 2.3 targets Java EE 7 capabilities such as JSF2 and JPA2 on the JBoss Enterprise Application Platform 6 (JBoss AS 7) 
+Seam 2.3 also supports RichFaces 4.5
 
 Seam 2 is a powerful open source development platform for building rich Internet applications in Java. Seam integrates technologies such as Asynchronous JavaScript and XML (AJAX), JavaServer Faces (JSF), Java Persistence (JPA), Enterprise Java Beans (EJB 3.1) and Business Process Management (BPM) into a unified full-stack solution, complete with sophisticated tooling.
 
@@ -31,12 +32,12 @@ Seam has been designed from the ground up to eliminate complexity at both archit
 5. Point your browser to `http://localhost:8080/seam-booking/`    
 6. Register an account, search for hotels, book a room...
 
-##Learn more
+## Learn more
 
 * Read the documentation in http://seamframework.org/Seam2/Documentation.html
 
 
-##Compiling from sources
+## Compiling from sources
 
 You need an install of Maven 3.0.x
 
