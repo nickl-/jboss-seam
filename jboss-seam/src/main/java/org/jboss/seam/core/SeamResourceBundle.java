@@ -177,7 +177,12 @@ public class SeamResourceBundle extends java.util.ResourceBundle
    @Override
    public Locale getLocale()
    {
-      return org.jboss.seam.core.Locale.instance();
+	   try {
+		   return org.jboss.seam.core.Locale.instance();
+	   }
+	   catch (Exception e) {
+		   return Locale.getDefault();
+	   }
    }
    
 }
