@@ -12,7 +12,7 @@ Release Notes - Seam 2 - Version 2.3.10-SNAPSHOT
 Release Notes - Seam 2 - Version 2.3.9.ayg
 
 	* [ ] Preliminary (incomplete) support for JEE7
-	* [ ] Compiler set to java 7
+	* [ ] Set compiler version to java 7
 	* [ ] Package Richfaces and related jars (cssparser, sac, etc)
 	* [ ] Package Primefaces 6.0
 
@@ -138,7 +138,7 @@ Release Notes - Seam 2 - Version 2.3.2.CR1 (not released)
 
 
 ** Task
-    * [JBSEAM-3136] - Consider Remvoing Client State Saving Suggestion
+    * [JBSEAM-3136] - Consider Removing Client State Saving Suggestion
     * [JBSEAM-5126] - Upgrade arquillian core and arquillian jbossas container to not hang on newer versions than 7.1.1.Final
     * [JBSEAM-5128] - Add session['class'] to EL blacklist
     * [JBSEAM-5129] - Remove remote jquery link from seamdiscs example
@@ -309,7 +309,7 @@ Release Notes - Seam2 - Version 2.3.0.CR1
    * [ JBSEAM-4986 ] occasional NPE in dvdstore integration tests 			
    * [ JBSEAM-4987 ] Seam2.3.0.Beta2 documentation issues 			
    * [ JBSEAM-4988 ] revert change of namespace to avoid unnecessary user and tooling changes 			
-   * [ JBSEAM-4989 ]  javax.servlet.ServletException with message: "Component must be of type org.jboss.seam.ui.component.UICache" 			
+   * [ JBSEAM-4989 ] javax.servlet.ServletException with message: "Component must be of type org.jboss.seam.ui.component.UICache" 			
    * [ JBSEAM-4990 ] Wrong usage of commons-logging Logger in MockViewHandler and MockRequestDispatcher 			
    * [ JBSEAM-4991 ] Seam-gen view template - Editing in CRUD doesn't work 			
    * [ JBSEAM-4993 ] Deadlock between SFSB EJB lock and Component.getInstanceFromFactory factoryLock 			
@@ -2052,7 +2052,7 @@ Release Notes - JBoss Seam - Version 2.0.0.CR3
     * [JBSEAM-2073] - typo in Identity Logging section
     * [JBSEAM-2074] - Postgres Dialect Bug--PostgressMetaDialect.java
     * [JBSEAM-2077] - 'seam setup' crashes, asking for maven dependencies
-    * [JBSEAM-2084] - (security) EJB-QL injection in org.jboss.seam.framework.Query
+    * [JBSEAM-2084] - (security) EJB-QL injection in org.jboss.seam.framework.Query 
     * [JBSEAM-2096] - conversationStack and conversationList don't get refreshed
     * [JBSEAM-2107] - Seam example "seampay", asynchronous scheduler don't work on Tomcat with JBoss Embedded
     * [JBSEAM-2108] - Incorrect jsf core xml schema path in ./seam new-conversation view
@@ -2078,7 +2078,7 @@ Release Notes - JBoss Seam - Version 2.0.0.CR3
     * [JBSEAM-2119] - seam-gen should produce a datasource for testing
 
 ** Patch
-    * [JBSEAM-2099] - Support protection against SQL injection in Query order parameter
+    * [JBSEAM-2099] - Support protection against SQL injection in Query order parameter (Fixes CVE-2007-6433)
 
 ** Task
     * [JBSEAM-1647] - Document concept of disinjection
