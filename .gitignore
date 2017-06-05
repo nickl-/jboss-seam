@@ -36,3 +36,4 @@ examples/todo/todo-web/WebContent/
 examples/ui/ui-web/WebContent/
 examples/wicket/wicket-ejb/ejbModule/
 examples/wicket/wicket-web/WebContent/
+*.pageflow
