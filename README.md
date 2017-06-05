@@ -69,7 +69,7 @@ You first must download and install richfaces and jboss-el
 
 	git clone https://github.com/albfernandez/richfaces.git
 	cd richfaces
-	git checkout tags/4.5.18.ayg
+	git checkout tags/4.5.19.ayg
 	mvn clean package install
 	cd ..
 	git clone https://github.com/albfernandez/jboss-el.git
@@ -79,7 +79,7 @@ You first must download and install richfaces and jboss-el
 	cd ..
 	git clone https://github.com/albfernandez/jboss-seam.git
 	cd jboss-seam
-	mvn -Pdistribution -Dversion.jboss-el=1.0_02.CR8.ayg -Dversion.richfaces=4.5.18.ayg clean package
+	mvn -Pdistribution -Dversion.jboss-el=1.0_02.CR8.ayg -Dversion.richfaces=4.5.19.ayg clean package
 	
 ``` 
 
