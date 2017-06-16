@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.transaction.Synchronization;
 
-import org.hibernate.EntityMode;
 import org.hibernate.FlushMode;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
@@ -46,56 +45,62 @@ public class HibernatePersistenceProvider extends PersistenceProvider
 {
    
    private static Log log = Logging.getLog(HibernatePersistenceProvider.class);
-   private static Class FULL_TEXT_SESSION_PROXY_CLASS;
+   private static Class<?> FULL_TEXT_SESSION_PROXY_CLASS;
    private static Method FULL_TEXT_SESSION_CONSTRUCTOR;
-   private static Class FULL_TEXT_ENTITYMANAGER_PROXY_CLASS;
+   private static Class<?> FULL_TEXT_ENTITYMANAGER_PROXY_CLASS;
    private static Method FULL_TEXT_ENTITYMANAGER_CONSTRUCTOR;
    static
    {
       boolean hibernateSearchPresent = false;
-      try 
-      {
-         Class.forName("org.hibernate.search.Version");
-         hibernateSearchPresent = true;
-      }
-      catch (Exception e)
-      {
-         log.debug("Hibernate Search not present", e);
-      }
-      if (hibernateSearchPresent) 
-      {
-         try 
-         {
-            Class searchClass = Class.forName("org.hibernate.search.Search");
-            try 
-            {
-               FULL_TEXT_SESSION_CONSTRUCTOR = searchClass.getDeclaredMethod("getFullTextSession", Session.class);
-            }
-            catch (NoSuchMethodException noSuchMethod) 
-            {
-               log.debug("org.hibernate.search.Search.getFullTextSession(Session) not found, trying deprecated method name createFullTextSession");
-               FULL_TEXT_SESSION_CONSTRUCTOR = searchClass.getDeclaredMethod("createFullTextSession", Session.class);
-            }
-            FULL_TEXT_SESSION_PROXY_CLASS = Class.forName("org.jboss.seam.persistence.FullTextHibernateSessionProxy");
-            Class jpaSearchClass = Class.forName("org.hibernate.search.jpa.Search");
-            try 
-            {
-               FULL_TEXT_ENTITYMANAGER_CONSTRUCTOR = jpaSearchClass.getDeclaredMethod("getFullTextEntityManager", EntityManager.class);   
-            }
-            catch (NoSuchMethodException noSuchMethod) 
-            {
-               log.debug("org.hibernate.search.jpa.getFullTextSession(EntityManager) not found, trying deprecated method name createFullTextEntityManager");
-               FULL_TEXT_ENTITYMANAGER_CONSTRUCTOR = jpaSearchClass.getDeclaredMethod("createFullTextEntityManager", EntityManager.class);
-            }
-            FULL_TEXT_ENTITYMANAGER_PROXY_CLASS = Class.forName("org.jboss.seam.persistence.FullTextEntityManagerProxy");
-            log.debug("Hibernate Search is available :-)");
-         }
-         catch (Exception e)
-         {
-            log.debug("Unable to load Hibernate Search for ORM", e);
-         }
-      }    
-   }
+      
+		try {
+			// Hibernate search >= 5
+			Class.forName("org.hibernate.search.engine.Version");
+			hibernateSearchPresent = true;
+
+		} catch (Exception e) {
+			log.trace("Hibernate Search >= 5 not present", e);
+		}
+
+		try {
+			// Hibernate search < 5
+			if (!hibernateSearchPresent) {
+				Class.forName("org.hibernate.search.Version");
+				hibernateSearchPresent = true;
+			}
+		} catch (Exception e) {
+			log.trace("Hibernate Search < 5 not present", e);
+		}
+		if (hibernateSearchPresent) {
+			try {
+				Class<?> searchClass = Class.forName("org.hibernate.search.Search");
+				try {
+					// Hibernate search >= 4
+					FULL_TEXT_SESSION_CONSTRUCTOR = searchClass.getDeclaredMethod("getFullTextSession", Session.class);
+				} catch (NoSuchMethodException noSuchMethod) {
+					// Hibernate search < 4
+					log.trace("org.hibernate.search.Search.getFullTextSession(Session) not found, trying deprecated method name createFullTextSession");
+					FULL_TEXT_SESSION_CONSTRUCTOR = searchClass.getDeclaredMethod("createFullTextSession", Session.class);
+				}
+				FULL_TEXT_SESSION_PROXY_CLASS = Class.forName("org.jboss.seam.persistence.FullTextHibernateSessionProxy");
+				Class<?> jpaSearchClass = Class.forName("org.hibernate.search.jpa.Search");
+				try {
+					// Hibernate search >= 4
+					FULL_TEXT_ENTITYMANAGER_CONSTRUCTOR = jpaSearchClass.getDeclaredMethod("getFullTextEntityManager", EntityManager.class);
+				} catch (NoSuchMethodException noSuchMethod) {
+					// Hibernate search < 4
+					log.trace("org.hibernate.search.jpa.getFullTextSession(EntityManager) not found, trying deprecated method name createFullTextEntityManager");
+					FULL_TEXT_ENTITYMANAGER_CONSTRUCTOR = jpaSearchClass.getDeclaredMethod("createFullTextEntityManager", EntityManager.class);
+				}
+				FULL_TEXT_ENTITYMANAGER_PROXY_CLASS = Class.forName("org.jboss.seam.persistence.FullTextEntityManagerProxy");
+				log.info("Hibernate Search is available :-)");
+			} catch (Exception e) {
+				log.debug("Unable to load Hibernate Search for ORM", e);
+			}
+		} else {
+			log.info("Hibernate Search not present :(");
+		}
+	}
 
    public HibernatePersistenceProvider()
    {
