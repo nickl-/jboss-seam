@@ -76,9 +76,10 @@ public class SeamPhaseListener implements PhaseListener {
 			portletRequestClass = Class.forName("javax.portlet.PortletRequest");
 			method = actionResponseClass.getMethod("setRenderParameter", parameterTypes);
 			loaded = true;
+			log.info("portlet classes found");
 		} catch (Exception e) {
 			loaded = false;
-			log.trace("Error loading portlet classes", e);
+			log.info("portlet classes NOT FOUND!");
 		}
 		if (loaded) {
 			SET_RENDER_PARAMETER = method;
