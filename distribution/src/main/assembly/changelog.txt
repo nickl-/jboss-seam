@@ -4,6 +4,7 @@ JBoss Seam Changelog
 Release Notes - Seam 2 - Version 2.3.11-SNAPSHOT
 
 	* [ ] Fix support for hibernate search 5
+	* [ ] Removes portlet compile dependency
 
 Release Notes - Seam 2 - Version 2.3.10.ayg
 
