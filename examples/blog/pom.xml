@@ -28,7 +28,7 @@
              and customize the following property.  -->
         <!--<maven.user.settings>/path/to/custom/settings.xml</maven.user.settings>-->
         
-        <version.commons.logging>1.1.1</version.commons.logging>
+        <version.commons.logging>1.2</version.commons.logging>
         <version.slf4j>1.6.1</version.slf4j>
         
         <!-- Plugin versions -->
