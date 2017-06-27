@@ -1,33 +1,33 @@
 body{
-	font-family:'#{richSkin.generalFamilyFont}';
-	color:'#{richSkin.generalTextColor}';
+	font-family:'#{a4jSkin.generalFamilyFont}';
+	color:'#{a4jSkin.generalTextColor}';
 }
 h1{
-	font-family:'#{richSkin.generalFamilyFont}';
-	color:'#{richSkin.tabDisabledTextColor}';
+	font-family:'#{a4jSkin.generalFamilyFont}';
+	color:'#{a4jSkin.tabDisabledTextColor}';
 }
 a:active, a:link, a:visited{
-	color:'#{richSkin.generalLinkColor}';
+	color:'#{a4jSkin.generalLinkColor}';
 }
 a:hover{
-	color:'#{richSkin.hoverLinkColor}';
+	color:'#{a4jSkin.hoverLinkColor}';
 }
 input[type=text], input[type=password], textarea, select{
-	background-color:'#{richSkin.controlBackgroundColor}';
-	color:'#{richSkin.controlTextColor}';
+	background-color:'#{a4jSkin.controlBackgroundColor}';
+	color:'#{a4jSkin.controlTextColor}';
 	background-position:left top;
 	background-repeat:repeat-x;
 	border:1px solid;
-	border-color:'#{richSkin.tableBorderColor}';
+	border-color:'#{a4jSkin.tableBorderColor}';
 }
 select{
 	background-color:transparent;
 }
 option{
-	background-color:'#{richSkin.generalBackgroundColor}';
+	background-color:'#{a4jSkin.generalBackgroundColor}';
 }
 select[multiple]{
-	background-color:'#{richSkin.controlBackgroundColor}';
+	background-color:'#{a4jSkin.controlBackgroundColor}';
 }
 select[multiple] option{
 	background-color:transparent;
@@ -36,8 +36,8 @@ input[type=submit], input[type=button]{
 	padding:1px 4px;
 	background-image:"url(#{resource['org.richfaces.images\:fuBtnGrad.png']})";
 	border:1px solid;
-	border-color:'#{richSkin.headerBackgroundColor}';
-	color:'#{richSkin.headerTextColor}';
+	border-color:'#{a4jSkin.headerBackgroundColor}';
+	color:'#{a4jSkin.headerTextColor}';
 	font-weight:bold;
 }
 input[type=submit][disabled], input[type=button][disabled]{
@@ -48,16 +48,16 @@ input[type=submit][disabled], input[type=button][disabled]{
 	font-size:11px;
 }
 .rf-tb a:link, .rf-tb a:visited, .rf-tb a:active, .rf-tb a:hover{
-	color:'#{richSkin.headerTextColor}';
+	color:'#{a4jSkin.headerTextColor}';
 }
 .rf-tb a:hover{
-	color:'#{richSkin.generalTextColor}';
+	color:'#{a4jSkin.generalTextColor}';
 }
 .rf-tb .rf-ddm-itm, .rf-tb .rf-ddm-itm a, .rf-tb .rf-ddm-itm a:hover, .rf-tb .rf-ddm-itm a:visited{
-	color:'#{richSkin.generalTextColor}';
+	color:'#{a4jSkin.generalTextColor}';
 }
 .rf-tbl-subheadercell a:hover{
-	color:'#{richSkin.calendarHolidaysTextColor}';
+	color:'#{a4jSkin.calendarHolidaysTextColor}';
 }
 input.rich-combobox-button-icon[type=text]{
 	background-image:"url(#{resource['org.richfaces.images\:sliderSelectedArrowBottom.png']})";
@@ -68,8 +68,8 @@ input[type=text][class~=rich-combobox-button-icon-disabled]{
 	background-color:transparent;
 }
 input.rich-combobox-button-background[type=text]{
-	background-color:'#{richSkin.tabBackgroundColor}';
+	background-color:'#{a4jSkin.tabBackgroundColor}';
 }
 input[type=text][class~=rich-combobox-button-pressed-background]{
-	background-color:'#{richSkin.tabBackgroundColor}';
+	background-color:'#{a4jSkin.tabBackgroundColor}';
 }
