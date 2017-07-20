@@ -460,7 +460,8 @@
                                 <configuration>
                                     <excludeGroupIds>org.jboss.seam</excludeGroupIds>
                                     <excludeClassifiers>sources, project, distribution</excludeClassifiers>
-                                    <outputDirectory>../jar-dependencies</outputDirectory>                                    
+                                    <outputDirectory>../jar-dependencies</outputDirectory>
+                                    
                                     <type>jar</type>
                                     <transitive>true</transitive>
                                 </configuration>
