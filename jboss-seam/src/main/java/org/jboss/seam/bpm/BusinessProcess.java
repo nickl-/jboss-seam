@@ -62,6 +62,7 @@ public class BusinessProcess extends AbstractMutable implements Serializable
    public boolean hasActiveProcess()
    {
       return hasCurrentProcess() && 
+    		  org.jboss.seam.bpm.ProcessInstance.instance() != null &&
             !org.jboss.seam.bpm.ProcessInstance.instance().hasEnded();
    }
    
