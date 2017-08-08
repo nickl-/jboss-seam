@@ -265,45 +265,49 @@ public class Lifecycle
       //or during session timeout, when there are no request-bound contexts.
       
       if ( Contexts.isEventContextActive() || Contexts.isApplicationContextActive() ) {
-         throw new IllegalStateException("Please end the HttpSession via org.jboss.seam.web.Session.instance().invalidate()");
+         log.debug("Please end the HttpSession via org.jboss.seam.web.Session.instance().invalidate()");
       }
-      
-      Context tempApplicationContext = new ApplicationContext( app );
-      Contexts.applicationContext.set(tempApplicationContext);
-   
-      //this is used just as a place to stick the ConversationManager
-      Context tempEventContext = new BasicContext(ScopeType.EVENT);
-      Contexts.eventContext.set(tempEventContext);
-   
-      //this is used (a) for destroying session-scoped components
-      //and is also used (b) by the ConversationManager
-      Context tempSessionContext = new SessionContext(session);
-      Contexts.sessionContext.set(tempSessionContext);
-   
-      Set<String> conversationIds = ConversationEntries.instance().getConversationIds();
-      if (log.isDebugEnabled()){
-          log.debug("destroying conversation contexts: " + conversationIds);
+      try {
+	      Context tempApplicationContext = new ApplicationContext( app );
+	      Contexts.applicationContext.set(tempApplicationContext);
+	   
+	      //this is used just as a place to stick the ConversationManager
+	      Context tempEventContext = new BasicContext(ScopeType.EVENT);
+	      Contexts.eventContext.set(tempEventContext);
+	   
+	      //this is used (a) for destroying session-scoped components
+	      //and is also used (b) by the ConversationManager
+	      Context tempSessionContext = new SessionContext(session);
+	      Contexts.sessionContext.set(tempSessionContext);
+	   
+	      Set<String> conversationIds = ConversationEntries.instance().getConversationIds();
+	      if (log.isDebugEnabled()){
+	          log.debug("destroying conversation contexts: " + conversationIds);
+	      }
+	      for (String conversationId: conversationIds) {
+	         Contexts.destroyConversationContext(session, conversationId);
+	      }
+	      
+	      //we need some conversation-scope components for destroying
+	      //the session context...
+	      Context tempConversationContext = new BasicContext(ScopeType.CONVERSATION);
+	      Contexts.conversationContext.set(tempConversationContext);
+	   
+	      log.debug("destroying session context");
+	      Contexts.destroy(tempSessionContext);
+	      Contexts.sessionContext.set(null);
+	      
+	      Contexts.destroy(tempConversationContext);
+	      Contexts.conversationContext.set(null);
+	   
+	      Contexts.destroy(tempEventContext);
+	      Contexts.eventContext.set(null);
+	   
+	      Contexts.applicationContext.set(null);
       }
-      for (String conversationId: conversationIds) {
-         Contexts.destroyConversationContext(session, conversationId);
+      catch (Exception ex) {
+    	  log.trace("Error destroying", ex);
       }
-      
-      //we need some conversation-scope components for destroying
-      //the session context...
-      Context tempConversationContext = new BasicContext(ScopeType.CONVERSATION);
-      Contexts.conversationContext.set(tempConversationContext);
-   
-      log.debug("destroying session context");
-      Contexts.destroy(tempSessionContext);
-      Contexts.sessionContext.set(null);
-      
-      Contexts.destroy(tempConversationContext);
-      Contexts.conversationContext.set(null);
-   
-      Contexts.destroy(tempEventContext);
-      Contexts.eventContext.set(null);
-   
-      Contexts.applicationContext.set(null);
    }
 
 }
