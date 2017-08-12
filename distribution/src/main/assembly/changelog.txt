@@ -7,7 +7,6 @@ Release Notes - Seam 2 - Version 2.3.11-SNAPSHOT
 	* [ ] Removes portlet compile dependency
 	* [ ] Upgrade commons-logging to 1.2
 	* [ ] Upgrade log4j to 1.2.17
-	* [ ] Upgrade hibernate to 5.0.14.Final
 	* [ ] Upgrade hibernate-search to 5.5.7.Final
 	* [ ] As per RF-13865 - Revert the rename of a4jSkin to richSkin, changing it back to a4jSkin
 
