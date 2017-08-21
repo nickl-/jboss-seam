@@ -643,6 +643,16 @@
             <updatePolicy>never</updatePolicy>
           </snapshots>
         </repository>
+         <repository>
+        	<id>redhat-public-repository</id>
+        	<name>Redhat Public Repository GA</name>
+        	<url>https://maven.repository.redhat.com/ga/</url>
+        	<layout>default</layout>
+        	<releases>
+        		<enabled>true</enabled>
+        		<updatePolicy>never</updatePolicy>
+        	</releases>
+        </repository>
       </repositories>
       <pluginRepositories>
         <pluginRepository>
