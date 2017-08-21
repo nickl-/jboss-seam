@@ -108,7 +108,7 @@ public class Lifecycle
       }
       finally
       {
-         clearThreadlocals();
+         Contexts.clearThreadlocals();
          log.debug( "<<< End call" );
       }
    }
@@ -167,20 +167,12 @@ public class Lifecycle
       }
       finally
       {
-         clearThreadlocals();
+         Contexts.clearThreadlocals();
          log.debug( "<<< End web request" );
       }
    }
 
-   static void clearThreadlocals() 
-   {
-      Contexts.eventContext.set(null);
-      Contexts.pageContext.set(null);
-      Contexts.sessionContext.set(null);
-      Contexts.conversationContext.set(null);
-      Contexts.businessProcessContext.set(null);
-      Contexts.applicationContext.set(null);
-   }
+
    
    public static void destroyConversationContext(Map<String, Object> session, String conversationId)
    {

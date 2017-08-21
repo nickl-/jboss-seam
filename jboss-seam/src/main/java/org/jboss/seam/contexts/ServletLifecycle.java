@@ -87,14 +87,14 @@ public class ServletLifecycle
          
          if (sessionInvalid)
          {
-            Lifecycle.clearThreadlocals();
+            Contexts.clearThreadlocals();
             request.getSession().invalidate();
             //actual session context will be destroyed from the listener
          }
       }
       finally
       {
-         Lifecycle.clearThreadlocals();
+         Contexts.clearThreadlocals();
          log.debug( "<<< End web request" );
       }
    }

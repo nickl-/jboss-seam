@@ -38,7 +38,7 @@ public class TestLifecycle
 
    public static void endTest()
    {
-      Lifecycle.clearThreadlocals();
+      Contexts.clearThreadlocals();
       log.debug( "<<< End test" );
    }
 

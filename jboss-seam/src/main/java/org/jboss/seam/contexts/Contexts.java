@@ -460,5 +460,15 @@ public class Contexts
          conversationContext.set(current);
       }
    }
+   
+   static void clearThreadlocals() 
+   {
+      Contexts.eventContext.set(null);
+      Contexts.pageContext.set(null);
+      Contexts.sessionContext.set(null);
+      Contexts.conversationContext.set(null);
+      Contexts.businessProcessContext.set(null);
+      Contexts.applicationContext.set(null);
+   }
 
 }

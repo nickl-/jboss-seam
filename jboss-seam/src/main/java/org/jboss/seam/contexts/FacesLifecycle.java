@@ -130,7 +130,7 @@ public class FacesLifecycle
 
          if (sessionInvalid)
          {
-            Lifecycle.clearThreadlocals();
+            Contexts.clearThreadlocals();
             clearPhaseId();
             invalidateSession(externalContext);
             //actual session context will be destroyed from the listener
@@ -138,7 +138,7 @@ public class FacesLifecycle
       }
       finally
       {
-         Lifecycle.clearThreadlocals();
+         Contexts.clearThreadlocals();
          log.debug( "<<< End JSF request for " + getRequestPath(externalContext) );
       }
    }
