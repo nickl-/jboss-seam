@@ -1,6 +1,9 @@
 JBoss Seam Changelog
 ====================
 
+Release Notes - Seam 2 - Version 2.3.12-SNAPSHOT
+
+
 Release Notes - Seam 2 - Version 2.3.11.ayg
 	
 	* [ ] Sanity checks for not null on BasicContext Constructor
