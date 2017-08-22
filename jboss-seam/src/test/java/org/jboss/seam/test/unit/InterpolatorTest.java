@@ -49,7 +49,7 @@ public class InterpolatorTest extends MockContainerTest
         
         Date date = new Date(0);
                 
-        Assert.assertEquals(interpolator.interpolate("{0,date,short}", date), DateFormat.getDateInstance(DateFormat.SHORT).format(date)); 
+        Assert.assertEquals(interpolator.interpolate("{0,date,short}", date), DateFormat.getDateInstance(DateFormat.SHORT, Locale.instance()).format(date));
         
         // test that a messageformat error doesn't blow up
         Assert.assertEquals(interpolator.interpolate("{nosuchmessage}"), "{nosuchmessage}");
