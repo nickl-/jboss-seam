@@ -1,11 +1,12 @@
 JBoss Seam Changelog
 ====================
 
-Release Notes - Seam 2 - Version 2.3.11-SNAPSHOT
+Release Notes - Seam 2 - Version 2.3.11.ayg
 	
 	* [ ] Sanity checks for not null on BasicContext Constructor
 	* [ ] Fix support for hibernate search 5
 	* [ ] Removes portlet compile dependency
+	* [ ] Added BootsFaces and PrimeFaces bootstrap theme. 
 	* [ ] Upgrade commons-logging to 1.2
 	* [ ] Upgrade log4j to 1.2.17
 	* [ ] Upgrade hibernate-search to 5.5.7.Final
