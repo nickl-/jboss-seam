@@ -19,7 +19,20 @@
 	</properties>	
 
 	<build>
-		<plugins>
+        <plugins>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>../</directory>
+                            <includes>
+                                <include>jar-dependencies/*</include>
+                            </includes>
+                      </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>antlr-maven-plugin</artifactId>
