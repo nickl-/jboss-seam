@@ -476,7 +476,6 @@
                                     <outputDirectory>../jar-dependencies</outputDirectory>
                                     <stripVersion>true</stripVersion>
                                     <type>jar</type>
-                                    <transitive>true</transitive>
                                 </configuration>
                             </execution>
                         </executions>
