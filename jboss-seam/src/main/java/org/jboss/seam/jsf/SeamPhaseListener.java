@@ -79,7 +79,7 @@ public class SeamPhaseListener implements PhaseListener {
 			log.info("portlet classes found");
 		} catch (Exception e) {
 			loaded = false;
-			log.info("portlet classes not found");
+			log.info("portlet classes not available, environment is not porlet");
 		}
 		if (loaded) {
 			SET_RENDER_PARAMETER = method;
