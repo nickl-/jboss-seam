@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jboss.seam.examples</groupId>
     <artifactId>jee6</artifactId>
-    <version>rf33.2.3.12</version>
+    <version>rf33.2.3.13-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Booking Example EE6</name>
     

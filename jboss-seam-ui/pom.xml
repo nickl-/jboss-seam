@@ -3,7 +3,7 @@
     <parent>
         <artifactId>jboss-seam-parent</artifactId>
         <groupId>org.jboss.seam</groupId>
-        <version>rf33.2.3.12</version>
+        <version>rf33.2.3.13-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>jboss-seam-ui</artifactId>
