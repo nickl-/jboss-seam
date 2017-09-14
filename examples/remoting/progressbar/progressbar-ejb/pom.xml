@@ -4,7 +4,7 @@
     <parent>
         <artifactId>progressbar</artifactId>
         <groupId>org.jboss.seam.examples.remoting</groupId>
-        <version>rf33.2.3.12-SNAPSHOT</version>
+        <version>rf33.2.3.12</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     

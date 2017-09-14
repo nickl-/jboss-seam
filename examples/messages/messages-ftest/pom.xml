@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.jboss.seam.examples</groupId>
         <artifactId>messages</artifactId>
-        <version>rf33.2.3.12-SNAPSHOT</version>
+        <version>rf33.2.3.12</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     
